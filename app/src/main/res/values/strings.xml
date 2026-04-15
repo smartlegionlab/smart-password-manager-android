@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2026, Alexander Suvorov. All rights reserved. !-->
+<resources>
+    <string name="app_name">Smart Password Manager</string>
+
+    <string name="empty_state">✨ No saved passwords\n\nTap + to add</string>
+
+    <string name="dialog_add_title">Add New Password</string>
+    <string name="dialog_edit_title">Edit Password</string>
+    <string name="dialog_secret_title">Secret Phrase</string>
+    <string name="dialog_get_title">Get Password</string>
+    <string name="dialog_delete_title">Delete</string>
+    <string name="dialog_delete_message">Delete \"%s\"?</string>
+
+    <string name="btn_create">Create</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_close">Close</string>
+    <string name="btn_generate">Generate Password</string>
+    <string name="btn_copy">Copy to Clipboard</string>
+    <string name="btn_edit">Edit</string>
+
+    <string name="hint_description">Description (Gmail, GitHub…)</string>
+    <string name="hint_length">Password length (4–64)</string>
+    <string name="hint_secret">Secret phrase (min 12 characters)</string>
+    <string name="hint_confirm">Confirm phrase</string>
+    <string name="hint_enter_secret">Enter secret phrase</string>
+
+    <string name="warning_secret_not_stored">Secret phrase is NEVER stored anywhere</string>
+    <string name="warning_secret_mismatch">Phrases do not match</string>
+    <string name="warning_empty_description">Enter description</string>
+    <string name="warning_empty_secret">Enter secret phrase</string>
+    <string name="warning_invalid_length">Length must be 4–100</string>
+
+    <string name="success_saved">Password saved</string>
+    <string name="success_updated">Updated</string>
+    <string name="success_deleted">Deleted</string>
+    <string name="success_generated">Password generated</string>
+    <string name="success_copied">Copied to clipboard</string>
+
+    <string name="error_invalid_secret">Invalid secret phrase!</string>
+    <string name="error_generation_failed">Error: invalid phrase</string>
+    <string name="error_storage_permission">Storage permission required</string>
+
+    <string name="permission_rationale">Storage permission is needed to save passwords in Documents folder</string>
+    <string name="permission_denied">Permission denied. Passwords will be stored temporarily</string>
+</resources>

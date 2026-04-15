@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2026, Alexander Suvorov. All rights reserved. !-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/dark_background">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primary_blue"
+        app:titleTextColor="@color/white" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="COMPLETE AND ABSOLUTE RELEASE FROM ALL LIABILITY"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#DC3545"
+                android:gravity="center"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SOFTWARE PROVIDED 'AS IS' WITHOUT ANY WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT."
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_blue_light"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The copyright holder, contributors, and any associated parties EXPLICITLY DISCLAIM AND DENY ALL RESPONSIBILITY AND LIABILITY for:"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:alpha="0.9"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. ANY AND ALL DATA LOSS: Complete or partial loss of any data, files, configuration, or information whatsoever\n\n"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                android:alpha="0.8"
+                android:lineSpacingExtra="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2. ANY AND ALL SECURITY INCIDENTS: Unauthorized access, breaches, compromises, theft, or exposure of any sensitive information\n\n"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                android:alpha="0.8"
+                android:lineSpacingExtra="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3. ANY AND ALL FINANCIAL LOSSES: Direct, indirect, incidental, special, consequential, or punitive damages of any kind\n\n"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                android:alpha="0.8"
+                android:lineSpacingExtra="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="USER ACCEPTS FULL AND UNCONDITIONAL RESPONSIBILITY"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#DC3545"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="By installing, accessing, cloning, forking, or using this software in any manner, you irrevocably agree that:\n\n"
+                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:alpha="0.9"
+                android:lineSpacingExtra="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• You assume ALL risks associated with software usage\n"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                android:alpha="0.8"
+                android:lineSpacingExtra="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• You bear SOLE responsibility for your data, credentials, and system security\n"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                android:alpha="0.8"
+                android:lineSpacingExtra="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• You are EXCLUSIVELY liable for compliance with all applicable laws and regulations\n"
+                android:textSize="13sp"
+                android:textColor="@color/white"
+                android:alpha="0.8"
+                android:lineSpacingExtra="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="FINAL AND BINDING AGREEMENT"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#DC3545"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Usage of this software constitutes your FULL AND UNCONDITIONAL ACCEPTANCE of this disclaimer. If you do not accept ALL terms and conditions, DO NOT USE, CLONE, FORK, OR DOWNLOAD THIS SOFTWARE.\n\n"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_blue_light"
+                android:lineSpacingExtra="4dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="BY PROCEEDING, YOU ACKNOWLEDGE THAT YOU HAVE READ THIS DISCLAIMER IN ITS ENTIRETY, UNDERSTAND ITS TERMS COMPLETELY, AND ACCEPT THEM WITHOUT RESERVATION OR EXCEPTION."
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_blue_light"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="24dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/dark_card"
+                android:layout_marginBottom="24dp" />
+
+            <CheckBox
+                android:id="@+id/checkAccept"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="I have read and agree to the terms of the disclaimer"
+                android:textColor="@color/white"
+                android:layout_marginBottom="24dp" />
+
+            <Button
+                android:id="@+id/btnAccept"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="ACCEPT AND CONTINUE"
+                android:enabled="false"
+                android:backgroundTint="@color/primary_blue"
+                style="@style/Widget.MaterialComponents.Button" />
+
+            <Button
+                android:id="@+id/btnDecline"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="DECLINE AND EXIT"
+                android:layout_marginTop="8dp"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

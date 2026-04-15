@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2026, Alexander Suvorov. All rights reserved. !-->
+<resources>
+    <color name="primary_blue">#0d6efd</color>
+    <color name="primary_blue_dark">#0a58ca</color>
+    <color name="primary_blue_light">#3b82f6</color>
+    <color name="white">#ffffff</color>
+    <color name="dark_background">#121212</color>
+    <color name="dark_surface">#1e1e1e</color>
+    <color name="dark_card">#2c2c2c</color>
+    <color name="error_red">#dc3545</color>
+    <color name="success_green">#198754</color>
+</resources>
