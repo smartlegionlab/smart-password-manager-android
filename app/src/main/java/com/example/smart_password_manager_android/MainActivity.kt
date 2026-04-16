@@ -2,16 +2,19 @@
 package com.example.smart_password_manager_android
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -38,13 +41,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fabHelp: FloatingActionButton
     private lateinit var fabAbout: FloatingActionButton
     private lateinit var fabMenuContainer: LinearLayout
+    private lateinit var serviceCountText: TextView
+    private lateinit var searchButton: ImageView
+    private lateinit var searchBar: View
+    private lateinit var searchInput: EditText
+    private lateinit var closeSearchButton: ImageView
 
     private var mediaPlayer: MediaPlayer? = null
-
     private var isMenuOpen = false
+    private var allEntries: List<PasswordEntry> = emptyList()
+    private var filteredEntries: List<PasswordEntry> = emptyList()
 
     private lateinit var slideUpAnim: android.view.animation.Animation
     private lateinit var slideDownAnim: android.view.animation.Animation
+    private lateinit var slideInDownAnim: android.view.animation.Animation
+    private lateinit var slideOutUpAnim: android.view.animation.Animation
 
     private val exportFileLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -71,13 +82,16 @@ class MainActivity : AppCompatActivity() {
 
         slideUpAnim = AnimationUtils.loadAnimation(this, R.anim.slide_up)
         slideDownAnim = AnimationUtils.loadAnimation(this, R.anim.slide_down)
+        slideInDownAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_down)
+        slideOutUpAnim = AnimationUtils.loadAnimation(this, R.anim.slide_out_up)
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(true)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         storageManager = StorageManager(this)
 
+        setupSearch()
         setupRecyclerView()
         setupFabs()
         loadEntries()
@@ -95,6 +109,94 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun setupSearch() {
+        searchButton = findViewById(R.id.searchButton)
+        searchBar = findViewById(R.id.searchBar)
+        searchInput = findViewById(R.id.searchInput)
+        closeSearchButton = findViewById(R.id.closeSearchButton)
+        serviceCountText = findViewById(R.id.serviceCountText)
+
+        searchButton.setOnClickListener {
+            showSearchBar()
+        }
+
+        closeSearchButton.setOnClickListener {
+            hideSearchBar()
+        }
+
+        searchInput.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                filterEntries(s.toString())
+            }
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
+
+        searchInput.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                hideKeyboard()
+                true
+            } else false
+        }
+    }
+
+    private fun showSearchBar() {
+        searchBar.visibility = View.VISIBLE
+        searchBar.startAnimation(slideInDownAnim)
+        searchButton.visibility = View.GONE
+        searchInput.requestFocus()
+        showKeyboard()
+    }
+
+    private fun hideSearchBar() {
+        searchBar.startAnimation(slideOutUpAnim)
+        searchBar.visibility = View.GONE
+        searchButton.visibility = View.VISIBLE
+
+        searchInput.text.clear()
+        filterEntries("")
+        hideKeyboard()
+    }
+
+    private fun showKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+        imm.showSoftInput(searchInput, android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT)
+    }
+
+    private fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+        imm.hideSoftInputFromWindow(searchInput.windowToken, 0)
+    }
+
+    private fun filterEntries(query: String) {
+        filteredEntries = if (query.isEmpty()) {
+            allEntries
+        } else {
+            allEntries.filter { it.description.contains(query, ignoreCase = true) }
+        }
+        adapter.submitList(filteredEntries)
+        updateServiceCount()
+    }
+
+    private fun updateServiceCount() {
+        val count = filteredEntries.size
+        serviceCountText.text = "$count passwords"
+
+        val emptyStateText = findViewById<TextView>(R.id.emptyStateText)
+        if (filteredEntries.isEmpty()) {
+            emptyStateText.text = if (searchInput.text.isNullOrEmpty()) {
+                "No passwords yet.\nTap + to add your first password"
+            } else {
+                "No passwords match \"${searchInput.text}\""
+            }
+            emptyStateText.visibility = TextView.VISIBLE
+            findViewById<RecyclerView>(R.id.recyclerView).visibility = View.GONE
+        } else {
+            emptyStateText.visibility = TextView.GONE
+            findViewById<RecyclerView>(R.id.recyclerView).visibility = View.VISIBLE
         }
     }
 
@@ -313,10 +415,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadEntries() {
-        val entries = storageManager.loadAllEntries()
-        adapter.submitList(entries)
-        findViewById<TextView>(R.id.emptyStateText).visibility =
-            if (entries.isEmpty()) TextView.VISIBLE else TextView.GONE
+        allEntries = storageManager.loadAllEntries()
+        filteredEntries = allEntries
+        adapter.submitList(filteredEntries)
+        updateServiceCount()
+
+        if (searchBar.visibility == View.VISIBLE) {
+            hideSearchBar()
+        }
     }
 
     private fun showAddDialog() {

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Copyright (c) 2026, Alexander Suvorov. All rights reserved. !-->
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,8 +15,92 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/primary_blue"
-            app:title="@string/app_name"
-            app:titleTextColor="@color/white" />
+            app:titleTextColor="@color/white">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Smart Password Manager"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/serviceCountText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 passwords"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:layout_marginEnd="8dp" />
+
+                <ImageView
+                    android:id="@+id/searchButton"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@drawable/ic_search"
+                    android:padding="12dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="Search" />
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="2dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_search"
+                    android:layout_marginEnd="8dp" />
+
+                <EditText
+                    android:id="@+id/searchInput"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Search passwords..."
+                    android:inputType="text"
+                    android:imeOptions="actionSearch"
+                    android:background="@android:color/transparent"
+                    android:textSize="14sp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white_70" />
+
+                <ImageView
+                    android:id="@+id/closeSearchButton"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_close"
+                    android:layout_marginStart="8dp"
+                    android:contentDescription="Close search" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -38,7 +121,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="@string/empty_state"
+            android:text="No passwords yet.\nTap + to add your first password"
             android:textSize="16sp"
             android:visibility="gone"
             android:fontFamily="sans-serif-light" />
@@ -65,7 +148,6 @@
         android:layout_marginEnd="16dp"
         android:orientation="vertical"
         android:visibility="gone">
-
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAdd"
