@@ -3,6 +3,7 @@ package com.example.smart_password_manager_android
 
 import android.app.Activity
 import android.content.Intent
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -37,6 +38,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fabHelp: FloatingActionButton
     private lateinit var fabAbout: FloatingActionButton
     private lateinit var fabMenuContainer: LinearLayout
+
+    private var mediaPlayer: MediaPlayer? = null
 
     private var isMenuOpen = false
 
@@ -340,6 +343,7 @@ class MainActivity : AppCompatActivity() {
                 var isValid = true
 
                 if (description.isBlank()) {
+                    playErrorSound()
                     titleLayout.error = "Enter description"
                     isValid = false
                 } else {
@@ -347,6 +351,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 if (length == null || length < 12 || length > 100) {
+                    playErrorSound()
                     lengthLayout.error = "Length must be 12-100"
                     isValid = false
                 } else {
@@ -424,6 +429,7 @@ class MainActivity : AppCompatActivity() {
                     secretLayout.error = "Enter secret phrase"
                     isValid = false
                 } else if (secret.length < 12) {
+                    playErrorSound()
                     secretLayout.error = "Secret phrase must be at least 12 characters"
                     isValid = false
                 } else {
@@ -431,6 +437,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 if (confirm != secret) {
+                    playErrorSound()
                     confirmLayout.error = "Phrases don't match"
                     isValid = false
                 } else {
@@ -445,12 +452,14 @@ class MainActivity : AppCompatActivity() {
                         val duplicate = existingEntries.find { it.publicKey == publicKey }
 
                         if (duplicate != null) {
+                            playErrorSound()
                             AlertDialog.Builder(this)
                                 .setTitle("Duplicate Secret Phrase")
                                 .setMessage("A password entry with the same secret phrase already exists for \"${duplicate.description}\".\n\nPlease use a different secret phrase.")
                                 .setPositiveButton("OK", null)
                                 .show()
                         } else {
+                            playSuccessSound()
                             val entry = PasswordEntry(
                                 description = description,
                                 publicKey = publicKey,
@@ -461,16 +470,6 @@ class MainActivity : AppCompatActivity() {
                             loadEntries()
                             dialog.dismiss()
                         }
-                    } else {
-                        val updatedEntry = PasswordEntry(
-                            description = description,
-                            publicKey = publicKey,
-                            length = length
-                        )
-                        storageManager.updateEntry(updatedEntry)
-                        Toast.makeText(this, "✓ Updated", Toast.LENGTH_SHORT).show()
-                        loadEntries()
-                        dialog.dismiss()
                     }
                 }
             }
@@ -498,6 +497,7 @@ class MainActivity : AppCompatActivity() {
         generateBtn.setOnClickListener {
             val secret = secretInput.text.toString().trim()
             if (secret.length < 12) {
+                playErrorSound()
                 secretLayout.error = "Secret phrase must be at least 12 characters"
                 passwordText.visibility = TextView.GONE
                 copyBtn.visibility = Button.GONE
@@ -509,6 +509,7 @@ class MainActivity : AppCompatActivity() {
                 passwordText.visibility = TextView.GONE
                 copyBtn.visibility = Button.GONE
             } else if (PasswordGenerator.verifySecret(secret, entry.publicKey)) {
+                playSuccessSound()
                 secretLayout.error = null
                 passwordText.visibility = TextView.VISIBLE
                 copyBtn.visibility = Button.VISIBLE
@@ -517,6 +518,7 @@ class MainActivity : AppCompatActivity() {
                 copyBtn.isEnabled = true
                 Toast.makeText(this, "✓ Password generated", Toast.LENGTH_SHORT).show()
             } else {
+                playErrorSound()
                 secretLayout.error = "Wrong secret phrase!"
                 passwordText.visibility = TextView.VISIBLE
                 copyBtn.visibility = Button.VISIBLE
@@ -531,6 +533,7 @@ class MainActivity : AppCompatActivity() {
                 val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
                 val clip = android.content.ClipData.newPlainText("password", password)
                 clipboard.setPrimaryClip(clip)
+                playSuccessSound()
                 Toast.makeText(this, "✓ Copied", Toast.LENGTH_SHORT).show()
             }
         }
@@ -566,6 +569,7 @@ class MainActivity : AppCompatActivity() {
                 var isValid = true
 
                 if (description.isBlank()) {
+                    playErrorSound()
                     titleLayout.error = "Enter description"
                     isValid = false
                 } else {
@@ -573,6 +577,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 if (length == null || length < 12 || length > 100) {
+                    playErrorSound()
                     lengthLayout.error = "Length must be 12-100"
                     isValid = false
                 } else {
@@ -580,6 +585,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 if (isValid) {
+                    playSuccessSound()
                     val updatedEntry = PasswordEntry(
                         description = description,
                         publicKey = entry.publicKey,
@@ -602,10 +608,63 @@ class MainActivity : AppCompatActivity() {
             .setMessage("Delete \"${entry.description}\"?")
             .setPositiveButton("Delete") { _, _ ->
                 storageManager.deleteEntry(entry.publicKey)
+                playErrorSound()
                 Toast.makeText(this, "✓ Deleted", Toast.LENGTH_SHORT).show()
                 loadEntries()
             }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+
+    private fun playSuccessSound() {
+        try {
+            val assetFileDescriptor = assets.openFd("music/notif.wav")
+            mediaPlayer = MediaPlayer().apply {
+                setDataSource(
+                    assetFileDescriptor.fileDescriptor,
+                    assetFileDescriptor.startOffset,
+                    assetFileDescriptor.length
+                )
+                prepare()
+                setOnCompletionListener {
+                    release()
+                    mediaPlayer = null
+                }
+                start()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun playErrorSound() {
+        try {
+            val assetFileDescriptor = assets.openFd("music/disclaimer.wav")
+            mediaPlayer = MediaPlayer().apply {
+                setDataSource(
+                    assetFileDescriptor.fileDescriptor,
+                    assetFileDescriptor.startOffset,
+                    assetFileDescriptor.length
+                )
+                prepare()
+                setOnCompletionListener {
+                    release()
+                    mediaPlayer = null
+                }
+                start()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun stopSound() {
+        mediaPlayer?.release()
+        mediaPlayer = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopSound()
     }
 }

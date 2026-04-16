@@ -2,18 +2,22 @@
 package com.example.smart_password_manager_android
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import com.google.android.material.button.MaterialButton
 
 class AboutActivity : AppCompatActivity() {
+
+    private var mediaPlayer: MediaPlayer? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.decorView.systemUiVisibility = (
@@ -24,6 +28,15 @@ class AboutActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
 
+        playAboutMusic()
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                stopMusic()
+                finish()
+            }
+        })
+
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -31,7 +44,8 @@ class AboutActivity : AppCompatActivity() {
         supportActionBar?.title = "About"
 
         toolbar.setNavigationOnClickListener {
-            onBackPressed()
+            stopMusic()
+            finish()
         }
 
         val btnRepository = findViewById<MaterialButton>(R.id.btnRepository)
@@ -51,6 +65,28 @@ class AboutActivity : AppCompatActivity() {
         }
 
         setupExpandableCards()
+    }
+
+    private fun playAboutMusic() {
+        try {
+            val assetFileDescriptor = assets.openFd("music/about.wav")
+            mediaPlayer = MediaPlayer().apply {
+                setDataSource(
+                    assetFileDescriptor.fileDescriptor,
+                    assetFileDescriptor.startOffset,
+                    assetFileDescriptor.length
+                )
+                prepare()
+                start()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun stopMusic() {
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 
     private fun setupExpandableCards() {
@@ -256,5 +292,10 @@ class AboutActivity : AppCompatActivity() {
     private fun openUrl(url: String) {
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
         startActivity(intent)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopMusic()
     }
 }

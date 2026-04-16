@@ -2,21 +2,19 @@
 package com.example.smart_password_manager_android
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import com.google.android.material.card.MaterialCardView
 
 class OnboardingActivity : AppCompatActivity() {
 
     private var currentStep = 0
+    private var mediaPlayer: MediaPlayer? = null
 
     private lateinit var nextBtn: Button
     private lateinit var skipBtn: Button
@@ -70,8 +68,31 @@ class OnboardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_onboarding)
 
+        playGuideMusic()
         setupViews()
         showStep(0)
+    }
+
+    private fun playGuideMusic() {
+        try {
+            val assetFileDescriptor = assets.openFd("music/guide.wav")
+            mediaPlayer = MediaPlayer().apply {
+                setDataSource(
+                    assetFileDescriptor.fileDescriptor,
+                    assetFileDescriptor.startOffset,
+                    assetFileDescriptor.length
+                )
+                prepare()
+                start()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun stopMusic() {
+        mediaPlayer?.release()
+        mediaPlayer = null
     }
 
     private fun setupViews() {
@@ -114,7 +135,13 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun finishOnboarding() {
+        stopMusic()
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopMusic()
     }
 }

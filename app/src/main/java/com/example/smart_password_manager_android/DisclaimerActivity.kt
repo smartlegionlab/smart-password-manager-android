@@ -2,6 +2,7 @@
 package com.example.smart_password_manager_android
 
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
@@ -11,6 +12,8 @@ import androidx.appcompat.widget.Toolbar
 
 class DisclaimerActivity : AppCompatActivity() {
 
+    private var mediaPlayer: MediaPlayer? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_FULLSCREEN or
@@ -19,6 +22,8 @@ class DisclaimerActivity : AppCompatActivity() {
                 )
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_disclaimer)
+
+        playDisclaimerMusic()
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -34,6 +39,7 @@ class DisclaimerActivity : AppCompatActivity() {
         }
 
         btnAccept.setOnClickListener {
+            stopMusic()
             val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
             prefs.edit().putBoolean("disclaimer_accepted", true).apply()
             startActivity(Intent(this, SplashActivity::class.java))
@@ -41,7 +47,35 @@ class DisclaimerActivity : AppCompatActivity() {
         }
 
         btnDecline.setOnClickListener {
+            stopMusic()
             finishAffinity()
         }
+    }
+
+    private fun playDisclaimerMusic() {
+        try {
+            val assetFileDescriptor = assets.openFd("music/disclaimer.wav")
+            mediaPlayer = MediaPlayer().apply {
+                setDataSource(
+                    assetFileDescriptor.fileDescriptor,
+                    assetFileDescriptor.startOffset,
+                    assetFileDescriptor.length
+                )
+                prepare()
+                start()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun stopMusic() {
+        mediaPlayer?.release()
+        mediaPlayer = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopMusic()
     }
 }
