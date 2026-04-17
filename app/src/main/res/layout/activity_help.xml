@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) 2026, Alexander Suvorov. All rights reserved. !-->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -25,6 +24,78 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="🔍 Search Feature"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_blue_light"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="• Tap the search icon (🔍) in the toolbar\n• Type any part of the service description\n• Results appear instantly as you type\n• Tap the close (✕) button to clear search\n• Search works while preserving your custom order"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:alpha="0.8"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="↕️ Drag &amp; Drop Reordering"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_blue_light"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="• Long press (0.5 seconds) on any password card\n• Card will highlight with a blue border + vibration\n• Drag the card up or down to reorder\n• Other cards will automatically move out of the way\n• Release your finger to save the new order\n• Your custom order is saved permanently in order.json\n• Works even after app restart or device reboot\n• Search results maintain their relative order"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:alpha="0.8"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -196,7 +267,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• Use strong secret phrases (12+ chars)\n• Each service should have a UNIQUE secret phrase\n• Export your smart passwords regularly as backup\n• Keep your secret phrases safe - they cannot be recovered!\n• Same secret phrase + same length = same smart password everywhere"
+                        android:text="• Use strong secret phrases (12+ chars)\n• Each service should have a UNIQUE secret phrase\n• Export your smart passwords regularly as backup\n• Keep your secret phrases safe - they cannot be recovered!\n• Same secret phrase + same length = same smart password everywhere\n• Long press and drag to reorder your password list\n• Use search to quickly find passwords in large lists"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.8"

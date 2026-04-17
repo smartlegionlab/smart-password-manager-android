@@ -41,12 +41,16 @@ class OnboardingActivity : AppCompatActivity() {
             description = "1. Tap the [👁️] eye icon on any entry\n2. Enter your secret phrase (min 12 chars)\n3. Smart Password is generated instantly\n4. Copy to clipboard\n\nNo storage, no tracking!"
         ),
         GuideStep(
+            title = "🔍 Search, Drag & Drop",
+            description = "🔍 Search: Tap the search icon in toolbar to find passwords by description\n\n↕️ Drag & Drop: Long press (0.5 sec) on any password card to enter drag mode\n   • Blue border appears + vibration\n   • Drag up/down to reorder\n   • Release to save new order\n   • Order is saved permanently!"
+        ),
+        GuideStep(
             title = "✏️ Edit, Delete & Export/Import",
             description = "✏️ Edit: Tap [✏️] pencil icon to change description or length only\n   (Secret phrase cannot be changed!)\n\n🗑️ Delete: Tap [🗑️] trash icon to remove entry\n\n📤 Export/Import: Use the [⋮] menu to backup or restore your smart passwords"
         ),
         GuideStep(
             title = "💡 Pro Tips",
-            description = "• Use strong secret phrases (12+ chars)\n• Each service should have a UNIQUE secret phrase\n• Export your smart passwords regularly as backup\n• Keep your secret phrases safe - they cannot be recovered!\n• Same secret phrase + same length = same smart password everywhere"
+            description = "• Use strong secret phrases (12+ chars)\n• Each service should have a UNIQUE secret phrase\n• Export your smart passwords regularly as backup\n• Keep your secret phrases safe - they cannot be recovered!\n• Same secret phrase + same length = same smart password everywhere\n• Reorder passwords by long pressing and dragging"
         ),
         GuideStep(
             title = "🎉 You're Ready!",
