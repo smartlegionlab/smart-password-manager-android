@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import com.google.gson.stream.JsonWriter
 import java.io.File
+import java.io.FileReader
 import java.io.FileWriter
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -28,6 +29,62 @@ class StorageManager(private val context: Context) {
         return File(appDir, "passwords.json")
     }
 
+    private fun getOrderFile(): File {
+        val documentsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+        val appDir = File(documentsDir, "smart_password_manager_android")
+        if (!appDir.exists()) appDir.mkdirs()
+        return File(appDir, "order.json")
+    }
+
+    private fun loadOrder(): MutableMap<String, Int> {
+        return try {
+            val file = getOrderFile()
+            if (!file.exists()) {
+                LinkedHashMap()
+            } else {
+                val type = object : TypeToken<MutableMap<String, Int>>() {}.type
+                gson.fromJson(FileReader(file), type) ?: LinkedHashMap()
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            LinkedHashMap()
+        }
+    }
+
+    private fun saveOrder(order: Map<String, Int>) {
+        try {
+            val file = getOrderFile()
+            FileWriter(file).use { writer ->
+                gson.toJson(order, writer)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun updateOrder(orderedPublicKeys: List<String>) {
+        val order = LinkedHashMap<String, Int>()
+        orderedPublicKeys.forEachIndexed { index, publicKey ->
+            order[publicKey] = index
+        }
+        saveOrder(order)
+    }
+
+    fun loadAllEntries(): List<PasswordEntry> {
+        val map = loadEntriesMap()
+        val order = loadOrder()
+
+        return map.values.map { passwordData ->
+            PasswordEntry(
+                publicKey = passwordData.public_key,
+                description = passwordData.description,
+                length = passwordData.length
+            )
+        }.sortedBy { entry ->
+            order[entry.publicKey] ?: Int.MAX_VALUE
+        }
+    }
+
     private fun loadEntriesMap(): MutableMap<String, PasswordData> {
         return try {
             val file = getConfigFile()
@@ -43,18 +100,31 @@ class StorageManager(private val context: Context) {
         }
     }
 
-    fun loadAllEntries(): MutableList<PasswordEntry> {
-        val map = loadEntriesMap()
-        return map.values.map { passwordData ->
-            PasswordEntry(
-                publicKey = passwordData.public_key,
-                description = passwordData.description,
-                length = passwordData.length,
+    fun saveEntry(entry: PasswordEntry): Boolean {
+        return try {
+            val map = loadEntriesMap()
+            val passwordData = PasswordData(
+                public_key = entry.publicKey,
+                description = entry.description,
+                length = entry.length ?: 12
             )
-        }.toMutableList()
+            map[entry.publicKey] = passwordData
+            saveMapToFile(map)
+
+            val order = loadOrder()
+            if (!order.containsKey(entry.publicKey)) {
+                val maxPosition = order.values.maxOrNull() ?: -1
+                order[entry.publicKey] = maxPosition + 1
+                saveOrder(order)
+            }
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
     }
 
-    fun saveEntry(entry: PasswordEntry): Boolean {
+    fun updateEntry(entry: PasswordEntry): Boolean {
         return try {
             val map = loadEntriesMap()
             val passwordData = PasswordData(
@@ -71,15 +141,15 @@ class StorageManager(private val context: Context) {
         }
     }
 
-    fun updateEntry(entry: PasswordEntry): Boolean {
-        return saveEntry(entry)
-    }
-
     fun deleteEntry(publicKey: String): Boolean {
         return try {
             val map = loadEntriesMap()
             map.remove(publicKey)
             saveMapToFile(map)
+
+            val order = loadOrder()
+            order.remove(publicKey)
+            saveOrder(order)
             true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -170,6 +240,12 @@ class StorageManager(private val context: Context) {
                 )
             }
             saveMapToFile(newMap)
+
+            val order = LinkedHashMap<String, Int>()
+            entries.keys.forEachIndexed { index, key ->
+                order[key] = index
+            }
+            saveOrder(order)
             true
         } catch (e: Exception) {
             e.printStackTrace()
@@ -187,7 +263,7 @@ class StorageManager(private val context: Context) {
         return try {
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
             packageInfo.versionName ?: "1.0.1"
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             "1.0.1"
         }
     }

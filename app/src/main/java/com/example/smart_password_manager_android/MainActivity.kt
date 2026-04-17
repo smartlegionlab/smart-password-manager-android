@@ -6,7 +6,11 @@ import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -22,6 +26,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -51,6 +56,7 @@ class MainActivity : AppCompatActivity() {
     private var isMenuOpen = false
     private var allEntries: List<PasswordEntry> = emptyList()
     private var filteredEntries: List<PasswordEntry> = emptyList()
+    private var currentQuery = ""
 
     private lateinit var slideUpAnim: android.view.animation.Animation
     private lateinit var slideDownAnim: android.view.animation.Animation
@@ -93,6 +99,7 @@ class MainActivity : AppCompatActivity() {
 
         setupSearch()
         setupRecyclerView()
+        setupDragAndDrop()
         setupFabs()
         loadEntries()
     }
@@ -130,7 +137,8 @@ class MainActivity : AppCompatActivity() {
         searchInput.addTextChangedListener(object : android.text.TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                filterEntries(s.toString())
+                currentQuery = s.toString()
+                filterEntries(currentQuery)
             }
             override fun afterTextChanged(s: android.text.Editable?) {}
         })
@@ -157,6 +165,7 @@ class MainActivity : AppCompatActivity() {
         searchButton.visibility = View.VISIBLE
 
         searchInput.text.clear()
+        currentQuery = ""
         filterEntries("")
         hideKeyboard()
     }
@@ -202,13 +211,98 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         adapter = PasswordAdapter(
+            context = this,
             onGetPassword = { entry -> showGetPasswordDialog(entry) },
             onEdit = { entry -> showEditDialog(entry) },
             onDelete = { entry -> deleteEntry(entry) }
         )
+
         findViewById<RecyclerView>(R.id.recyclerView).apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = this@MainActivity.adapter
+        }
+    }
+
+    private fun setupDragAndDrop() {
+        val simpleCallback = object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+            0
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                val fromPos = viewHolder.bindingAdapterPosition
+                val toPos = target.bindingAdapterPosition
+
+                if (fromPos == RecyclerView.NO_POSITION || toPos == RecyclerView.NO_POSITION) {
+                    return false
+                }
+
+                adapter.moveItem(fromPos, toPos)
+
+                val newOrder = adapter.getEntries().map { it.publicKey }
+
+                storageManager.updateOrder(newOrder)
+
+                updateAllEntriesOrder(newOrder)
+
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            }
+
+            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                super.onSelectedChanged(viewHolder, actionState)
+                val position = viewHolder?.bindingAdapterPosition ?: return
+                if (position == RecyclerView.NO_POSITION) return
+
+                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                    (viewHolder as? PasswordAdapter.ViewHolder)?.highlightForDrag()
+                    vibrateLong()
+                } else if (actionState == ItemTouchHelper.ACTION_STATE_IDLE) {
+                    (viewHolder as? PasswordAdapter.ViewHolder)?.clearHighlight()
+                }
+            }
+
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                super.clearView(recyclerView, viewHolder)
+                (viewHolder as? PasswordAdapter.ViewHolder)?.clearHighlight()
+            }
+        }
+
+        ItemTouchHelper(simpleCallback).attachToRecyclerView(findViewById(R.id.recyclerView))
+    }
+
+    private fun updateAllEntriesOrder(newOrder: List<String>) {
+        val orderMap = newOrder.mapIndexed { index, key -> key to index }.toMap()
+        allEntries = allEntries.sortedBy { orderMap[it.publicKey] ?: Int.MAX_VALUE }
+
+        if (currentQuery.isNotEmpty()) {
+            filterEntries(currentQuery)
+        }
+    }
+
+    private fun vibrateLong() {
+        try {
+            val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val vibratorManager = getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                vibratorManager.defaultVibrator
+            } else {
+                @Suppress("DEPRECATION")
+                getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(100, 180))
+            } else {
+                @Suppress("DEPRECATION")
+                vibrator.vibrate(100)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
