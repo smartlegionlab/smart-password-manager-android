@@ -1,4 +1,4 @@
-# Smart Password Manager Android <sup>v1.0.1</sup>
+# Smart Password Manager Android <sup>v1.1.0</sup>
 
 ---
 
@@ -41,6 +41,8 @@
 - **Cross-Platform Compatible**: Same passwords as all other SmartPassLib implementations
 - **Public Key Verification**: Verify secret knowledge without exposing the secret
 - **Material Design UI**: Clean, intuitive interface with dark theme support
+- **🔍 Instant Search**: Quickly find passwords by description as you type
+- **↕️ Drag & Drop Reordering**: Customize password order with long press and drag
 - **Secure Secret Entry**: Hidden input with show/hide toggle
 - **One-Tap Copy**: Copy generated passwords to clipboard instantly
 - **Export/Import**: Backup and restore your password metadata
@@ -51,9 +53,9 @@
 
 ## Screenshots
 
-| Main Screen                                                                                                             | Add Password                                                                                                              | Onboarding Guide                                                                                                      |
-|-------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| ![Main Screen](https://github.com/smartlegionlab/smart-password-manager-android/raw/master/data/images/main_screen.png) | ![Add Password](https://github.com/smartlegionlab/smart-password-manager-android/raw/master/data/images/add_password.png) | ![Onboarding](https://github.com/smartlegionlab/smart-password-manager-android/raw/master/data/images/onboarding.png) |
+| Main Screen                                                                                                             | Splash Screen                                                                                                        | Onboarding Guide                                                                                                      |
+|-------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| ![Main Screen](https://github.com/smartlegionlab/smart-password-manager-android/raw/master/data/images/main_screen.png) | ![Splash Screen](https://github.com/smartlegionlab/smart-password-manager-android/raw/master/data/images/splash.png) | ![Onboarding](https://github.com/smartlegionlab/smart-password-manager-android/raw/master/data/images/onboarding.png) |
 
 ---
 
@@ -81,7 +83,7 @@
 1. Tap the **menu button** (three dots ⋮) in the toolbar
 2. Tap the **green (+) button** to add a new entry
 3. Enter a **description** (e.g., "Gmail Account")
-4. Set **password length** (12-1000 characters, default 16)
+4. Set **password length** (12-100 characters, default 12)
 5. Enter your **secret phrase** (minimum 12 characters)
 6. Tap **Save** — only the public key is stored!
 
@@ -91,6 +93,26 @@
 2. Enter your **secret phrase** (minimum 12 characters)
 3. Your smart password is **generated instantly**
 4. Tap **Copy** to copy to clipboard
+
+### 🔍 Search Feature
+
+1. Tap the **search icon** (🔍) in the toolbar
+2. **Start typing** — results appear instantly as you type
+3. Search matches are **case-insensitive** and search through descriptions
+4. Tap the **close (✕) button** to clear search and return to full list
+5. Search preserves your custom order — results maintain their relative positions
+
+### ↕️ Drag & Drop Reordering
+
+1. **Long press** (0.5 seconds) on any password card
+2. The card will **highlight with a blue border** + **vibration** feedback
+3. **Drag the card up or down** to reorder
+4. Other cards will **automatically move out of the way**
+5. **Release your finger** — the new order is saved permanently
+6. The order persists after app restart and device reboot
+7. Works even while searching — reorder your filtered results!
+
+**Order Storage:** Your custom order is saved in a separate `order.json` file, keeping `passwords.json` compatible with other platforms.
 
 ### Editing & Deleting
 
@@ -193,7 +215,7 @@ Powered by **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpassli
 | Public Key Iterations  | 60                                 |
 | Password Generation    | Deterministic from private key     |
 | Min Secret Length      | 12 characters                      |
-| Password Length Range  | 12-1000 characters                 |
+| Password Length Range  | 12-100 characters                  |
 
 ---
 
@@ -254,8 +276,15 @@ This Android application is part of a comprehensive suite:
 ### Toolbar Buttons
 | Button        | Action                                      |
 |---------------|---------------------------------------------|
+| 🔍 Search     | Open search bar to filter passwords         |
 | ⋮ (Menu)      | Open menu with Add, Export, Import, Help, About |
 | ← (Back)      | Navigate back (when applicable)             |
+
+### Search Bar
+| Button        | Action                                      |
+|---------------|---------------------------------------------|
+| ✕ (Close)     | Clear search and return to full list        |
+| Typing        | Instant filtering by description            |
 
 ### Menu Options
 | Option        | Action                                      |
@@ -267,11 +296,18 @@ This Android application is part of a comprehensive suite:
 | About         | Show app info and ecosystem links           |
 
 ### Entry Card Buttons
-| Button | Action                                                 |
-|--------|--------------------------------------------------------|
-| 👁️ Eye  | Generate and display smart password (requires secret)  |
-| ✏️ Edit | Change description or length (secret cannot change)    |
-| 🗑️ Delete| Remove entry permanently                              |
+| Button     | Action                                                |
+|------------|-------------------------------------------------------|
+| 👁️ Eye    | Generate and display smart password (requires secret) |
+| ✏️ Edit    | Change description or length (secret cannot change)   |
+| 🗑️ Delete | Remove entry permanently                              |
+
+### Drag & Drop
+| Action                                | Result                                    |
+|---------------------------------------|-------------------------------------------|
+| Long press (0.5 sec) on any card      | Card highlights blue + vibration          |
+| Drag up/down                          | Cards reorder automatically               |
+| Release finger                        | New order saved permanently               |
 
 ---
 
