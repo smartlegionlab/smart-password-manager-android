@@ -189,7 +189,7 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
-        }, 5000)
+        }, 6000)
     }
 
     override fun onDestroy() {
