@@ -655,7 +655,7 @@ class MainActivity : AppCompatActivity() {
                             playErrorSound()
                             AlertDialog.Builder(this)
                                 .setTitle("Duplicate Secret Phrase")
-                                .setMessage("A password entry with the same secret phrase already exists for \"${duplicate.description}\".\n\nPlease use a different secret phrase.")
+                                .setMessage("A password entry with the same secret phrase already exists!\n\nPlease use a different secret phrase.")
                                 .setPositiveButton("OK", null)
                                 .show()
                         } else {
