@@ -26,9 +26,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -520,179 +522,193 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showAddDialog() {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_entry, null)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_add_custom, null)
         val titleInput = dialogView.findViewById<TextInputEditText>(R.id.entryDescription)
         val lengthInput = dialogView.findViewById<TextInputEditText>(R.id.entryLength)
         val titleLayout = dialogView.findViewById<TextInputLayout>(R.id.descriptionLayout)
         val lengthLayout = dialogView.findViewById<TextInputLayout>(R.id.lengthLayout)
+        val btnCreate = dialogView.findViewById<MaterialButton>(R.id.btnCreate)
+        val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btnCancel)
 
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("Add New Password")
+        val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
             .setView(dialogView)
-            .setPositiveButton("Create") { _, _ -> }
-            .setNegativeButton("Cancel", null)
             .create()
 
-        dialog.setOnShowListener {
-            val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            button.setOnClickListener {
-                val description = titleInput.text.toString().trim()
-                val lengthStr = lengthInput.text.toString()
-                val length = lengthStr.toIntOrNull()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
 
-                var isValid = true
-
-                if (description.isBlank()) {
-                    playErrorSound()
-                    titleLayout.error = "Enter description"
-                    isValid = false
-                } else {
-                    titleLayout.error = null
-                }
-
-                if (length == null || length < 12 || length > 100) {
-                    playErrorSound()
-                    lengthLayout.error = "Length must be 12-100"
-                    isValid = false
-                } else {
-                    lengthLayout.error = null
-                }
-
-                if (isValid) {
-                    dialog.dismiss()
-                    showSecretPhraseDialog(description, length ?: 12, null)
-                }
-            }
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
         }
 
-        dialog.show()
+        btnCreate.setOnClickListener {
+            val description = titleInput.text.toString().trim()
+            val lengthStr = lengthInput.text.toString()
+            val length = lengthStr.toIntOrNull()
+
+            var isValid = true
+
+            if (description.isBlank()) {
+                playErrorSound()
+                titleLayout.error = "Enter service name"
+                isValid = false
+            } else {
+                titleLayout.error = null
+            }
+
+            if (length == null || length < 12 || length > 100) {
+                playErrorSound()
+                lengthLayout.error = "Length must be 12-100"
+                isValid = false
+            } else {
+                lengthLayout.error = null
+            }
+
+            if (isValid) {
+                dialog.dismiss()
+                showSecretPhraseDialog(description, length ?: 12, null)
+            }
+        }
     }
 
     private fun showSecretPhraseDialog(description: String, length: Int, existingEntry: PasswordEntry?) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_secret, null)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_secret_custom, null)
         val secretInput = dialogView.findViewById<TextInputEditText>(R.id.secretPhrase)
         val confirmInput = dialogView.findViewById<TextInputEditText>(R.id.confirmPhrase)
         val secretLayout = dialogView.findViewById<TextInputLayout>(R.id.secretLayout)
         val confirmLayout = dialogView.findViewById<TextInputLayout>(R.id.confirmLayout)
         val strengthText = dialogView.findViewById<TextView>(R.id.passwordStrengthText)
+        val titleText = dialogView.findViewById<TextView>(R.id.dialogTitle)
+        val subtitleText = dialogView.findViewById<TextView>(R.id.dialogSubtitle)
+        val btnSave = dialogView.findViewById<MaterialButton>(R.id.btnSave)
+        val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btnCancel)
 
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("Secret Phrase")
-            .setMessage("For: $description")
+        if (existingEntry != null) {
+            titleText.text = "Verify Secret Phrase"
+            subtitleText.text = "Enter your secret phrase to confirm"
+        } else {
+            titleText.text = "Secret Phrase"
+            subtitleText.text = "This phrase is NEVER stored"
+        }
+
+        val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
             .setView(dialogView)
-            .setPositiveButton("Save") { _, _ -> }
-            .setNegativeButton("Cancel", null)
             .create()
 
-        dialog.setOnShowListener {
-            val saveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            saveButton.isEnabled = false
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
 
-            fun updateStrength(password: String) {
-                val len = password.length
-                when {
-                    len < 6 -> {
-                        strengthText.text = "⚠️ Too short - minimum 12 characters required"
-                        strengthText.setTextColor(0xFFDC3545.toInt())
-                        saveButton.isEnabled = false
-                    }
-                    len < 12 -> {
-                        strengthText.text = "⚡ Getting better... ${12 - len} more characters to go"
-                        strengthText.setTextColor(0xFFFFC107.toInt())
-                        saveButton.isEnabled = false
-                    }
-                    else -> {
-                        strengthText.text = "✅ Strong secret phrase! ✓"
-                        strengthText.setTextColor(0xFF198754.toInt())
-                        saveButton.isEnabled = true
-                    }
+        btnSave.isEnabled = false
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        fun updateStrength(password: String) {
+            val len = password.length
+            when {
+                len < 6 -> {
+                    strengthText.text = "⚠️ Too short - minimum 12 characters required"
+                    strengthText.setTextColor(0xFFDC3545.toInt())
+                    btnSave.isEnabled = false
+                }
+                len < 12 -> {
+                    strengthText.text = "⚡ ${12 - len} more characters to go"
+                    strengthText.setTextColor(0xFFFFC107.toInt())
+                    btnSave.isEnabled = false
+                }
+                else -> {
+                    strengthText.text = "✅ Strong secret phrase!"
+                    strengthText.setTextColor(0xFF198754.toInt())
+                    btnSave.isEnabled = true
                 }
             }
+        }
 
-            secretInput.addTextChangedListener(object : android.text.TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                    updateStrength(s.toString())
-                }
-                override fun afterTextChanged(s: android.text.Editable?) {}
-            })
+        secretInput.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updateStrength(s.toString())
+            }
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
 
-            updateStrength(secretInput.text.toString())
+        updateStrength(secretInput.text.toString())
 
-            saveButton.setOnClickListener {
-                val secret = secretInput.text.toString().trim()
-                val confirm = confirmInput.text.toString().trim()
+        btnSave.setOnClickListener {
+            val secret = secretInput.text.toString().trim()
+            val confirm = confirmInput.text.toString().trim()
 
-                var isValid = true
+            var isValid = true
 
-                if (secret.isEmpty()) {
-                    secretLayout.error = "Enter secret phrase"
-                    isValid = false
-                } else if (secret.length < 12) {
-                    playErrorSound()
-                    secretLayout.error = "Secret phrase must be at least 12 characters"
-                    isValid = false
-                } else {
-                    secretLayout.error = null
-                }
+            if (secret.isEmpty()) {
+                secretLayout.error = "Enter secret phrase"
+                isValid = false
+            } else if (secret.length < 12) {
+                playErrorSound()
+                secretLayout.error = "Secret phrase must be at least 12 characters"
+                isValid = false
+            } else {
+                secretLayout.error = null
+            }
 
-                if (confirm != secret) {
-                    playErrorSound()
-                    confirmLayout.error = "Phrases don't match"
-                    isValid = false
-                } else {
-                    confirmLayout.error = null
-                }
+            if (confirm != secret) {
+                playErrorSound()
+                confirmLayout.error = "Phrases don't match"
+                isValid = false
+            } else {
+                confirmLayout.error = null
+            }
 
-                if (isValid) {
-                    val publicKey = PasswordGenerator.generatePublicKey(secret)
+            if (isValid) {
+                val publicKey = PasswordGenerator.generatePublicKey(secret)
 
-                    if (existingEntry == null) {
-                        val existingEntries = storageManager.loadAllEntries()
-                        val duplicate = existingEntries.find { it.publicKey == publicKey }
+                if (existingEntry == null) {
+                    val existingEntries = storageManager.loadAllEntries()
+                    val duplicate = existingEntries.find { it.publicKey == publicKey }
 
-                        if (duplicate != null) {
-                            playErrorSound()
-                            AlertDialog.Builder(this)
-                                .setTitle("Duplicate Secret Phrase")
-                                .setMessage("A password entry with the same secret phrase already exists!\n\nPlease use a different secret phrase.")
-                                .setPositiveButton("OK", null)
-                                .show()
-                        } else {
-                            playSuccessSound()
-                            val entry = PasswordEntry(
-                                description = description,
-                                publicKey = publicKey,
-                                length = length
-                            )
-                            storageManager.saveEntry(entry)
-                            Toast.makeText(this, "✓ Password saved", Toast.LENGTH_SHORT).show()
-                            loadEntries()
-                            dialog.dismiss()
-                        }
+                    if (duplicate != null) {
+                        playErrorSound()
+                        showErrorDialog("Duplicate Secret Phrase", "A password entry with the same secret phrase already exists for \"${duplicate.description}\".\n\nPlease use a different secret phrase.")
+                    } else {
+                        playSuccessSound()
+                        val entry = PasswordEntry(
+                            description = description,
+                            publicKey = publicKey,
+                            length = length
+                        )
+                        storageManager.saveEntry(entry)
+                        Toast.makeText(this, "✓ Password saved", Toast.LENGTH_SHORT).show()
+                        loadEntries()
+                        dialog.dismiss()
                     }
                 }
             }
         }
-        dialog.show()
     }
 
     private fun showGetPasswordDialog(entry: PasswordEntry) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_get_password, null)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_get_password_custom, null)
         val descriptionText = dialogView.findViewById<TextView>(R.id.passwordDescription)
         val secretInput = dialogView.findViewById<TextInputEditText>(R.id.secretInput)
         val secretLayout = dialogView.findViewById<TextInputLayout>(R.id.getSecretLayout)
         val passwordText = dialogView.findViewById<TextView>(R.id.passwordResult)
-        val generateBtn = dialogView.findViewById<Button>(R.id.generateBtn)
-        val copyBtn = dialogView.findViewById<Button>(R.id.copyBtn)
+        val generateBtn = dialogView.findViewById<MaterialButton>(R.id.generateBtn)
+        val copyBtn = dialogView.findViewById<MaterialButton>(R.id.copyBtn)
+        val closeBtn = dialogView.findViewById<ImageView>(R.id.btnClose)
 
         descriptionText.text = entry.description
 
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("Get Password")
+        val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
             .setView(dialogView)
-            .setNegativeButton("Close", null)
             .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+
+        closeBtn.setOnClickListener {
+            dialog.dismiss()
+        }
 
         generateBtn.setOnClickListener {
             val secret = secretInput.text.toString().trim()
@@ -722,98 +738,136 @@ class MainActivity : AppCompatActivity() {
                 secretLayout.error = "Wrong secret phrase!"
                 passwordText.visibility = TextView.VISIBLE
                 copyBtn.visibility = Button.VISIBLE
-                passwordText.text = "Error: invalid phrase"
+                passwordText.text = "❌ Invalid secret phrase"
                 copyBtn.isEnabled = false
             }
         }
 
         copyBtn.setOnClickListener {
             val password = passwordText.text.toString()
-            if (password.isNotBlank() && !password.startsWith("Error")) {
+            if (password.isNotBlank() && !password.startsWith("❌")) {
                 val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
                 val clip = android.content.ClipData.newPlainText("password", password)
                 clipboard.setPrimaryClip(clip)
                 playSuccessSound()
-                Toast.makeText(this, "✓ Copied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "✓ Copied to clipboard", Toast.LENGTH_SHORT).show()
             }
         }
-
-        dialog.show()
     }
 
     private fun showEditDialog(entry: PasswordEntry) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_entry, null)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_edit_custom, null)
         val titleInput = dialogView.findViewById<TextInputEditText>(R.id.entryDescription)
         val lengthInput = dialogView.findViewById<TextInputEditText>(R.id.entryLength)
         val titleLayout = dialogView.findViewById<TextInputLayout>(R.id.descriptionLayout)
         val lengthLayout = dialogView.findViewById<TextInputLayout>(R.id.lengthLayout)
+        val btnSave = dialogView.findViewById<MaterialButton>(R.id.btnSave)
+        val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btnCancel)
 
         titleInput.setText(entry.description)
         lengthInput.setText(entry.length.toString())
 
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("Edit Password Entry")
-            .setMessage("Only description and length can be changed.\n\nSecret phrase remains the same.")
+        val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
             .setView(dialogView)
-            .setPositiveButton("Save") { _, _ -> }
-            .setNegativeButton("Cancel", null)
             .create()
 
-        dialog.setOnShowListener {
-            val button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-            button.setOnClickListener {
-                val description = titleInput.text.toString().trim()
-                val lengthStr = lengthInput.text.toString()
-                val length = lengthStr.toIntOrNull()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
 
-                var isValid = true
-
-                if (description.isBlank()) {
-                    playErrorSound()
-                    titleLayout.error = "Enter description"
-                    isValid = false
-                } else {
-                    titleLayout.error = null
-                }
-
-                if (length == null || length < 12 || length > 100) {
-                    playErrorSound()
-                    lengthLayout.error = "Length must be 12-100"
-                    isValid = false
-                } else {
-                    lengthLayout.error = null
-                }
-
-                if (isValid) {
-                    playSuccessSound()
-                    val updatedEntry = PasswordEntry(
-                        description = description,
-                        publicKey = entry.publicKey,
-                        length = length
-                    )
-                    storageManager.updateEntry(updatedEntry)
-                    Toast.makeText(this, "✓ Updated", Toast.LENGTH_SHORT).show()
-                    loadEntries()
-                    dialog.dismiss()
-                }
-            }
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
         }
 
-        dialog.show()
+        btnSave.setOnClickListener {
+            val description = titleInput.text.toString().trim()
+            val lengthStr = lengthInput.text.toString()
+            val length = lengthStr.toIntOrNull()
+
+            var isValid = true
+
+            if (description.isBlank()) {
+                playErrorSound()
+                titleLayout.error = "Enter service name"
+                isValid = false
+            } else {
+                titleLayout.error = null
+            }
+
+            if (length == null || length < 12 || length > 100) {
+                playErrorSound()
+                lengthLayout.error = "Length must be 12-100"
+                isValid = false
+            } else {
+                lengthLayout.error = null
+            }
+
+            if (isValid) {
+                playSuccessSound()
+                val updatedEntry = PasswordEntry(
+                    description = description,
+                    publicKey = entry.publicKey,
+                    length = length
+                )
+                storageManager.updateEntry(updatedEntry)
+                Toast.makeText(this, "✓ Password updated", Toast.LENGTH_SHORT).show()
+                loadEntries()
+                dialog.dismiss()
+            }
+        }
     }
 
     private fun deleteEntry(entry: PasswordEntry) {
-        AlertDialog.Builder(this)
-            .setTitle("Delete")
-            .setMessage("Delete \"${entry.description}\"?")
-            .setPositiveButton("Delete") { _, _ ->
-                storageManager.deleteEntry(entry.publicKey)
-                playErrorSound()
-                Toast.makeText(this, "✓ Deleted", Toast.LENGTH_SHORT).show()
-                loadEntries()
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
+        val dialogView = layoutInflater.inflate(R.layout.dialog_delete_custom, null)
+        val deleteDescription = dialogView.findViewById<TextView>(R.id.deleteDescription)
+        val btnDelete = dialogView.findViewById<MaterialButton>(R.id.btnDelete)
+        val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btnCancel)
+
+        deleteDescription.text = entry.description
+
+        val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+
+        btnCancel.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        btnDelete.setOnClickListener {
+            storageManager.deleteEntry(entry.publicKey)
+            playErrorSound()
+            Toast.makeText(this, "✓ Password deleted", Toast.LENGTH_SHORT).show()
+            loadEntries()
+            dialog.dismiss()
+        }
+    }
+
+    private fun showErrorDialog(title: String, message: String) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_error_custom, null)
+        val errorTitle = dialogView.findViewById<TextView>(R.id.errorTitle)
+        val errorMessage = dialogView.findViewById<TextView>(R.id.errorMessage)
+        val closeBtn = dialogView.findViewById<ImageView>(R.id.btnCloseError)
+        val okBtn = dialogView.findViewById<MaterialButton>(R.id.btnOk)
+
+        errorTitle.text = title
+        errorMessage.text = message
+
+        val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            .setView(dialogView)
+            .create()
+
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        dialog.show()
+
+        closeBtn.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        okBtn.setOnClickListener {
+            dialog.dismiss()
+        }
     }
 
     private fun playSuccessSound() {

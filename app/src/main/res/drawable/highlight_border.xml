@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) 2026, Alexander Suvorov. All rights reserved. !-->
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <stroke
-        android:width="4dp"
-        android:color="@color/primary_blue" />
-    <corners android:radius="24dp" />
-    <solid android:color="#00000000" />
-</shape>
