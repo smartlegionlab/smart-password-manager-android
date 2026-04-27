@@ -1,4 +1,4 @@
-# Smart Password Manager Android <sup>v1.1.0</sup>
+# Smart Password Manager Android <sup>v1.1.1</sup>
 
 ---
 

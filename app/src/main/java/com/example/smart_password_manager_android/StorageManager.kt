@@ -262,9 +262,9 @@ class StorageManager(private val context: Context) {
     private fun getAppVersion(): String {
         return try {
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            packageInfo.versionName ?: "1.1.0"
+            packageInfo.versionName ?: "1.1.1"
         } catch (_: Exception) {
-            "1.1.0"
+            "1.1.1"
         }
     }
 }

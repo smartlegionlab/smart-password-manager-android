@@ -3,7 +3,6 @@ package com.example.smart_password_manager_android
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -26,8 +25,6 @@ class SplashActivity : AppCompatActivity() {
         private const val PERMISSION_REQUEST_STORAGE = 100
     }
 
-    private var mediaPlayer: MediaPlayer? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         window.decorView.systemUiVisibility = (
                 View.SYSTEM_UI_FLAG_FULLSCREEN or
@@ -37,52 +34,15 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        playSplashMusic()
-
         val prefs = getSharedPreferences("app_prefs", MODE_PRIVATE)
         val disclaimerAccepted = prefs.getBoolean("disclaimer_accepted", false)
 
         if (!disclaimerAccepted) {
-            stopMusicAndProceed {
-                startActivity(Intent(this, DisclaimerActivity::class.java))
-                finish()
-            }
+            startActivity(Intent(this, DisclaimerActivity::class.java))
+            finish()
         } else {
             checkAndRequestStoragePermission()
         }
-    }
-
-    private fun playSplashMusic() {
-        try {
-            val assetFileDescriptor = assets.openFd("music/splash.wav")
-
-            mediaPlayer = MediaPlayer().apply {
-                setDataSource(
-                    assetFileDescriptor.fileDescriptor,
-                    assetFileDescriptor.startOffset,
-                    assetFileDescriptor.length
-                )
-                prepare()
-                setOnCompletionListener {
-                    release()
-                    mediaPlayer = null
-                }
-                start()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    private fun stopMusicAndProceed(action: () -> Unit) {
-        mediaPlayer?.apply {
-            if (isPlaying) {
-                stop()
-            }
-            release()
-        }
-        mediaPlayer = null
-        action()
     }
 
     private fun checkAndRequestStoragePermission() {
@@ -131,7 +91,7 @@ class SplashActivity : AppCompatActivity() {
             Toast.makeText(this,
                 "Storage permission is required for this app to work properly.\nThe app will now close.",
                 Toast.LENGTH_LONG).show()
-            stopMusicAndProceed { finishAffinity() }
+            finishAffinity()
         }
 
         dialog.show()
@@ -151,7 +111,7 @@ class SplashActivity : AppCompatActivity() {
                 Toast.makeText(this,
                     "Storage permission is required.\nThe app will now close.",
                     Toast.LENGTH_LONG).show()
-                stopMusicAndProceed { finishAffinity() }
+                finishAffinity()
             }
         }
     }
@@ -167,7 +127,7 @@ class SplashActivity : AppCompatActivity() {
                     Toast.makeText(this,
                         "Storage access is required.\nThe app will now close.",
                         Toast.LENGTH_LONG).show()
-                    stopMusicAndProceed { finishAffinity() }
+                    finishAffinity()
                 }
             }
         }
@@ -185,21 +145,8 @@ class SplashActivity : AppCompatActivity() {
                 Intent(this, MainActivity::class.java)
             }
 
-            stopMusicAndProceed {
-                startActivity(intent)
-                finish()
-            }
-        }, 6000)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mediaPlayer?.apply {
-            if (isPlaying) {
-                stop()
-            }
-            release()
-        }
-        mediaPlayer = null
+            startActivity(intent)
+            finish()
+        }, 3000)
     }
 }
