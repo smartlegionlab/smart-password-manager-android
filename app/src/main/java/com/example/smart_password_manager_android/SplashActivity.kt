@@ -142,7 +142,7 @@ class SplashActivity : AppCompatActivity() {
                 prefs.edit().putBoolean("is_first_launch", false).apply()
                 Intent(this, OnboardingActivity::class.java)
             } else {
-                Intent(this, MainActivity::class.java)
+                Intent(this, SmartPasswordManager::class.java)
             }
 
             startActivity(intent)

@@ -27,7 +27,7 @@
         <activity android:name=".DisclaimerActivity" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".SmartPasswordManager"
             android:exported="false" />
 
         <activity

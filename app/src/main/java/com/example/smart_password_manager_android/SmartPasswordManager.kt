@@ -1,6 +1,7 @@
 // Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 package com.example.smart_password_manager_android
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -23,10 +24,10 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,7 +37,7 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import java.io.File
 
-class MainActivity : AppCompatActivity() {
+class SmartPasswordManager : AppCompatActivity() {
 
     private lateinit var storageManager: StorageManager
     private lateinit var adapter: PasswordAdapter
@@ -56,8 +57,8 @@ class MainActivity : AppCompatActivity() {
 
     private var mediaPlayer: MediaPlayer? = null
     private var isMenuOpen = false
-    private var allEntries: List<PasswordEntry> = emptyList()
-    private var filteredEntries: List<PasswordEntry> = emptyList()
+    private var allEntries: List<SmartPassword> = emptyList()
+    private var filteredEntries: List<SmartPassword> = emptyList()
     private var currentQuery = ""
 
     private lateinit var slideUpAnim: android.view.animation.Animation
@@ -220,8 +221,8 @@ class MainActivity : AppCompatActivity() {
         )
 
         findViewById<RecyclerView>(R.id.recyclerView).apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = this@MainActivity.adapter
+            layoutManager = LinearLayoutManager(this@SmartPasswordManager)
+            adapter = this@SmartPasswordManager.adapter
         }
     }
 
@@ -256,6 +257,7 @@ class MainActivity : AppCompatActivity() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             }
 
+            @RequiresPermission(Manifest.permission.VIBRATE)
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
                 super.onSelectedChanged(viewHolder, actionState)
                 val position = viewHolder?.bindingAdapterPosition ?: return
@@ -287,14 +289,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresPermission(Manifest.permission.VIBRATE)
     private fun vibrateLong() {
         try {
             val vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                val vibratorManager = getSystemService(Context.VIBRATOR_MANAGER_SERVICE) as VibratorManager
+                val vibratorManager = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
                 vibratorManager.defaultVibrator
             } else {
                 @Suppress("DEPRECATION")
-                getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                getSystemService(VIBRATOR_SERVICE) as Vibrator
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -571,7 +574,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showSecretPhraseDialog(description: String, length: Int, existingEntry: PasswordEntry?) {
+    private fun showSecretPhraseDialog(description: String, length: Int, existingEntry: SmartPassword?) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_secret_custom, null)
         val secretInput = dialogView.findViewById<TextInputEditText>(R.id.secretPhrase)
         val confirmInput = dialogView.findViewById<TextInputEditText>(R.id.confirmPhrase)
@@ -661,7 +664,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (isValid) {
-                val publicKey = PasswordGenerator.generatePublicKey(secret)
+                val publicKey = SmartPassLib.generatePublicKey(secret)
 
                 if (existingEntry == null) {
                     val existingEntries = storageManager.loadAllEntries()
@@ -672,7 +675,7 @@ class MainActivity : AppCompatActivity() {
                         showErrorDialog("Duplicate Secret Phrase", "A password entry with the same secret phrase already exists for \"${duplicate.description}\".\n\nPlease use a different secret phrase.")
                     } else {
                         playSuccessSound()
-                        val entry = PasswordEntry(
+                        val entry = SmartPassword(
                             description = description,
                             publicKey = publicKey,
                             length = length
@@ -687,7 +690,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showGetPasswordDialog(entry: PasswordEntry) {
+    private fun showGetPasswordDialog(entry: SmartPassword) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_get_password_custom, null)
         val descriptionText = dialogView.findViewById<TextView>(R.id.passwordDescription)
         val secretInput = dialogView.findViewById<TextInputEditText>(R.id.secretInput)
@@ -724,12 +727,12 @@ class MainActivity : AppCompatActivity() {
                 secretLayout.error = "Enter secret phrase"
                 passwordText.visibility = TextView.GONE
                 copyBtn.visibility = Button.GONE
-            } else if (PasswordGenerator.verifySecret(secret, entry.publicKey)) {
+            } else if (SmartPassLib.verifySecret(secret, entry.publicKey)) {
                 playSuccessSound()
                 secretLayout.error = null
                 passwordText.visibility = TextView.VISIBLE
                 copyBtn.visibility = Button.VISIBLE
-                val password = PasswordGenerator.generatePassword(secret, entry.length ?: 12)
+                val password = SmartPassLib.generatePassword(secret, entry.length ?: 12)
                 passwordText.text = password
                 copyBtn.isEnabled = true
                 Toast.makeText(this, "✓ Password generated", Toast.LENGTH_SHORT).show()
@@ -755,7 +758,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showEditDialog(entry: PasswordEntry) {
+    private fun showEditDialog(entry: SmartPassword) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_edit_custom, null)
         val titleInput = dialogView.findViewById<TextInputEditText>(R.id.entryDescription)
         val lengthInput = dialogView.findViewById<TextInputEditText>(R.id.entryLength)
@@ -803,7 +806,7 @@ class MainActivity : AppCompatActivity() {
 
             if (isValid) {
                 playSuccessSound()
-                val updatedEntry = PasswordEntry(
+                val updatedEntry = SmartPassword(
                     description = description,
                     publicKey = entry.publicKey,
                     length = length
@@ -816,7 +819,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun deleteEntry(entry: PasswordEntry) {
+    private fun deleteEntry(entry: SmartPassword) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_delete_custom, null)
         val deleteDescription = dialogView.findViewById<TextView>(R.id.deleteDescription)
         val btnDelete = dialogView.findViewById<MaterialButton>(R.id.btnDelete)

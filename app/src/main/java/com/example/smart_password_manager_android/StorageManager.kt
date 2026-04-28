@@ -70,12 +70,12 @@ class StorageManager(private val context: Context) {
         saveOrder(order)
     }
 
-    fun loadAllEntries(): List<PasswordEntry> {
+    fun loadAllEntries(): List<SmartPassword> {
         val map = loadEntriesMap()
         val order = loadOrder()
 
         return map.values.map { passwordData ->
-            PasswordEntry(
+            SmartPassword(
                 publicKey = passwordData.public_key,
                 description = passwordData.description,
                 length = passwordData.length
@@ -100,7 +100,7 @@ class StorageManager(private val context: Context) {
         }
     }
 
-    fun saveEntry(entry: PasswordEntry): Boolean {
+    fun saveEntry(entry: SmartPassword): Boolean {
         return try {
             val map = loadEntriesMap()
             val passwordData = PasswordData(
@@ -124,7 +124,7 @@ class StorageManager(private val context: Context) {
         }
     }
 
-    fun updateEntry(entry: PasswordEntry): Boolean {
+    fun updateEntry(entry: SmartPassword): Boolean {
         return try {
             val map = loadEntriesMap()
             val passwordData = PasswordData(

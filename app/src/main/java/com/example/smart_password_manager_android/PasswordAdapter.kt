@@ -17,12 +17,12 @@ import com.google.android.material.card.MaterialCardView
 
 class PasswordAdapter(
     private val context: Context,
-    private val onGetPassword: (PasswordEntry) -> Unit,
-    private val onEdit: (PasswordEntry) -> Unit,
-    private val onDelete: (PasswordEntry) -> Unit
+    private val onGetPassword: (SmartPassword) -> Unit,
+    private val onEdit: (SmartPassword) -> Unit,
+    private val onDelete: (SmartPassword) -> Unit
 ) : RecyclerView.Adapter<PasswordAdapter.ViewHolder>() {
 
-    private var entries: MutableList<PasswordEntry> = mutableListOf()
+    private var entries: MutableList<SmartPassword> = mutableListOf()
 
     private val vibrator: Vibrator? by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -34,12 +34,12 @@ class PasswordAdapter(
         }
     }
 
-    fun submitList(newEntries: List<PasswordEntry>) {
+    fun submitList(newEntries: List<SmartPassword>) {
         entries = newEntries.toMutableList()
         notifyDataSetChanged()
     }
 
-    fun getEntries(): List<PasswordEntry> = entries
+    fun getEntries(): List<SmartPassword> = entries
 
     fun moveItem(fromPosition: Int, toPosition: Int) {
         if (fromPosition == toPosition) return
@@ -81,7 +81,7 @@ class PasswordAdapter(
         private val editBtn: ImageButton = itemView.findViewById(R.id.btnEdit)
         private val deleteBtn: ImageButton = itemView.findViewById(R.id.btnDelete)
 
-        fun bind(entry: PasswordEntry, position: Int) {
+        fun bind(entry: SmartPassword, position: Int) {
             descriptionText.text = entry.description
             lengthText.text = "🔢 ${entry.length ?: 12} symbols"
             publicKeyPreview.text = "🔑 ${entry.publicKey.take(12)}..."

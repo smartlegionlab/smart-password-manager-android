@@ -140,7 +140,7 @@ class OnboardingActivity : AppCompatActivity() {
 
     private fun finishOnboarding() {
         stopMusic()
-        startActivity(Intent(this, MainActivity::class.java))
+        startActivity(Intent(this, SmartPasswordManager::class.java))
         finish()
     }
 
