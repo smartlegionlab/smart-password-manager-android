@@ -174,17 +174,21 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 - **NEVER use your password description as your secret phrase**
 
 ### Strong Secret Examples
+```
 ✅ "MyStrongSecretPhrase2026!" — mixed case + numbers + symbols
 ✅ "P@ssw0rd!LongSecret" — special chars + numbers + length
 ✅ "КотБегемот2026НаДиете" — Cyrillic + numbers
+```
 
 ### Weak Secret Examples (AVOID)
+```
 ❌ "Gmail Account" — using description as secret
 ❌ "password" — dictionary word, too short
 ❌ "1234567890" — only digits, too short
 ❌ "qwerty123" — keyboard pattern
 ❌ Same as description — never use the same as description
 
+```
 ### Decentralized Nature
 
 **There is no "forgot password" button.** This is by design:
@@ -359,7 +363,9 @@ git clone https://github.com/smartlegionlab/smart-password-manager-android.git
 ## License
 BSD 3-Clause [License](LICENSE)
 
-```Copyright (©) 2026, Alexander Suvorov. All right reserved.```
+```
+Copyright (©) 2026, Alexander Suvorov. All right reserved.
+```
 
 ## Author
 
