@@ -188,8 +188,12 @@ class StorageManager(private val context: Context) {
         return ExportData(
             _metadata = Metadata(
                 exported_at = getCurrentIsoTimestamp(),
+                app_name = "Smart Password Manager Android",
                 app_version = getAppVersion(),
-                lib_version = getAppVersion(),
+                app_type = "Mobile/Android",
+                lib_name = "smartpasslib-kotlin",
+                lib_version = "v1.0.4",
+                lib_lang = "kotlin",
                 count = entries.size
             ),
             entries = entries
@@ -206,8 +210,12 @@ class StorageManager(private val context: Context) {
 
                     writer.name("_metadata").beginObject()
                     writer.name("exported_at").value(exportData._metadata.exported_at)
+                    writer.name("app_name").value(exportData._metadata.app_name)
                     writer.name("app_version").value(exportData._metadata.app_version)
+                    writer.name("app_type").value(exportData._metadata.app_type)
+                    writer.name("lib_name").value(exportData._metadata.lib_name)
                     writer.name("lib_version").value(exportData._metadata.lib_version)
+                    writer.name("lib_lang").value(exportData._metadata.lib_lang)
                     writer.name("count").value(exportData._metadata.count)
                     writer.endObject()
 
@@ -282,8 +290,12 @@ data class ExportData(
 
 data class Metadata(
     val exported_at: String,
+    val app_name: String,
     val app_version: String,
+    val app_type: String,
+    val lib_name: String,
     val lib_version: String,
+    val lib_lang: String,
     val count: Int
 )
 

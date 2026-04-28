@@ -35,6 +35,7 @@ import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import com.smartlegionlab.smartpasslib.SmartPassLib
 import java.io.File
 
 class SmartPasswordManager : AppCompatActivity() {
@@ -448,20 +449,28 @@ class SmartPasswordManager : AppCompatActivity() {
                         "_metadata" -> {
                             reader.beginObject()
                             var exportedAt = ""
+                            var appName = ""
                             var appVersion = ""
+                            var appType = ""
+                            var libName = ""
                             var libVersion = ""
+                            var libLang = ""
                             var count = 0
                             while (reader.hasNext()) {
                                 when (reader.nextName()) {
                                     "exported_at" -> exportedAt = reader.nextString()
+                                    "app_name" -> appName = reader.nextString()
                                     "app_version" -> appVersion = reader.nextString()
+                                    "app_type" -> appType = reader.nextString()
+                                    "lib_name" -> libName = reader.nextString()
                                     "lib_version" -> libVersion = reader.nextString()
+                                    "lib_lang" -> libLang = reader.nextString()
                                     "count" -> count = reader.nextInt()
                                     else -> reader.skipValue()
                                 }
                             }
                             reader.endObject()
-                            metadata = Metadata(exportedAt, appVersion, libVersion, count)
+                            metadata = Metadata(exportedAt, appName, appVersion, appType, libName, libVersion, libLang, count,)
                         }
                         else -> {
                             reader.beginObject()
@@ -484,7 +493,7 @@ class SmartPasswordManager : AppCompatActivity() {
                 reader.endObject()
             }
 
-            val importData = ExportData(metadata ?: Metadata("", "", "", 0), entries)
+            val importData = ExportData(metadata ?: Metadata("", "", "", "", "", "", "", 0,), entries)
 
             if (importData.entries.isEmpty()) {
                 Toast.makeText(this, "No passwords found in file", Toast.LENGTH_SHORT).show()
