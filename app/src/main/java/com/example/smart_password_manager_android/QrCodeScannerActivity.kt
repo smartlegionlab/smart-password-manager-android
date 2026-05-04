@@ -1,11 +1,14 @@
 // Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 package com.example.smart_password_manager_android
 
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
@@ -68,7 +71,7 @@ class QrCodeScannerActivity : AppCompatActivity() {
         try {
             val textViews = findAllTextViews(barcodeView)
             for (textView in textViews) {
-                if (textView.text?.length ?: 0 < 100) {
+                if ((textView.text?.length ?: 0) < 100) {
                     textView.visibility = View.GONE
                 }
             }
@@ -88,6 +91,7 @@ class QrCodeScannerActivity : AppCompatActivity() {
         return result
     }
 
+    @SuppressLint("SetTextI18n")
     private fun onQrCodeScanned(qrText: String) {
         playSuccessSound()
 
@@ -118,6 +122,36 @@ class QrCodeScannerActivity : AppCompatActivity() {
         }
     }
 
+    private fun setupCharCounter(
+        editText: TextInputEditText,
+        counterText: TextView,
+        maxLength: Int = 255
+    ) {
+        @SuppressLint("SetTextI18n")
+        fun updateCounter() {
+            val length = editText.text?.length ?: 0
+            counterText.text = "$length/$maxLength"
+
+            counterText.setTextColor(when {
+                length == 0 -> Color.WHITE
+                length < 200 -> Color.parseColor("#4CAF50")
+                length < maxLength -> Color.parseColor("#FFC107")
+                else -> Color.parseColor("#F44336")
+            })
+        }
+
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updateCounter()
+            }
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
+
+        updateCounter()
+    }
+
+    @SuppressLint("SetTextI18n")
     private fun showSecretPhraseDialog(qrData: QrCodeData) {
         try {
             val dialogView = layoutInflater.inflate(R.layout.dialog_qr_secret, null)
@@ -187,8 +221,12 @@ class QrCodeScannerActivity : AppCompatActivity() {
         try {
             val dialogView = layoutInflater.inflate(R.layout.dialog_qr_description, null)
             val descriptionInput = dialogView.findViewById<TextInputEditText>(R.id.passwordDescription)
+            val charCounter = dialogView.findViewById<TextView>(R.id.charCounter)
             val btnAdd = dialogView.findViewById<Button>(R.id.btnAdd)
             val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
+
+            descriptionInput.filters = arrayOf(android.text.InputFilter.LengthFilter(255))
+            setupCharCounter(descriptionInput, charCounter, 255)
 
             val dialog = androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setView(dialogView)

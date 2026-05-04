@@ -7,6 +7,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
@@ -14,6 +15,7 @@ import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
+import android.text.TextWatcher
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -155,7 +157,7 @@ class SmartPasswordManager : AppCompatActivity() {
             hideSearchBar()
         }
 
-        searchInput.addTextChangedListener(object : android.text.TextWatcher {
+        searchInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 currentQuery = s.toString()
@@ -646,16 +648,47 @@ class SmartPasswordManager : AppCompatActivity() {
         }
     }
 
+    private fun setupCharCounter(
+        editText: TextInputEditText,
+        counterText: TextView,
+        maxLength: Int = 255
+    ) {
+        @SuppressLint("SetTextI18n")
+        fun updateCounter() {
+            val length = editText.text?.length ?: 0
+            counterText.text = "$length/$maxLength"
+
+            counterText.setTextColor(when {
+                length == 0 -> Color.WHITE
+                length < 200 -> Color.parseColor("#4CAF50")
+                length < maxLength -> Color.parseColor("#FFC107")
+                else -> Color.parseColor("#F44336")
+            })
+        }
+
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                updateCounter()
+            }
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
+
+        updateCounter()
+    }
+
     private fun showAddDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_add_custom, null)
         val titleInput = dialogView.findViewById<TextInputEditText>(R.id.entryDescription)
         val lengthInput = dialogView.findViewById<TextInputEditText>(R.id.entryLength)
         val titleLayout = dialogView.findViewById<TextInputLayout>(R.id.descriptionLayout)
         val lengthLayout = dialogView.findViewById<TextInputLayout>(R.id.lengthLayout)
+        val charCounter = dialogView.findViewById<TextView>(R.id.charCounter)
         val btnCreate = dialogView.findViewById<MaterialButton>(R.id.btnCreate)
         val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btnCancel)
 
         titleInput.filters = arrayOf(android.text.InputFilter.LengthFilter(255))
+        setupCharCounter(titleInput, charCounter, 255)
 
         val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
             .setView(dialogView)
@@ -758,7 +791,7 @@ class SmartPasswordManager : AppCompatActivity() {
             }
         }
 
-        secretInput.addTextChangedListener(object : android.text.TextWatcher {
+        secretInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 updateStrength(s.toString())
@@ -895,10 +928,12 @@ class SmartPasswordManager : AppCompatActivity() {
         val lengthInput = dialogView.findViewById<TextInputEditText>(R.id.entryLength)
         val titleLayout = dialogView.findViewById<TextInputLayout>(R.id.descriptionLayout)
         val lengthLayout = dialogView.findViewById<TextInputLayout>(R.id.lengthLayout)
+        val charCounter = dialogView.findViewById<TextView>(R.id.charCounter)
         val btnSave = dialogView.findViewById<MaterialButton>(R.id.btnSave)
         val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btnCancel)
 
         titleInput.filters = arrayOf(android.text.InputFilter.LengthFilter(255))
+        setupCharCounter(titleInput, charCounter, 255)
 
         titleInput.setText(entry.description)
         lengthInput.setText(entry.length.toString())

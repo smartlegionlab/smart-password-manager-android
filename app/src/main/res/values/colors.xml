@@ -11,4 +11,5 @@
     <color name="error_red">#dc3545</color>
     <color name="success_green">#198754</color>
     <color name="white_70">#B3FFFFFF</color>
+    <color name="dark_card_hover">#2a2a2a</color>
 </resources>
