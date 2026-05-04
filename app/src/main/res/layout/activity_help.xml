@@ -115,6 +115,42 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="📷 QR Code Scanner"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_blue_light"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="• Tap [⋮] menu → QR Scan button (📷)\n• Grant camera permission when prompted\n• Point camera at QR code containing:\n  - Password length (12-100)\n  - Public key (64 chars hex)\n• Enter your secret phrase to verify ownership\n• If verification passes, add service description\n• Password is saved automatically\n\n📱 QR Code Format Example:\n{'l\':16,\'k\':\'a3f5c8e2...\'}\n\n🔊 Audio feedback: Success / Error \n\n⚠️ Invalid QR codes are rejected automatically\n\n✓ QR scanner validates secret phrase before saving"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:alpha="0.8"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="📝 How to Create a Smart Password"
                         android:textSize="20sp"
                         android:textStyle="bold"
@@ -268,7 +304,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• Use strong secret phrases (12+ chars)\n• Each service should have a UNIQUE secret phrase\n• Export your smart passwords regularly as backup\n• Keep your secret phrases safe - they cannot be recovered!\n• Same secret phrase + same length = same smart password everywhere\n• Long press and drag to reorder your password list\n• Use search to quickly find passwords in large lists"
+                        android:text="• Use strong secret phrases (12+ chars)\n• Each service should have a UNIQUE secret phrase\n• Export your smart passwords regularly as backup\n• Keep your secret phrases safe - they cannot be recovered!\n• Same secret phrase + same length = same smart password everywhere\n• Long press and drag to reorder your password list\n• Use search to quickly find passwords in large lists\n• Use QR codes to share public keys securely"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.8"

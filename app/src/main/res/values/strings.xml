@@ -46,4 +46,6 @@
 
     <string name="permission_rationale">Storage permission is needed to save passwords in Documents folder</string>
     <string name="permission_denied">Permission denied. Passwords will be stored temporarily</string>
+    <string name="scan_qr_code">Scan QR Code</string>
+    <string name="cancel">Cancel</string>
 </resources>

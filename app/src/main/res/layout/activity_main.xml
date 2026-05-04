@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (c) 2026, Alexander Suvorov. All rights reserved. !-->
+<!-- Copyright (c) 2026, Alexander Suvorov. All rights reserved. -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -155,8 +155,21 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:src="@drawable/ic_add_24"
+            android:visibility="gone"
             app:backgroundTint="#4CAF50"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            app:fabSize="normal" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabScanQr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/ic_qr_code_scanner"
+            android:visibility="gone"
+            app:backgroundTint="#00BCD4"
+            app:tint="@color/white"
+            app:fabSize="normal" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabImport"
@@ -164,8 +177,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:src="@drawable/ic_import_24"
+            android:visibility="gone"
             app:backgroundTint="#FF9800"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            app:fabSize="normal" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabExport"
@@ -173,8 +188,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:src="@drawable/ic_export_24"
+            android:visibility="gone"
             app:backgroundTint="#F44336"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            app:fabSize="normal" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabHelp"
@@ -182,8 +199,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:src="@drawable/ic_help"
+            android:visibility="gone"
             app:backgroundTint="#2196F3"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            app:fabSize="normal" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabAbout"
@@ -191,8 +210,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:src="@drawable/ic_info"
+            android:visibility="gone"
             app:backgroundTint="#9C27B0"
-            app:tint="@color/white" />
+            app:tint="@color/white"
+            app:fabSize="normal" />
 
     </LinearLayout>
 

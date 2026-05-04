@@ -30,7 +30,7 @@ class OnboardingActivity : AppCompatActivity() {
         ),
         GuideStep(
             title = "📝 How to Create a Smart Password",
-            description = "1. Tap the [⋮] button (three dots)\n2. Tap the green [+] button\n3. Enter description (e.g., 'Gmail')\n4. Set smart password length (12-100)\n5. Enter your secret phrase (min 12 chars)\n6. Save - only public key is stored!"
+            description = "1. Tap the [⋮] button (three dots)\n2. Tap the green [+] button\n3. Enter description (e.g., 'Gmail')\n4. Set smart password length (12-100)\n5. Enter your secret phrase (min 12 chars)\n6. Save - only public key is stored!\n\n📱 PRO TIP: Export this entry as QR code from another device to share securely!"
         ),
         GuideStep(
             title = "🔐 Important Security Info",
@@ -49,8 +49,12 @@ class OnboardingActivity : AppCompatActivity() {
             description = "✏️ Edit: Tap [✏️] pencil icon to change description or length only\n   (Secret phrase cannot be changed!)\n\n🗑️ Delete: Tap [🗑️] trash icon to remove entry\n\n📤 Export/Import: Use the [⋮] menu to backup or restore your smart passwords"
         ),
         GuideStep(
+            title = "📷 QR Code Import",
+            description = "Import passwords via QR code:\n\n1. Tap [⋮] → QR Scan button (📷)\n2. Allow camera permission when prompted\n3. Scan QR code containing:\n   • Password length (l)\n   • Public key (k)\n4. Enter your secret phrase to verify\n5. If verified → Add description → Save\n\n⚠️ Works with any app using SmartPassLib!\n🔊 Audio feedback: Success/Error sounds"
+        ),
+        GuideStep(
             title = "💡 Pro Tips",
-            description = "• Use strong secret phrases (12+ chars)\n• Each service should have a UNIQUE secret phrase\n• Export your smart passwords regularly as backup\n• Keep your secret phrases safe - they cannot be recovered!\n• Same secret phrase + same length = same smart password everywhere\n• Reorder passwords by long pressing and dragging"
+            description = "• Use strong secret phrases (12+ chars)\n• Each service should have a UNIQUE secret phrase\n• Export your smart passwords regularly as backup\n• Keep your secret phrases safe - they cannot be recovered!\n• Same secret phrase + same length = same smart password everywhere\n• Reorder passwords by long pressing and dragging\n• Use QR codes to share public keys securely across devices"
         ),
         GuideStep(
             title = "🎉 You're Ready!",

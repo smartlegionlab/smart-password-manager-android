@@ -2,9 +2,11 @@
 package com.example.smart_password_manager_android
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
@@ -28,6 +30,8 @@ import androidx.annotation.RequiresPermission
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,14 +41,20 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.smartlegionlab.smartpasslib.SmartPassLib
 import java.io.File
+import androidx.core.view.isVisible
 
 class SmartPasswordManager : AppCompatActivity() {
+
+    companion object {
+        private const val CAMERA_PERMISSION_REQUEST = 201
+    }
 
     private lateinit var storageManager: StorageManager
     private lateinit var adapter: PasswordAdapter
     private lateinit var toolbar: Toolbar
     private lateinit var fabMenu: FloatingActionButton
     private lateinit var fabAdd: FloatingActionButton
+    private lateinit var fabScanQr: FloatingActionButton
     private lateinit var fabImport: FloatingActionButton
     private lateinit var fabExport: FloatingActionButton
     private lateinit var fabHelp: FloatingActionButton
@@ -78,6 +88,13 @@ class SmartPasswordManager : AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val uri = result.data?.data
             uri?.let { importFromUri(it) }
+        }
+    }
+
+    private val qrScannerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            loadEntries()
+            Toast.makeText(this, "✓ Password list updated", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -194,6 +211,7 @@ class SmartPasswordManager : AppCompatActivity() {
         updateServiceCount()
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateServiceCount() {
         val count = filteredEntries.size
         serviceCountText.text = "$count passwords"
@@ -225,6 +243,75 @@ class SmartPasswordManager : AppCompatActivity() {
             layoutManager = LinearLayoutManager(this@SmartPasswordManager)
             adapter = this@SmartPasswordManager.adapter
         }
+    }
+
+    private fun checkCameraPermissionAndLaunchScanner() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            when {
+                ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED -> {
+                    startQrScanner()
+                }
+                shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) -> {
+                    showCameraPermissionExplanationDialog()
+                }
+                else -> {
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.CAMERA),
+                        CAMERA_PERMISSION_REQUEST
+                    )
+                }
+            }
+        } else {
+            startQrScanner()
+        }
+    }
+
+    private fun showCameraPermissionExplanationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Camera Permission Required")
+            .setMessage("Smart Password Manager needs camera permission to scan QR codes for importing passwords.")
+            .setPositiveButton("Grant Permission") { _, _ ->
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.CAMERA),
+                    CAMERA_PERMISSION_REQUEST
+                )
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
+    }
+
+    private fun startQrScanner() {
+        val intent = Intent(this, QrCodeScannerActivity::class.java)
+        qrScannerLauncher.launch(intent)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            CAMERA_PERMISSION_REQUEST -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    startQrScanner()
+                } else {
+                    Toast.makeText(this, "Camera permission is required to scan QR codes", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    private fun sanitizeString(input: String): String {
+        return input
+            .replace("\"", "'")
+            .replace("\\", "/")
+            .replace("\n", " ")
+            .replace("\r", " ")
+            .replace("\t", " ")
+            .replace("\u0000", "")
     }
 
     private fun setupDragAndDrop() {
@@ -315,6 +402,7 @@ class SmartPasswordManager : AppCompatActivity() {
     private fun setupFabs() {
         fabMenu = findViewById(R.id.fabMenu)
         fabAdd = findViewById(R.id.fabAdd)
+        fabScanQr = findViewById(R.id.fabScanQr)
         fabImport = findViewById(R.id.fabImport)
         fabExport = findViewById(R.id.fabExport)
         fabHelp = findViewById(R.id.fabHelp)
@@ -333,18 +421,27 @@ class SmartPasswordManager : AppCompatActivity() {
             closeMenu()
             showAddDialog()
         }
+
+        fabScanQr.setOnClickListener {
+            closeMenu()
+            checkCameraPermissionAndLaunchScanner()
+        }
+
         fabImport.setOnClickListener {
             closeMenu()
             importPasswords()
         }
+
         fabExport.setOnClickListener {
             closeMenu()
             exportPasswords()
         }
+
         fabHelp.setOnClickListener {
             closeMenu()
             startActivity(Intent(this, HelpActivity::class.java))
         }
+
         fabAbout.setOnClickListener {
             closeMenu()
             startActivity(Intent(this, AboutActivity::class.java))
@@ -355,7 +452,15 @@ class SmartPasswordManager : AppCompatActivity() {
         isMenuOpen = true
         fabMenuContainer.visibility = View.VISIBLE
 
+        fabAdd.visibility = View.VISIBLE
+        fabScanQr.visibility = View.VISIBLE
+        fabImport.visibility = View.VISIBLE
+        fabExport.visibility = View.VISIBLE
+        fabHelp.visibility = View.VISIBLE
+        fabAbout.visibility = View.VISIBLE
+
         fabAdd.startAnimation(slideUpAnim)
+        fabScanQr.startAnimation(slideUpAnim)
         fabImport.startAnimation(slideUpAnim)
         fabExport.startAnimation(slideUpAnim)
         fabHelp.startAnimation(slideUpAnim)
@@ -368,12 +473,19 @@ class SmartPasswordManager : AppCompatActivity() {
         isMenuOpen = false
 
         fabAdd.startAnimation(slideDownAnim)
+        fabScanQr.startAnimation(slideDownAnim)
         fabImport.startAnimation(slideDownAnim)
         fabExport.startAnimation(slideDownAnim)
         fabHelp.startAnimation(slideDownAnim)
         fabAbout.startAnimation(slideDownAnim)
 
         fabAdd.postDelayed({
+            fabAdd.visibility = View.GONE
+            fabScanQr.visibility = View.GONE
+            fabImport.visibility = View.GONE
+            fabExport.visibility = View.GONE
+            fabHelp.visibility = View.GONE
+            fabAbout.visibility = View.GONE
             fabMenuContainer.visibility = View.GONE
         }, 300)
 
@@ -470,7 +582,7 @@ class SmartPasswordManager : AppCompatActivity() {
                                 }
                             }
                             reader.endObject()
-                            metadata = Metadata(exportedAt, appName, appVersion, appType, libName, libVersion, libLang, count,)
+                            metadata = Metadata(exportedAt, appName, appVersion, appType, libName, libVersion, libLang, count)
                         }
                         else -> {
                             reader.beginObject()
@@ -493,7 +605,7 @@ class SmartPasswordManager : AppCompatActivity() {
                 reader.endObject()
             }
 
-            val importData = ExportData(metadata ?: Metadata("", "", "", "", "", "", "", 0,), entries)
+            val importData = ExportData(metadata ?: Metadata("", "", "", "", "", "", "", 0), entries)
 
             if (importData.entries.isEmpty()) {
                 Toast.makeText(this, "No passwords found in file", Toast.LENGTH_SHORT).show()
@@ -522,13 +634,14 @@ class SmartPasswordManager : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("UseKtx")
     private fun loadEntries() {
         allEntries = storageManager.loadAllEntries()
         filteredEntries = allEntries
         adapter.submitList(filteredEntries)
         updateServiceCount()
 
-        if (searchBar.visibility == View.VISIBLE) {
+        if (searchBar.isVisible) {
             hideSearchBar()
         }
     }
@@ -542,6 +655,8 @@ class SmartPasswordManager : AppCompatActivity() {
         val btnCreate = dialogView.findViewById<MaterialButton>(R.id.btnCreate)
         val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btnCancel)
 
+        titleInput.filters = arrayOf(android.text.InputFilter.LengthFilter(255))
+
         val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
             .setView(dialogView)
             .create()
@@ -554,7 +669,7 @@ class SmartPasswordManager : AppCompatActivity() {
         }
 
         btnCreate.setOnClickListener {
-            val description = titleInput.text.toString().trim()
+            var description = titleInput.text.toString().trim()
             val lengthStr = lengthInput.text.toString()
             val length = lengthStr.toIntOrNull()
 
@@ -563,6 +678,10 @@ class SmartPasswordManager : AppCompatActivity() {
             if (description.isBlank()) {
                 playErrorSound()
                 titleLayout.error = "Enter service name"
+                isValid = false
+            } else if (description.length > 255) {
+                playErrorSound()
+                titleLayout.error = "Description must be less than 255 characters"
                 isValid = false
             } else {
                 titleLayout.error = null
@@ -577,12 +696,14 @@ class SmartPasswordManager : AppCompatActivity() {
             }
 
             if (isValid) {
+                description = sanitizeString(description)
                 dialog.dismiss()
                 showSecretPhraseDialog(description, length ?: 12, null)
             }
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showSecretPhraseDialog(description: String, length: Int, existingEntry: SmartPassword?) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_secret_custom, null)
         val secretInput = dialogView.findViewById<TextInputEditText>(R.id.secretPhrase)
@@ -699,6 +820,7 @@ class SmartPasswordManager : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun showGetPasswordDialog(entry: SmartPassword) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_get_password_custom, null)
         val descriptionText = dialogView.findViewById<TextView>(R.id.passwordDescription)
@@ -776,6 +898,8 @@ class SmartPasswordManager : AppCompatActivity() {
         val btnSave = dialogView.findViewById<MaterialButton>(R.id.btnSave)
         val btnCancel = dialogView.findViewById<MaterialButton>(R.id.btnCancel)
 
+        titleInput.filters = arrayOf(android.text.InputFilter.LengthFilter(255))
+
         titleInput.setText(entry.description)
         lengthInput.setText(entry.length.toString())
 
@@ -791,7 +915,7 @@ class SmartPasswordManager : AppCompatActivity() {
         }
 
         btnSave.setOnClickListener {
-            val description = titleInput.text.toString().trim()
+            var description = titleInput.text.toString().trim()
             val lengthStr = lengthInput.text.toString()
             val length = lengthStr.toIntOrNull()
 
@@ -800,6 +924,10 @@ class SmartPasswordManager : AppCompatActivity() {
             if (description.isBlank()) {
                 playErrorSound()
                 titleLayout.error = "Enter service name"
+                isValid = false
+            } else if (description.length > 255) {
+                playErrorSound()
+                titleLayout.error = "Description must be less than 255 characters"
                 isValid = false
             } else {
                 titleLayout.error = null
@@ -814,6 +942,7 @@ class SmartPasswordManager : AppCompatActivity() {
             }
 
             if (isValid) {
+                description = sanitizeString(description)
                 playSuccessSound()
                 val updatedEntry = SmartPassword(
                     description = description,
