@@ -13,7 +13,8 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/primary_blue"
         app:titleTextColor="@color/white"
-        app:navigationIcon="@drawable/ic_arrow_back" />
+        app:navigationIcon="@drawable/ic_arrow_back"
+        app:title="About" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -152,7 +153,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Passwords generated on any platform (Python, JavaScript, Kotlin, Go, Web, Desktop, CLI  and others) will be IDENTICAL when using the same secret phrase and length!\n\n✓ Same algorithm across all implementations\n✓ Fully deterministic generation\n✓ No cloud dependency\n✓ Complete platform independence"
+                        android:text="Passwords generated on any platform (Python, JavaScript, Kotlin, Go, C#, Web, Desktop, CLI and others) will be IDENTICAL when using the same secret phrase and length!\n\n✓ Same algorithm across all implementations\n✓ Fully deterministic generation\n✓ No cloud dependency\n✓ Complete platform independence"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.9"
@@ -161,6 +162,16 @@
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Core Libraries"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_blue_light"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardPython"
@@ -213,7 +224,7 @@
                             android:id="@+id/descPython"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text=""
+                            android:text="Python implementation of SmartPassLib. Generate deterministic passwords using the same algorithm as other platforms."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -285,7 +296,7 @@
                             android:id="@+id/descJavaScript"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text=""
+                            android:text="JavaScript/Node.js implementation of SmartPassLib. Perfect for web applications and Node.js backends."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -357,7 +368,7 @@
                             android:id="@+id/descKotlin"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text=""
+                            android:text="Kotlin implementation of SmartPassLib. Used in this Android app. Compatible with Kotlin Multiplatform."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -429,7 +440,7 @@
                             android:id="@+id/descGo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text=""
+                            android:text="Go implementation of SmartPassLib. High-performance library for Go applications."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -449,6 +460,540 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCSharp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/titleCSharp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="SmartPassLib - C#"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/btnCSharp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_arrow_down"
+                            android:contentDescription="Expand" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/expandableContentCSharp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/descCSharp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="C#/.NET implementation of SmartPassLib. Compatible with .NET Framework, .NET Core, and .NET 5+."
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.8"
+                            android:layout_marginBottom="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/linkCSharp"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="View Repository"
+                            app:icon="@drawable/ic_github"
+                            app:iconGravity="textStart"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CLI Applications"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_blue_light"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCLI"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/titleCLI"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="CLI PassMan (Python)"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/btnCLI"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_arrow_down"
+                            android:contentDescription="Expand" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/expandableContentCLI"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/descCLI"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Command-line interface password manager written in Python. Manage your smart passwords directly from the terminal."
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.8"
+                            android:layout_marginBottom="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/linkCLI"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="View Repository"
+                            app:icon="@drawable/ic_github"
+                            app:iconGravity="textStart"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCLIPassGen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/titleCLIPassGen"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="CLI PassGen (Python)"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/btnCLIPassGen"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_arrow_down"
+                            android:contentDescription="Expand" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/expandableContentCLIPassGen"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/descCLIPassGen"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Command-line password generator written in Python. Generate smart passwords instantly from your terminal."
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.8"
+                            android:layout_marginBottom="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/linkCLIPassGen"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="View Repository"
+                            app:icon="@drawable/ic_github"
+                            app:iconGravity="textStart"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCLICSharp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/titleCLICSharp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="CLI Smart Password Manager - C#"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/btnCLICSharp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_arrow_down"
+                            android:contentDescription="Expand" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/expandableContentCLICSharp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/descCLICSharp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Command-line interface password manager written in C#. Cross-platform CLI tool for .NET."
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.8"
+                            android:layout_marginBottom="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/linkCLICSharp"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="View Repository"
+                            app:icon="@drawable/ic_github"
+                            app:iconGravity="textStart"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCLIPassGenCSharp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/titleCLIPassGenCSharp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="CLI Smart Password Generator - C#"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/btnCLIPassGenCSharp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_arrow_down"
+                            android:contentDescription="Expand" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/expandableContentCLIPassGenCSharp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/descCLIPassGenCSharp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Command-line password generator written in C#. Fast and cross-platform password generation tool."
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.8"
+                            android:layout_marginBottom="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/linkCLIPassGenCSharp"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="View Repository"
+                            app:icon="@drawable/ic_github"
+                            app:iconGravity="textStart"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Desktop Applications"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_blue_light"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardDesktop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/titleDesktop"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Desktop Smart Password Manager - Python"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/btnDesktop"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_arrow_down"
+                            android:contentDescription="Expand" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/expandableContentDesktop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/descDesktop"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Desktop application written in Python with Tkinter. Full-featured GUI password manager for Windows, Linux, and macOS."
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.8"
+                            android:layout_marginBottom="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/linkDesktop"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="View Repository"
+                            app:icon="@drawable/ic_github"
+                            app:iconGravity="textStart"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardDesktopCSharp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/titleDesktopCSharp"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Desktop Smart Password Manager - C#"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/btnDesktopCSharp"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_arrow_down"
+                            android:contentDescription="Expand" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/expandableContentDesktopCSharp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/descDesktopCSharp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Desktop application written in C# with Windows Forms. Native Windows application with full GUI support."
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.8"
+                            android:layout_marginBottom="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/linkDesktopCSharp"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="View Repository"
+                            app:icon="@drawable/ic_github"
+                            app:iconGravity="textStart"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Web Applications"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_blue_light"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardWeb"
@@ -501,7 +1046,7 @@
                             android:id="@+id/descWeb"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text=""
+                            android:text="Web-based password manager. Access your smart passwords from any browser with full client-side encryption."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -521,6 +1066,16 @@
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Mobile Applications"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_blue_light"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardAndroid"
@@ -573,7 +1128,7 @@
                             android:id="@+id/descAndroid"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text=""
+                            android:text="This app! Native Android implementation with QR scanning, drag &amp; drop, and offline storage."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -594,221 +1149,15 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardDesktop"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="@color/dark_card">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/titleDesktop"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Smart Password Manager - Desktop"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/white" />
-
-                        <ImageView
-                            android:id="@+id/btnDesktop"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_arrow_down"
-                            android:contentDescription="Expand" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/expandableContentDesktop"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:id="@+id/descDesktop"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="14sp"
-                            android:textColor="@color/white"
-                            android:alpha="0.8"
-                            android:layout_marginBottom="12dp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/linkDesktop"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:text="View Repository"
-                            app:icon="@drawable/ic_github"
-                            app:iconGravity="textStart"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardCLI"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="@color/dark_card">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/titleCLI"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="CLI PassMan"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/white" />
-
-                        <ImageView
-                            android:id="@+id/btnCLI"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_arrow_down"
-                            android:contentDescription="Expand" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/expandableContentCLI"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:id="@+id/descCLI"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="14sp"
-                            android:textColor="@color/white"
-                            android:alpha="0.8"
-                            android:layout_marginBottom="12dp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/linkCLI"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:text="View Repository"
-                            app:icon="@drawable/ic_github"
-                            app:iconGravity="textStart"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardCLIPassGen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                app:cardCornerRadius="12dp"
-                app:cardBackgroundColor="@color/dark_card">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp"
-                        android:gravity="center_vertical">
-
-                        <TextView
-                            android:id="@+id/titleCLIPassGen"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="CLI PassGen"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/white" />
-
-                        <ImageView
-                            android:id="@+id/btnCLIPassGen"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:src="@drawable/ic_arrow_down"
-                            android:contentDescription="Expand" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/expandableContentCLIPassGen"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:visibility="gone">
-
-                        <TextView
-                            android:id="@+id/descCLIPassGen"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text=""
-                            android:textSize="14sp"
-                            android:textColor="@color/white"
-                            android:alpha="0.8"
-                            android:layout_marginBottom="12dp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/linkCLIPassGen"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:text="View Repository"
-                            app:icon="@drawable/ic_github"
-                            app:iconGravity="textStart"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
+                android:text="Scientific Papers"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/primary_blue_light"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="12dp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardPaper1"
@@ -861,7 +1210,7 @@
                             android:id="@+id/descPaper1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text=""
+                            android:text="Research paper introducing the Pointer-Based Security Paradigm for deterministic password generation."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -933,7 +1282,7 @@
                             android:id="@+id/descPaper2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text=""
+                            android:text="Research paper on regenerating sensitive data locally without cloud storage dependencies."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"

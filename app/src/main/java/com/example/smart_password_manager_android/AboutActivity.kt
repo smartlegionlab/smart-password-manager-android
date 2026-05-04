@@ -39,7 +39,6 @@ class AboutActivity : AppCompatActivity() {
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.title = "About"
 
@@ -123,32 +122,16 @@ class AboutActivity : AppCompatActivity() {
         )
 
         setupExpandableCard(
-            R.id.cardWeb, R.id.btnWeb, R.id.expandableContentWeb,
-            "Smart Password Manager - Web",
-            "Web-based password manager using the same algorithm.\n\n" +
-                    "• Works in any modern browser\n• No backend required\n• PWA support",
-            "https://github.com/smartlegionlab/smart-password-manager-web"
-        )
-
-        setupExpandableCard(
-            R.id.cardAndroid, R.id.btnAndroid, R.id.expandableContentAndroid,
-            "Smart Password Manager - Android",
-            "Native Android application with Material Design.\n\n" +
-                    "• Offline-first architecture\n• Deterministic password generation\n• Export/Import support\n• Dark theme",
-            "https://github.com/smartlegionlab/smart-password-manager-android"
-        )
-
-        setupExpandableCard(
-            R.id.cardDesktop, R.id.btnDesktop, R.id.expandableContentDesktop,
-            "Smart Password Manager - Desktop",
-            "Cross-platform desktop application.\n\n" +
-                    "• Built with PyQt5\n• Works on Windows, macOS, Linux\n• Same core algorithm",
-            "https://github.com/smartlegionlab/smart-password-manager-desktop"
+            R.id.cardCSharp, R.id.btnCSharp, R.id.expandableContentCSharp,
+            "SmartPassLib - C# implementation",
+            "Complete C#/.NET implementation with full compatibility.\n\n" +
+                    "• Compatible with .NET Framework, .NET Core, .NET 5+\n• Same deterministic algorithm\n• Perfect for Windows applications and enterprise solutions",
+            "https://github.com/smartlegionlab/smartpasslib-csharp"
         )
 
         setupExpandableCard(
             R.id.cardCLI, R.id.btnCLI, R.id.expandableContentCLI,
-            "CLI PassMan - Password Manager",
+            "CLI PassMan - Password Manager (Python)",
             "Command-line password manager for power users.\n\n" +
                     "• Store and manage your password entries\n• Generate passwords on demand\n• Export/Import functionality\n• Perfect for scripts and automation",
             "https://github.com/smartlegionlab/clipassman"
@@ -156,10 +139,58 @@ class AboutActivity : AppCompatActivity() {
 
         setupExpandableCard(
             R.id.cardCLIPassGen, R.id.btnCLIPassGen, R.id.expandableContentCLIPassGen,
-            "CLI PassGen - Password Generator",
+            "CLI PassGen - Password Generator (Python)",
             "Standalone command-line password generator.\n\n" +
                     "• Generate deterministic passwords from secret phrases\n• No storage, just generation\n• Perfect for quick password needs\n• Lightweight and fast",
             "https://github.com/smartlegionlab/clipassgen"
+        )
+
+        setupExpandableCard(
+            R.id.cardCLICSharp, R.id.btnCLICSharp, R.id.expandableContentCLICSharp,
+            "CLI Smart Password Manager - C#",
+            "Command-line password manager written in C#.\n\n" +
+                    "• Cross-platform CLI tool for .NET\n• Full password management features\n• Export/Import functionality\n• Fast and efficient",
+            "https://github.com/smartlegionlab/SmartPasswordManagerCsharpCli"
+        )
+
+        setupExpandableCard(
+            R.id.cardCLIPassGenCSharp, R.id.btnCLIPassGenCSharp, R.id.expandableContentCLIPassGenCSharp,
+            "CLI Smart Password Generator - C#",
+            "Command-line password generator written in C#.\n\n" +
+                    "• Fast and cross-platform password generation tool\n• No storage, just generation\n• Perfect for automation scripts\n• .NET based",
+            "https://github.com/smartlegionlab/SmartPasswordGeneratorCsharpCli"
+        )
+
+        setupExpandableCard(
+            R.id.cardDesktop, R.id.btnDesktop, R.id.expandableContentDesktop,
+            "Smart Password Manager - Desktop (Python)",
+            "Cross-platform desktop application.\n\n" +
+                    "• Built with PyQt5\n• Works on Windows, macOS, Linux\n• Same core algorithm\n• Full GUI interface",
+            "https://github.com/smartlegionlab/smart-password-manager-desktop"
+        )
+
+        setupExpandableCard(
+            R.id.cardDesktopCSharp, R.id.btnDesktopCSharp, R.id.expandableContentDesktopCSharp,
+            "Smart Password Manager - Desktop (C#)",
+            "Desktop application written in C# with Windows Forms.\n\n" +
+                    "• Native Windows application\n• Full GUI support\n• Same deterministic algorithm\n• Perfect for Windows users",
+            "https://github.com/smartlegionlab/SmartPasswordManagerCsharpDesktop"
+        )
+
+        setupExpandableCard(
+            R.id.cardWeb, R.id.btnWeb, R.id.expandableContentWeb,
+            "Smart Password Manager - Web",
+            "Web-based password manager using the same algorithm.\n\n" +
+                    "• Works in any modern browser\n• No backend required\n• PWA support\n• Mobile responsive",
+            "https://github.com/smartlegionlab/smart-password-manager-web"
+        )
+
+        setupExpandableCard(
+            R.id.cardAndroid, R.id.btnAndroid, R.id.expandableContentAndroid,
+            "Smart Password Manager - Android",
+            "Native Android application with Material Design.\n\n" +
+                    "• Offline-first architecture\n• Deterministic password generation\n• Export/Import support\n• Dark theme\n• QR code scanner",
+            "https://github.com/smartlegionlab/smart-password-manager-android"
         )
 
         setupExpandableCard(
@@ -244,11 +275,15 @@ class AboutActivity : AppCompatActivity() {
             R.id.cardJavaScript -> R.id.titleJavaScript
             R.id.cardKotlin -> R.id.titleKotlin
             R.id.cardGo -> R.id.titleGo
-            R.id.cardWeb -> R.id.titleWeb
-            R.id.cardAndroid -> R.id.titleAndroid
-            R.id.cardDesktop -> R.id.titleDesktop
+            R.id.cardCSharp -> R.id.titleCSharp
             R.id.cardCLI -> R.id.titleCLI
             R.id.cardCLIPassGen -> R.id.titleCLIPassGen
+            R.id.cardCLICSharp -> R.id.titleCLICSharp
+            R.id.cardCLIPassGenCSharp -> R.id.titleCLIPassGenCSharp
+            R.id.cardDesktop -> R.id.titleDesktop
+            R.id.cardDesktopCSharp -> R.id.titleDesktopCSharp
+            R.id.cardWeb -> R.id.titleWeb
+            R.id.cardAndroid -> R.id.titleAndroid
             R.id.cardPaper1 -> R.id.titlePaper1
             R.id.cardPaper2 -> R.id.titlePaper2
             else -> 0
@@ -261,11 +296,15 @@ class AboutActivity : AppCompatActivity() {
             R.id.cardJavaScript -> R.id.descJavaScript
             R.id.cardKotlin -> R.id.descKotlin
             R.id.cardGo -> R.id.descGo
-            R.id.cardWeb -> R.id.descWeb
-            R.id.cardAndroid -> R.id.descAndroid
-            R.id.cardDesktop -> R.id.descDesktop
+            R.id.cardCSharp -> R.id.descCSharp
             R.id.cardCLI -> R.id.descCLI
             R.id.cardCLIPassGen -> R.id.descCLIPassGen
+            R.id.cardCLICSharp -> R.id.descCLICSharp
+            R.id.cardCLIPassGenCSharp -> R.id.descCLIPassGenCSharp
+            R.id.cardDesktop -> R.id.descDesktop
+            R.id.cardDesktopCSharp -> R.id.descDesktopCSharp
+            R.id.cardWeb -> R.id.descWeb
+            R.id.cardAndroid -> R.id.descAndroid
             R.id.cardPaper1 -> R.id.descPaper1
             R.id.cardPaper2 -> R.id.descPaper2
             else -> 0
@@ -278,11 +317,15 @@ class AboutActivity : AppCompatActivity() {
             R.id.cardJavaScript -> R.id.linkJavaScript
             R.id.cardKotlin -> R.id.linkKotlin
             R.id.cardGo -> R.id.linkGo
-            R.id.cardWeb -> R.id.linkWeb
-            R.id.cardAndroid -> R.id.linkAndroid
-            R.id.cardDesktop -> R.id.linkDesktop
+            R.id.cardCSharp -> R.id.linkCSharp
             R.id.cardCLI -> R.id.linkCLI
             R.id.cardCLIPassGen -> R.id.linkCLIPassGen
+            R.id.cardCLICSharp -> R.id.linkCLICSharp
+            R.id.cardCLIPassGenCSharp -> R.id.linkCLIPassGenCSharp
+            R.id.cardDesktop -> R.id.linkDesktop
+            R.id.cardDesktopCSharp -> R.id.linkDesktopCSharp
+            R.id.cardWeb -> R.id.linkWeb
+            R.id.cardAndroid -> R.id.linkAndroid
             R.id.cardPaper1 -> R.id.linkPaper1
             R.id.cardPaper2 -> R.id.linkPaper2
             else -> 0
