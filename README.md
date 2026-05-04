@@ -1,4 +1,4 @@
-# Smart Password Manager Android <sup>v1.1.2</sup>
+# Smart Password Manager Android <sup>v1.1.3</sup>
 
 ---
 
@@ -48,6 +48,7 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 - **Material Design UI**: Clean, intuitive interface with dark theme support
 - **🔍 Instant Search**: Quickly find passwords by description as you type
 - **↕️ Drag & Drop Reordering**: Customize password order with long press and drag
+- **📷 QR Code Import**: Scan QR codes to import passwords from other devices
 - **Secure Secret Entry**: Hidden input with show/hide toggle
 - **One-Tap Copy**: Copy generated passwords to clipboard instantly
 - **Export/Import**: Backup and restore your password metadata
@@ -69,6 +70,7 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 ### Prerequisites
 - Android 8.0 (API level 26) or higher
 - Storage permission (for backup/export functionality)
+- Camera permission (for QR code scanning)
 
 ### Installation
 
@@ -80,7 +82,7 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 
 1. **Read the Legal Disclaimer** — you must accept to continue
 2. **Grant Storage Permission** — required for saving backups in Documents folder
-3. **Complete the Onboarding Guide** — 7 steps explaining everything you need to know
+3. **Complete the Onboarding Guide** — 9 steps explaining everything you need to know
 4. **Start adding your smart passwords!**
 
 ### Adding a Smart Password
@@ -119,6 +121,37 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 
 **Order Storage:** Your custom order is saved in a separate `order.json` file, keeping `passwords.json` compatible with other platforms.
 
+### 📷 QR Code Import
+
+**Import passwords securely via QR codes** — perfect for transferring entries between devices.
+
+1. Tap the **menu button** (three dots ⋮) in the toolbar
+2. Tap the **QR Scan button** (📷 icon)
+3. Grant **camera permission** when prompted
+4. **Scan QR code** containing password length and public key
+5. **Enter your secret phrase** to verify ownership
+6. **Add description** for the imported entry
+7. **Save** — password is ready to use!
+
+**QR Code Format:**
+```json
+{
+  "l": 16,
+  "k": "a3f5c8e2d1b4a7c9e6f3b8d2a5c7e9f1b4d6a8c2e5f7b9d3a6c8e1f4b7d9a2c5e8f1"
+}
+```
+
+- `l` = Password length (12-100 characters)
+- `k` = Public key (64-character hex string)
+
+**Features:**
+- Continuous autofocus for best scanning results
+- Audio feedback (success/error sounds)
+- Duplicate detection prevents adding the same secret phrase twice
+- Character counter with color-coded indicator for description input
+
+**Generate QR codes** using any SmartPassLib implementation
+
 ### Editing & Deleting
 
 - **Edit** — Tap the ✏️ pencil icon to change description or length only
@@ -156,11 +189,11 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 
 ### Security Requirements
 
-| Field           | Minimum  | Default  | Maximum   |
-|-----------------|----------|----------|-----------|
-| Secret phrase   | 12 chars | -        | unlimited |
-| Password length | 12 chars | 16 chars | 100 chars |
-| Description     | 1 char   | -        | unlimited |
+| Field           | Minimum  | Default   | Maximum   |
+|-----------------|----------|-----------|-----------|
+| Secret phrase   | 12 chars | -         | unlimited |
+| Password length | 12 chars | 16 chars  | 100 chars |
+| Description     | 1 char   | 255 chars | 255 chars |
 
 ---
 
@@ -187,8 +220,8 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 ❌ "1234567890" — only digits, too short
 ❌ "qwerty123" — keyboard pattern
 ❌ Same as description — never use the same as description
-
 ```
+
 ### Decentralized Nature
 
 **There is no "forgot password" button.** This is by design:
@@ -241,10 +274,11 @@ Powered by **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpassli
 
 | Permission                            | Required For                       |
 |---------------------------------------|------------------------------------|
+| CAMERA                                | QR code scanning                   |
 | MANAGE_EXTERNAL_STORAGE (Android 11+) | Saving backups to Documents folder |
 | WRITE_EXTERNAL_STORAGE (Android 10-)  | Export/Import functionality        |
 
-**Note:** Storage permission is required for backup/export only. The app works completely offline and never transmits data.
+**Note:** Storage permission is required for backup/export only. Camera permission is required only for QR scanning. The app works completely offline and never transmits data.
 
 ---
 
@@ -296,16 +330,16 @@ This Android application is part of a comprehensive suite:
 
 ### Main Screen
 - **Password Cards** — List of all your smart password entries
-- **Description** — Your custom label for each entry
+- **Description** — Your custom label for each entry (expandable if >20 chars)
 - **Length** — Shows password length in symbols
 - **Public Key Preview** — First 12 chars of verification key
 
 ### Toolbar Buttons
-| Button        | Action                                          |
-|---------------|-------------------------------------------------|
-| 🔍 Search     | Open search bar to filter passwords             |
-| ⋮ (Menu)      | Open menu with Add, Export, Import, Help, About |
-| ← (Back)      | Navigate back (when applicable)                 |
+| Button    | Action                                                   |
+|-----------|----------------------------------------------------------|
+| 🔍 Search | Open search bar to filter passwords                      |
+| ⋮ (Menu)  | Open menu with Add, QR Scan, Export, Import, Help, About |
+| ← (Back)  | Navigate back (when applicable)                          |
 
 ### Search Bar
 | Button        | Action                                      |
@@ -314,13 +348,14 @@ This Android application is part of a comprehensive suite:
 | Typing        | Instant filtering by description            |
 
 ### Menu Options
-| Option        | Action                            |
-|---------------|-----------------------------------|
-| + Add         | Create new smart password entry   |
-| Export        | Backup all metadata to JSON file  |
-| Import        | Restore metadata from backup      |
-| Help          | Open help documentation           |
-| About         | Show app info and ecosystem links |
+| Option       | Action                            |
+|--------------|-----------------------------------|
+| + Add        | Create new smart password entry   |
+| QR Scan      | Import password via QR code       |
+| Export       | Backup all metadata to JSON file  |
+| Import       | Restore metadata from backup      |
+| Help         | Open help documentation           |
+| About        | Show app info and ecosystem links |
 
 ### Entry Card Buttons
 | Button     | Action                                                |
@@ -328,6 +363,7 @@ This Android application is part of a comprehensive suite:
 | 👁️ Eye    | Generate and display smart password (requires secret) |
 | ✏️ Edit    | Change description or length (secret cannot change)   |
 | 🗑️ Delete | Remove entry permanently                              |
+| ▼/▲ Arrow  | Expand/collapse long description (>20 chars)          |
 
 ### Drag & Drop
 | Action                                | Result                                    |

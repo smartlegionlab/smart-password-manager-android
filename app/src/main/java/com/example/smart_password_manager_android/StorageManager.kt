@@ -270,9 +270,9 @@ class StorageManager(private val context: Context) {
     private fun getAppVersion(): String {
         return try {
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            packageInfo.versionName ?: "1.1.2"
+            packageInfo.versionName ?: "1.1.3"
         } catch (_: Exception) {
-            "1.1.2"
+            "1.1.3"
         }
     }
 }
