@@ -1,10 +1,5 @@
-package com.smartlegionlab.smartpasslib
-
-import java.security.MessageDigest
-import java.security.SecureRandom
-
 /**
- * SmartPassLib v1.0.4 - Kotlin smart password generator
+ * SmartPassLib v4.0.0 - Kotlin smart password generator
  * Cross-platform deterministic password generation
  * Same secret + same length = same password across all platforms
  * Decentralized by design — no central servers, no cloud dependency, no third-party trust required
@@ -12,13 +7,18 @@ import java.security.SecureRandom
  * Compatible with smartpasslib Python/JS/Go/C# implementations
  *
  * Key derivation:
- * - Private key: 30 iterations of SHA-256 (used for password generation)
- * - Public key: 60 iterations of SHA-256 (used for verification, stored locally)
+ * - Private key: 15-30 iterations (dynamic, deterministic per secret)
+ * - Public key: 45-60 iterations (dynamic, deterministic per secret)
  *
  * Secret phrase:
  *   - is not transferred anywhere
  *   - is not stored anywhere
  *   - is required to generate the private key when creating a smart password
+ *   - minimum 12 characters (enforced)
+ *
+ * Password length:
+ *   - minimum 12 characters (enforced)
+ *   - maximum 100 characters (enforced)
  *
  * Ecosystem:
  *   - Core library (Python): https://github.com/smartlegionlab/smartpasslib
@@ -39,16 +39,19 @@ import java.security.SecureRandom
  * License: BSD 3-Clause https://github.com/smartlegionlab/smartpasslib-kotlin/blob/master/LICENSE
  * Copyright (c) 2026, Alexander Suvorov. All rights reserved.
  */
+
+package com.smartlegionlab.smartpasslib
+
+import java.security.MessageDigest
+import java.security.SecureRandom
+
 object SmartPassLib {
 
-    const val VERSION = "1.0.4"
+    const val VERSION = "4.0.0"
 
-    // Character set for password generation (must match other implementations)
-    const val CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$&*-_"
-
-    // Iteration counts
-    private const val PRIVATE_ITERATIONS = 30  // For private key (password generation)
-    private const val PUBLIC_ITERATIONS = 60   // For public key (verification, stored on server)
+    // Character set for password generation (Google-compatible)
+    // Must match exactly with Python version: symbols + uppercase + digits + lowercase
+    const val CHARS = "!@#$%^&*()_+-=[]{};:,.<>?/ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz"
 
     // Cryptographically secure random generator
     private val secureRandom = SecureRandom()
@@ -56,7 +59,7 @@ object SmartPassLib {
     /**
      * SHA-256 hash function
      * @param text Text to hash
-     * @return Hex string of hash
+     * @return Hex string of hash (lowercase)
      */
     private fun sha256(text: String): String {
         val bytes = text.toByteArray()
@@ -64,23 +67,53 @@ object SmartPassLib {
         return digest.joinToString("") { "%02x".format(it) }
     }
 
-    /**
-     * Generate a key from secret phrase with specified number of iterations
-     * @param secret Secret phrase
-     * @param iterations Number of hash iterations
-     * @return Key hex string
-     * @throws IllegalArgumentException if secret is less than 12 characters
-     */
-    @Throws(IllegalArgumentException::class)
-    private fun generateKey(secret: String, iterations: Int): String {
+    private fun validateSecret(secret: String) {
         require(secret.length >= 12) {
             "Secret phrase must be at least 12 characters. Current: ${secret.length}"
         }
+    }
 
-        var allHash = sha256(secret)
+    private fun validatePasswordLength(length: Int) {
+        require(length in 12..100) {
+            "Password length must be between 12 and 100. Current: $length"
+        }
+    }
 
-        for (i in 0 until iterations) {
-            val tempString = "$allHash:$secret:$i"
+    private fun validateCodeLength(length: Int) {
+        require(length in 4..100) {
+            "Code length must be between 4 and 100. Current: $length"
+        }
+    }
+
+    /**
+     * Get deterministic steps count from secret hash
+     * @param secret Secret phrase
+     * @param minSteps Minimum steps
+     * @param maxSteps Maximum steps
+     * @param salt Salt for different key types
+     * @return Steps count
+     */
+    private fun getStepsFromSecret(secret: String, minSteps: Int, maxSteps: Int, salt: String): Int {
+        val hashValue = sha256("$secret:$salt")
+        val hashInt = hashValue.substring(0, 8).toLong(16)
+        val steps = minSteps + (hashInt % (maxSteps - minSteps + 1)).toInt()
+        return steps
+    }
+
+    /**
+     * Generate a key from secret phrase with specified number of iterations
+     * @param secret Secret phrase
+     * @param steps Number of hash iterations
+     * @param salt Salt for key derivation
+     * @return Key hex string
+     */
+    private fun generateKey(secret: String, steps: Int, salt: String): String {
+        validateSecret(secret)
+
+        var allHash = sha256("$secret:$salt")
+
+        for (i in 0 until steps) {
+            val tempString = "$allHash:$i"
             allHash = sha256(tempString)
         }
 
@@ -88,25 +121,27 @@ object SmartPassLib {
     }
 
     /**
-     * Generate private key from secret phrase (30 iterations)
+     * Generate private key from secret phrase (15-30 deterministic iterations)
      * Used for password generation, never stored or transmitted
      * @param secret Secret phrase (minimum 12 characters)
      * @return Private key hex string (64 characters = 256 bits)
      */
-    @Throws(IllegalArgumentException::class)
     fun generatePrivateKey(secret: String): String {
-        return generateKey(secret, PRIVATE_ITERATIONS)
+        validateSecret(secret)
+        val steps = getStepsFromSecret(secret, 15, 30, "private")
+        return generateKey(secret, steps, "private")
     }
 
     /**
-     * Generate public key from secret phrase (60 iterations)
-     * Used for verification, stored on server
+     * Generate public key from secret phrase (45-60 deterministic iterations)
+     * Used for verification, stored locally
      * @param secret Secret phrase (minimum 12 characters)
      * @return Public key hex string
      */
-    @Throws(IllegalArgumentException::class)
     fun generatePublicKey(secret: String): String {
-        return generateKey(secret, PUBLIC_ITERATIONS)
+        validateSecret(secret)
+        val steps = getStepsFromSecret(secret, 45, 60, "public")
+        return generateKey(secret, steps, "public")
     }
 
     /**
@@ -115,7 +150,6 @@ object SmartPassLib {
      * @param publicKey Public key to check against
      * @return True if valid
      */
-    @Throws(IllegalArgumentException::class)
     fun verifySecret(secret: String, publicKey: String): Boolean {
         val computedKey = generatePublicKey(secret)
         return computedKey == publicKey
@@ -138,13 +172,11 @@ object SmartPassLib {
     /**
      * Generate deterministic smart password from private key
      * @param privateKey Private key hex string (from generatePrivateKey)
-     * @param length Desired password length (min 12, max 1000)
+     * @param length Desired password length (12-100)
      * @return Generated password
      */
     private fun generatePasswordFromPrivateKey(privateKey: String, length: Int): String {
-        require(length in 12..1000) {
-            "Password length must be between 12 and 1000. Current: $length"
-        }
+        validatePasswordLength(length)
 
         val result = StringBuilder()
         var counter = 0
@@ -172,32 +204,23 @@ object SmartPassLib {
      * Generate deterministic smart password directly from secret phrase
      * This is the main method for end users
      * @param secret Secret phrase (minimum 12 characters)
-     * @param length Desired password length (min 12, max 1000)
+     * @param length Desired password length (12-100)
      * @return Generated password
      */
-    @Throws(IllegalArgumentException::class)
     fun generateSmartPassword(secret: String, length: Int): String {
-        require(secret.length >= 12) {
-            "Secret phrase must be at least 12 characters. Current: ${secret.length}"
-        }
-        require(length in 12..1000) {
-            "Password length must be between 12 and 1000. Current: $length"
-        }
-
+        validateSecret(secret)
+        validatePasswordLength(length)
         val privateKey = generatePrivateKey(secret)
         return generatePasswordFromPrivateKey(privateKey, length)
     }
 
     /**
      * Generate strong random password (cryptographically secure)
-     * @param length Desired password length (min 12, max 1000)
+     * @param length Desired password length (12-100)
      * @return Generated random password
      */
-    @Throws(IllegalArgumentException::class)
     fun generateStrongPassword(length: Int): String {
-        require(length in 12..1000) {
-            "Password length must be between 12 and 1000. Current: $length"
-        }
+        validatePasswordLength(length)
 
         val bytes = ByteArray(length)
         secureRandom.nextBytes(bytes)
@@ -210,24 +233,20 @@ object SmartPassLib {
 
     /**
      * Generate base random password (simpler random)
-     * @param length Desired password length (min 12, max 1000)
+     * @param length Desired password length (12-100)
      * @return Generated random password
      */
-    @Throws(IllegalArgumentException::class)
     fun generateBasePassword(length: Int): String {
         return generateStrongPassword(length)
     }
 
     /**
      * Generate authentication code (shorter, for 2FA)
-     * @param length Desired code length (min 4, max 20)
+     * @param length Desired code length (4-100)
      * @return Generated code
      */
-    @Throws(IllegalArgumentException::class)
     fun generateCode(length: Int): String {
-        require(length in 4..20) {
-            "Code length must be between 4 and 20. Current: $length"
-        }
+        validateCodeLength(length)
 
         val bytes = ByteArray(length)
         secureRandom.nextBytes(bytes)
