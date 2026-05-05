@@ -47,8 +47,7 @@
                     android:layout_height="48dp"
                     android:src="@drawable/ic_search"
                     android:padding="12dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="Search" />
+                    android:background="?attr/selectableItemBackgroundBorderless" />
 
             </LinearLayout>
 
@@ -95,8 +94,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:src="@drawable/ic_close"
-                    android:layout_marginStart="8dp"
-                    android:contentDescription="Close search" />
+                    android:layout_marginStart="8dp" />
 
             </LinearLayout>
 

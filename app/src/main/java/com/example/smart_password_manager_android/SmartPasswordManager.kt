@@ -16,8 +16,6 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.text.TextWatcher
-import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -27,7 +25,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -47,9 +44,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.smartlegionlab.smartpasslib.SmartPassLib
 import java.io.File
 import androidx.core.view.isVisible
-import android.os.Handler
-import android.os.Looper
-import android.view.ViewGroup
 
 class SmartPasswordManager : AppCompatActivity() {
 
@@ -84,9 +78,6 @@ class SmartPasswordManager : AppCompatActivity() {
     private lateinit var slideDownAnim: android.view.animation.Animation
     private lateinit var slideInDownAnim: android.view.animation.Animation
     private lateinit var slideOutUpAnim: android.view.animation.Animation
-
-    private val tooltipHandler = Handler(Looper.getMainLooper())
-    private var currentTooltip: PopupWindow? = null
 
     private val exportFileLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -420,8 +411,6 @@ class SmartPasswordManager : AppCompatActivity() {
         fabAbout = findViewById(R.id.fabAbout)
         fabMenuContainer = findViewById(R.id.fabMenuContainer)
 
-        setupLongPressTooltips()
-
         fabMenu.setOnClickListener {
             if (isMenuOpen) {
                 closeMenu()
@@ -461,44 +450,6 @@ class SmartPasswordManager : AppCompatActivity() {
         }
     }
 
-    private fun showTooltipLeft(anchorView: View, text: String) {
-        val tooltipView = LayoutInflater.from(this).inflate(R.layout.tooltip_left_layout, null)
-        val tooltipText = tooltipView.findViewById<TextView>(R.id.tooltipText)
-        tooltipText.text = text
-
-        val popupWindow = PopupWindow(
-            tooltipView,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            true
-        )
-
-        val location = IntArray(2)
-        anchorView.getLocationOnScreen(location)
-
-        tooltipView.measure(
-            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-        )
-        val tooltipWidth = tooltipView.measuredWidth
-        val tooltipHeight = tooltipView.measuredHeight
-
-        val x = location[0] - tooltipWidth - 16
-        val y = location[1] + (anchorView.height / 2) - (tooltipHeight / 2)
-
-        popupWindow.showAtLocation(anchorView, Gravity.NO_GRAVITY, x, y)
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            popupWindow.dismiss()
-        }, 4000)
-    }
-
-    private fun hideTooltip() {
-        currentTooltip?.dismiss()
-        currentTooltip = null
-        tooltipHandler.removeCallbacksAndMessages(null)
-    }
-
     private fun openMenu() {
         isMenuOpen = true
         fabMenuContainer.visibility = View.VISIBLE
@@ -518,59 +469,10 @@ class SmartPasswordManager : AppCompatActivity() {
         fabAbout.startAnimation(slideUpAnim)
 
         fabMenu.setImageResource(android.R.drawable.ic_menu_close_clear_cancel)
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            if (isMenuOpen) {
-                showAllTooltips()
-            }
-        }, 350)
-    }
-
-    private fun showAllTooltips() {
-        showTooltipLeft(fabAdd, "➕ Add new password")
-
-        showTooltipLeft(fabScanQr, "📷 Scan QR code")
-
-        showTooltipLeft(fabImport, "📥 Import from JSON")
-
-        showTooltipLeft(fabExport, "📤 Export to JSON")
-
-        showTooltipLeft(fabHelp, "❓ Help & guide")
-
-        showTooltipLeft(fabAbout, "ℹ️ About app")
-    }
-
-    private fun setupLongPressTooltips() {
-        fabAdd.setOnLongClickListener {
-            showTooltipLeft(fabAdd, "➕ Add new password")
-            true
-        }
-        fabScanQr.setOnLongClickListener {
-            showTooltipLeft(fabScanQr, "📷 Scan QR code")
-            true
-        }
-        fabImport.setOnLongClickListener {
-            showTooltipLeft(fabImport, "📥 Import from JSON")
-            true
-        }
-        fabExport.setOnLongClickListener {
-            showTooltipLeft(fabExport, "📤 Export to JSON")
-            true
-        }
-        fabHelp.setOnLongClickListener {
-            showTooltipLeft(fabHelp, "❓ Help & guide")
-            true
-        }
-        fabAbout.setOnLongClickListener {
-            showTooltipLeft(fabAbout, "ℹ️ About app")
-            true
-        }
     }
 
     private fun closeMenu() {
         isMenuOpen = false
-
-        hideTooltip()
 
         fabAdd.startAnimation(slideDownAnim)
         fabScanQr.startAnimation(slideDownAnim)
@@ -590,8 +492,6 @@ class SmartPasswordManager : AppCompatActivity() {
         }, 300)
 
         fabMenu.setImageResource(R.drawable.ic_more_vert_24)
-
-        tooltipHandler.removeCallbacksAndMessages(null)
     }
 
     private fun exportPasswords() {
@@ -1265,7 +1165,5 @@ class SmartPasswordManager : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         stopSound()
-        hideTooltip()
-        tooltipHandler.removeCallbacksAndMessages(null)
     }
 }
