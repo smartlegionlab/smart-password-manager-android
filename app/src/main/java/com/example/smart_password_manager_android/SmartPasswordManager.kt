@@ -957,14 +957,34 @@ class SmartPasswordManager : AppCompatActivity() {
     private fun showGetPasswordDialog(entry: SmartPassword) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_get_password_custom, null)
         val descriptionText = dialogView.findViewById<TextView>(R.id.passwordDescription)
+        val publicKeyText = dialogView.findViewById<TextView>(R.id.publicKeyText)
+        val copyPublicKeyBtn = dialogView.findViewById<ImageView>(R.id.copyPublicKeyBtn)
         val secretInput = dialogView.findViewById<TextInputEditText>(R.id.secretInput)
         val secretLayout = dialogView.findViewById<TextInputLayout>(R.id.getSecretLayout)
-        val passwordText = dialogView.findViewById<TextView>(R.id.passwordResult)
+        val passwordResult = dialogView.findViewById<TextView>(R.id.passwordResult)
+        val passwordResultLabel = dialogView.findViewById<TextView>(R.id.passwordResultLabel)
         val generateBtn = dialogView.findViewById<MaterialButton>(R.id.generateBtn)
         val copyBtn = dialogView.findViewById<MaterialButton>(R.id.copyBtn)
         val closeBtn = dialogView.findViewById<ImageView>(R.id.btnClose)
 
         descriptionText.text = entry.description
+
+        val formattedPublicKey = if (entry.publicKey.length > 12) {
+            val firstSix = entry.publicKey.take(6)
+            val lastSix = entry.publicKey.takeLast(6)
+            "$firstSix...$lastSix"
+        } else {
+            entry.publicKey
+        }
+        publicKeyText.text = formattedPublicKey
+
+        copyPublicKeyBtn.setOnClickListener {
+            val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
+            val clip = android.content.ClipData.newPlainText("public_key", entry.publicKey)
+            clipboard.setPrimaryClip(clip)
+            playSuccessSound()
+            Toast.makeText(this, "✓ Full public key copied to clipboard", Toast.LENGTH_SHORT).show()
+        }
 
         val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
             .setView(dialogView)
@@ -978,46 +998,53 @@ class SmartPasswordManager : AppCompatActivity() {
         }
 
         generateBtn.setOnClickListener {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+            imm.hideSoftInputFromWindow(secretInput.windowToken, 0)
+
             val secret = secretInput.text.toString().trim()
             if (secret.length < 12) {
                 playErrorSound()
                 secretLayout.error = "Secret phrase must be at least 12 characters"
-                passwordText.visibility = TextView.GONE
+                passwordResult.visibility = TextView.GONE
+                passwordResultLabel.visibility = TextView.GONE
                 copyBtn.visibility = Button.GONE
                 return@setOnClickListener
             }
 
             if (secret.isEmpty()) {
                 secretLayout.error = "Enter secret phrase"
-                passwordText.visibility = TextView.GONE
+                passwordResult.visibility = TextView.GONE
+                passwordResultLabel.visibility = TextView.GONE
                 copyBtn.visibility = Button.GONE
             } else if (SmartPassLib.verifySecret(secret, entry.publicKey)) {
                 playSuccessSound()
                 secretLayout.error = null
-                passwordText.visibility = TextView.VISIBLE
+                passwordResultLabel.visibility = TextView.VISIBLE
+                passwordResult.visibility = TextView.VISIBLE
                 copyBtn.visibility = Button.VISIBLE
                 val password = SmartPassLib.generatePassword(secret, entry.length ?: 12)
-                passwordText.text = password
+                passwordResult.text = password
                 copyBtn.isEnabled = true
                 Toast.makeText(this, "✓ Password generated", Toast.LENGTH_SHORT).show()
             } else {
                 playErrorSound()
                 secretLayout.error = "Wrong secret phrase!"
-                passwordText.visibility = TextView.VISIBLE
+                passwordResultLabel.visibility = TextView.VISIBLE
+                passwordResult.visibility = TextView.VISIBLE
                 copyBtn.visibility = Button.VISIBLE
-                passwordText.text = "❌ Invalid secret phrase"
+                passwordResult.text = "❌ Invalid secret phrase"
                 copyBtn.isEnabled = false
             }
         }
 
         copyBtn.setOnClickListener {
-            val password = passwordText.text.toString()
+            val password = passwordResult.text.toString()
             if (password.isNotBlank() && !password.startsWith("❌")) {
                 val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
                 val clip = android.content.ClipData.newPlainText("password", password)
                 clipboard.setPrimaryClip(clip)
                 playSuccessSound()
-                Toast.makeText(this, "✓ Copied to clipboard", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "✓ Password copied to clipboard", Toast.LENGTH_SHORT).show()
             }
         }
     }
