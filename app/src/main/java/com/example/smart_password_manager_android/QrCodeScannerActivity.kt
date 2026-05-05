@@ -200,10 +200,6 @@ class QrCodeScannerActivity : AppCompatActivity() {
                     } else {
                         playErrorSound()
                         secretLayout.error = "❌ Secret phrase doesn't match this QR code"
-                        Toast.makeText(this, "❌ Invalid secret phrase! The secret phrase doesn't match this QR code.", Toast.LENGTH_LONG).show()
-                        dialog.dismiss()
-                        setResult(Activity.RESULT_CANCELED)
-                        finish()
                     }
                 } catch (e: Exception) {
                     playErrorSound()
