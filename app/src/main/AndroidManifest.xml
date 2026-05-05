@@ -17,6 +17,7 @@
         <activity
             android:name=".SplashActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.SmartPasswordManager">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,21 +25,31 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".DisclaimerActivity" />
+        <activity
+            android:name=".DisclaimerActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".SmartPasswordManager"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".OnboardingActivity"
-            android:exported="false" />
-
-        <activity android:name=".HelpActivity" />
-        <activity android:name=".AboutActivity" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
         <activity
-            android:name=".QrCodeScannerActivity" />
+            android:name=".HelpActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".AboutActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".QrCodeScannerActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

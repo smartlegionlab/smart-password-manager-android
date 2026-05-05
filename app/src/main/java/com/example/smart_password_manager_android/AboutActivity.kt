@@ -93,7 +93,7 @@ class AboutActivity : AppCompatActivity() {
             R.id.cardPython, R.id.btnPython, R.id.expandableContentPython,
             "SmartPassLib - Python implementation",
             "Cross-platform deterministic password generator. Compatible with all other implementations.\n\n" +
-                    "• SHA-256 based key derivation\n• 30 iterations for private key\n• 60 iterations for public key\n• Password length: 12-1000 characters",
+                    "• SHA-256 based key derivation\n• 15-30 iterations for private key\n• 45-60 iterations for public key\n• Password length: 12-1000 characters",
             "https://github.com/smartlegionlab/smartpasslib"
         )
 

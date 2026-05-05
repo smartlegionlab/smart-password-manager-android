@@ -192,7 +192,7 @@ class StorageManager(private val context: Context) {
                 app_version = getAppVersion(),
                 app_type = "Mobile/Android",
                 lib_name = "smartpasslib-kotlin",
-                lib_version = "v1.0.4",
+                lib_version = "v4.0.0",
                 lib_lang = "kotlin",
                 count = entries.size
             ),
@@ -270,9 +270,9 @@ class StorageManager(private val context: Context) {
     private fun getAppVersion(): String {
         return try {
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            packageInfo.versionName ?: "1.1.3"
+            packageInfo.versionName ?: "4.0.0"
         } catch (_: Exception) {
-            "1.1.3"
+            "4.0.0"
         }
     }
 }

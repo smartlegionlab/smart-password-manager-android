@@ -501,13 +501,24 @@ class SmartPasswordManager : AppCompatActivity() {
             return
         }
 
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "application/json"
-            putExtra(Intent.EXTRA_TITLE, "passwords_export_${System.currentTimeMillis()}.json")
-        }
-
-        exportFileLauncher.launch(intent)
+        AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            .setTitle("Export Passwords")
+            .setMessage("Are you sure you want to export ${exportData.entries.size} passwords?\n\n" +
+                    "The exported file will contain:\n" +
+                    "• Service descriptions\n" +
+                    "• Public keys\n" +
+                    "• Password lengths\n\n" +
+                    "⚠️ Your secret phrases and actual passwords are NEVER exported.")
+            .setPositiveButton("Yes, Export") { _, _ ->
+                val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "application/json"
+                    putExtra(Intent.EXTRA_TITLE, "passwords_export_${System.currentTimeMillis()}.json")
+                }
+                exportFileLauncher.launch(intent)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun exportToUri(uri: Uri) {
@@ -529,11 +540,21 @@ class SmartPasswordManager : AppCompatActivity() {
     }
 
     private fun importPasswords() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "application/json"
-        }
-        importFileLauncher.launch(intent)
+        AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+            .setTitle("Import Passwords")
+            .setMessage("⚠️ WARNING: Import will ADD passwords to your existing list.\n\n" +
+                    "• Duplicate descriptions may be created\n" +
+                    "• You can delete duplicates manually after import\n\n" +
+                    "Do you want to continue?")
+            .setPositiveButton("Yes, Import") { _, _ ->
+                val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "application/json"
+                }
+                importFileLauncher.launch(intent)
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     private fun importFromUri(uri: Uri) {
@@ -611,13 +632,19 @@ class SmartPasswordManager : AppCompatActivity() {
 
             if (importData.entries.isEmpty()) {
                 Toast.makeText(this, "No passwords found in file", Toast.LENGTH_SHORT).show()
+                tempFile.delete()
                 return
             }
 
-            AlertDialog.Builder(this)
-                .setTitle("Import Passwords")
-                .setMessage("Import ${importData.entries.size} passwords?\n\nCreated: ${importData._metadata.exported_at}\nApp version: ${importData._metadata.app_version}")
-                .setPositiveButton("Import") { _, _ ->
+            AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
+                .setTitle("Confirm Import")
+                .setMessage("Import ${importData.entries.size} passwords?\n\n" +
+                        "Created: ${importData._metadata.exported_at}\n" +
+                        "App version: ${importData._metadata.app_version}\n" +
+                        "Library: ${importData._metadata.lib_name} v${importData._metadata.lib_version}\n\n" +
+                        "⚠️ This will ADD these passwords to your current list.\n" +
+                        "Duplicate descriptions may appear.")
+                .setPositiveButton("Yes, Import") { _, _ ->
                     val success = storageManager.importFromEntries(importData.entries)
                     if (success) {
                         Toast.makeText(this, "✓ Imported ${importData.entries.size} passwords", Toast.LENGTH_SHORT).show()
