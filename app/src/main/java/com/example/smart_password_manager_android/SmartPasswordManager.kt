@@ -895,6 +895,15 @@ class SmartPasswordManager : AppCompatActivity() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 updateStrength(s.toString())
+                secretLayout.error = null
+            }
+            override fun afterTextChanged(s: android.text.Editable?) {}
+        })
+
+        confirmInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                confirmLayout.error = null
             }
             override fun afterTextChanged(s: android.text.Editable?) {}
         })
@@ -905,50 +914,83 @@ class SmartPasswordManager : AppCompatActivity() {
             val secret = secretInput.text.toString().trim()
             val confirm = confirmInput.text.toString().trim()
 
-            var isValid = true
+            if (secret.equals(description, ignoreCase = true)) {
+                playErrorSound()
+                secretLayout.error = "❌ Secret phrase cannot be the same as service name!"
+                secretLayout.isErrorEnabled = true
+                secretInput.text?.clear()
+                confirmInput.text?.clear()
+                updateStrength("")
+                btnSave.isEnabled = false
+                Toast.makeText(this@SmartPasswordManager, "Secret phrase cannot be the same as service name!", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
 
             if (secret.isEmpty()) {
                 secretLayout.error = "Enter secret phrase"
-                isValid = false
-            } else if (secret.length < 12) {
+                return@setOnClickListener
+            }
+
+            if (secret.length < 12) {
                 playErrorSound()
                 secretLayout.error = "Secret phrase must be at least 12 characters"
-                isValid = false
-            } else {
-                secretLayout.error = null
+                return@setOnClickListener
             }
 
             if (confirm != secret) {
                 playErrorSound()
                 confirmLayout.error = "Phrases don't match"
-                isValid = false
-            } else {
-                confirmLayout.error = null
+                return@setOnClickListener
             }
 
-            if (isValid) {
-                val publicKey = SmartPassLib.generatePublicKey(secret)
+            val publicKey = SmartPassLib.generatePublicKey(secret)
 
-                if (existingEntry == null) {
-                    val existingEntries = storageManager.loadAllEntries()
-                    val duplicate = existingEntries.find { it.publicKey == publicKey }
+            if (existingEntry == null) {
+                val existingEntries = storageManager.loadAllEntries()
 
-                    if (duplicate != null) {
-                        playErrorSound()
-                        showErrorDialog("Duplicate Secret Phrase", "A password entry with the same secret phrase already exists for \"${duplicate.description}\".\n\nPlease use a different secret phrase.")
-                    } else {
-                        playSuccessSound()
-                        val entry = SmartPassword(
-                            description = description,
-                            publicKey = publicKey,
-                            length = length
-                        )
-                        storageManager.saveEntry(entry)
-                        Toast.makeText(this, "✓ Password saved", Toast.LENGTH_SHORT).show()
-                        loadEntries()
-                        dialog.dismiss()
-                    }
+                val duplicateByKey = existingEntries.find { it.publicKey == publicKey }
+
+                val duplicateByName = existingEntries.find {
+                    it.description.equals(description, ignoreCase = true)
                 }
+
+                if (duplicateByKey != null) {
+                    playErrorSound()
+                    secretLayout.error = "❌ This secret phrase is already used for: ${duplicateByKey.description}"
+                    secretLayout.isErrorEnabled = true
+                    secretInput.text?.clear()
+                    confirmInput.text?.clear()
+                    updateStrength("")
+                    btnSave.isEnabled = false
+                    Toast.makeText(this@SmartPasswordManager, "This secret phrase is already used for: ${duplicateByKey.description}", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
+
+                if (duplicateByName != null) {
+                    playErrorSound()
+                    secretLayout.error = "❌ Service name \"$description\" already exists!"
+                    secretLayout.isErrorEnabled = true
+                    secretInput.text?.clear()
+                    confirmInput.text?.clear()
+                    updateStrength("")
+                    btnSave.isEnabled = false
+                    Toast.makeText(this@SmartPasswordManager, "Service name \"$description\" already exists!", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
+
+                playSuccessSound()
+                val entry = SmartPassword(
+                    description = description,
+                    publicKey = publicKey,
+                    length = length
+                )
+                storageManager.saveEntry(entry)
+                Toast.makeText(this@SmartPasswordManager, "✓ Password saved", Toast.LENGTH_SHORT).show()
+                loadEntries()
+                dialog.dismiss()
+            } else {
+                playSuccessSound()
+                dialog.dismiss()
             }
         }
     }

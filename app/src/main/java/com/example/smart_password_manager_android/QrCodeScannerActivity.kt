@@ -253,19 +253,40 @@ class QrCodeScannerActivity : AppCompatActivity() {
                     return@setOnClickListener
                 }
 
+                if (description.equals(secret, ignoreCase = true)) {
+                    playErrorSound()
+                    descriptionInput.error = "❌ Service name cannot be the same as secret phrase!"
+                    descriptionInput.requestFocus()
+                    Toast.makeText(this@QrCodeScannerActivity, "Service name cannot be the same as secret phrase!", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
+
                 description = sanitizeString(description)
 
                 val publicKey = com.smartlegionlab.smartpasslib.SmartPassLib.generatePublicKey(secret)
 
                 val storageManager = StorageManager(this)
                 val existingEntries = storageManager.loadAllEntries()
-                val duplicate = existingEntries.find { it.publicKey == publicKey }
 
-                if (duplicate != null) {
+                val duplicateByKey = existingEntries.find { it.publicKey == publicKey }
+
+                val duplicateByName = existingEntries.find {
+                    it.description.equals(description, ignoreCase = true)
+                }
+
+                if (duplicateByKey != null) {
                     playErrorSound()
-                    Toast.makeText(this, "⚠️ Password for this secret phrase already exists (${duplicate.description})", Toast.LENGTH_LONG).show()
-                    dialog.dismiss()
-                    finish()
+                    descriptionInput.error = "❌ This secret phrase is already used for: ${duplicateByKey.description}"
+                    descriptionInput.requestFocus()
+                    Toast.makeText(this@QrCodeScannerActivity, "This secret phrase is already used for: ${duplicateByKey.description}", Toast.LENGTH_LONG).show()
+                    return@setOnClickListener
+                }
+
+                if (duplicateByName != null) {
+                    playErrorSound()
+                    descriptionInput.error = "❌ Service name \"$description\" already exists!"
+                    descriptionInput.requestFocus()
+                    Toast.makeText(this@QrCodeScannerActivity, "Service name \"$description\" already exists!", Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }
 
@@ -277,12 +298,12 @@ class QrCodeScannerActivity : AppCompatActivity() {
 
                 if (storageManager.saveEntry(newEntry)) {
                     playSuccessSound()
-                    Toast.makeText(this, "✓ Password added successfully!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@QrCodeScannerActivity, "✓ Password added successfully!", Toast.LENGTH_LONG).show()
                     dialog.dismiss()
                     setResult(Activity.RESULT_OK)
                     finish()
                 } else {
-                    Toast.makeText(this, "Failed to save password", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@QrCodeScannerActivity, "Failed to save password", Toast.LENGTH_SHORT).show()
                     playErrorSound()
                 }
             }
