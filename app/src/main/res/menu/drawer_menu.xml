@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2026, Alexander Suvorov. All rights reserved. !-->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="none">
         <item
@@ -14,12 +15,12 @@
             android:title="Export Passwords"
             android:icon="@drawable/ic_export_24" />
         <item
-            android:id="@+id/nav_help"
-            android:title="Help"
-            android:icon="@drawable/ic_help" />
-        <item
             android:id="@+id/nav_guide"
             android:title="Guide"
+            android:icon="@drawable/ic_lightbulb" />
+        <item
+            android:id="@+id/nav_help"
+            android:title="Help"
             android:icon="@drawable/ic_help" />
         <item
             android:id="@+id/nav_sound"
