@@ -83,6 +83,7 @@ class OnboardingActivity : AppCompatActivity() {
     }
 
     private fun playGuideMusic() {
+        if (!SoundPrefs.isSoundEnabled(this)) return
         try {
             val assetFileDescriptor = assets.openFd("music/guide.wav")
             mediaPlayer = MediaPlayer().apply {

@@ -1,3 +1,4 @@
+// Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 package com.example.smart_password_manager_android
 
 import android.Manifest
@@ -127,10 +128,17 @@ class SmartPasswordManager : AppCompatActivity() {
                 R.id.nav_export -> exportPasswords()
                 R.id.nav_help -> startActivity(Intent(this, HelpActivity::class.java))
                 R.id.nav_guide -> startActivity(Intent(this, OnboardingActivity::class.java))
+                R.id.nav_sound -> {
+                    val enabled = !SoundPrefs.isSoundEnabled(this)
+                    SoundPrefs.setSoundEnabled(this, enabled)
+                    updateSoundMenuItem()
+                }
                 R.id.nav_about -> startActivity(Intent(this, AboutActivity::class.java))
             }
             true
         }
+
+        updateSoundMenuItem()
 
         fabAdd.setOnClickListener { showAddDialog() }
 
@@ -139,6 +147,17 @@ class SmartPasswordManager : AppCompatActivity() {
         setupRecyclerView()
         setupDragAndDrop()
         loadEntries()
+    }
+
+    private fun updateSoundMenuItem() {
+        val soundItem = navigationView.menu.findItem(R.id.nav_sound) ?: return
+        if (SoundPrefs.isSoundEnabled(this)) {
+            soundItem.title = "Mute Sound"
+            soundItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_volume_on)
+        } else {
+            soundItem.title = "Unmute Sound"
+            soundItem.icon = ContextCompat.getDrawable(this, R.drawable.ic_volume_off)
+        }
     }
 
     private fun setupSearch() {
@@ -1009,6 +1028,7 @@ class SmartPasswordManager : AppCompatActivity() {
     }
 
     private fun playSuccessSound() {
+        if (!SoundPrefs.isSoundEnabled(this)) return
         try {
             val assetFileDescriptor = assets.openFd("music/notif.wav")
             mediaPlayer = MediaPlayer().apply {
@@ -1030,6 +1050,7 @@ class SmartPasswordManager : AppCompatActivity() {
     }
 
     private fun playErrorSound() {
+        if (!SoundPrefs.isSoundEnabled(this)) return
         try {
             val assetFileDescriptor = assets.openFd("music/disclaimer.wav")
             mediaPlayer = MediaPlayer().apply {

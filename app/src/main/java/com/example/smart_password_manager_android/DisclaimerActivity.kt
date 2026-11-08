@@ -53,6 +53,7 @@ class DisclaimerActivity : AppCompatActivity() {
     }
 
     private fun playDisclaimerMusic() {
+        if (!SoundPrefs.isSoundEnabled(this)) return
         try {
             val assetFileDescriptor = assets.openFd("music/disclaimer.wav")
             mediaPlayer = MediaPlayer().apply {

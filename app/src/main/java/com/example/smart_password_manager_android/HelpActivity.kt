@@ -42,6 +42,7 @@ class HelpActivity : AppCompatActivity() {
     }
 
     private fun playHelpMusic() {
+        if (!SoundPrefs.isSoundEnabled(this)) return
         try {
             val assetFileDescriptor = assets.openFd("music/help.wav")
             mediaPlayer = MediaPlayer().apply {

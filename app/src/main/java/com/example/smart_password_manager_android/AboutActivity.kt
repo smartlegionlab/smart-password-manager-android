@@ -67,6 +67,7 @@ class AboutActivity : AppCompatActivity() {
     }
 
     private fun playAboutMusic() {
+        if (!SoundPrefs.isSoundEnabled(this)) return
         try {
             val assetFileDescriptor = assets.openFd("music/about.wav")
             mediaPlayer = MediaPlayer().apply {
