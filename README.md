@@ -1,11 +1,11 @@
-# Smart Password Manager Android <sup>v4.0.0</sup>
+# Smart Password Manager Android v4.0.0
 
 ---
 
-**A secure, offline smart password manager for Android with deterministic password generation. Store only metadata — passwords never exist until you generate them.**
+**A secure, offline smart password manager for Android with deterministic password generation. Store only metadata - passwords never exist until you generate them.**
 
 **Decentralized by Design**: Unlike traditional password managers that store encrypted vaults on central servers,
-Smart Password Manager stores nothing. Your secrets never leave your device. Passwords are regenerated on-demand —
+Smart Password Manager stores nothing. Your secrets never leave your device. Passwords are regenerated on-demand -
 **no cloud, no database, no trust required**.
 
 ---
@@ -19,31 +19,13 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 
 ---
 
-## ⚠️ Disclaimer
+## Disclaimer
 
 **By using this software, you agree to the full disclaimer terms.**
 
 **Summary:** Software provided "AS IS" without warranty. You assume all risks.
 
 **Full legal disclaimer:** See [DISCLAIMER.md](https://github.com/smartlegionlab/smart-password-manager-android/blob/master/DISCLAIMER.md)
-
----
-
-## 🔄 Breaking Change (v4.0.0)
-
-> **⚠️ This version uses [smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin) v4.0.0, which is NOT backward compatible with v1.x.x**
-
-Smart passwords created with older versions **cannot be regenerated** with v4.0.0.
-
-**What changed:**
-- Dynamic iterations: private key 15-30 steps (was fixed 30), public key 45-60 steps (was fixed 60)
-- Expanded Google-compatible character set (26 special chars + A-Z + a-z + 0-9)
-- Secret phrases now require minimum 12 characters (was 4)
-- Password length now limited to 100 characters (was 1000)
-- Key derivation with salt separation ("private"/"public")
-- No secret exposure in iteration logs
-
-📖 **Full migration instructions** → see [MIGRATION.md](https://github.com/smartlegionlab/smart-password-manager-android/blob/master/MIGRATION.md)
 
 ---
 
@@ -64,9 +46,9 @@ Smart passwords created with older versions **cannot be regenerated** with v4.0.
 - **Cross-Platform Compatible**: Same passwords as all other SmartPassLib implementations
 - **Public Key Verification**: Verify secret knowledge without exposing the secret
 - **Material Design UI**: Clean, intuitive interface with dark theme support
-- **🔍 Instant Search**: Quickly find passwords by description as you type
-- **↕️ Drag & Drop Reordering**: Customize password order with long press and drag
-- **📷 QR Code Import**: Scan QR codes to import passwords from other devices
+- **Instant Search**: Quickly find passwords by description as you type
+- **Drag & Drop Reordering**: Customize password order with long press and drag
+- **QR Code Import**: Scan QR codes to import passwords from other devices
 - **Secure Secret Entry**: Hidden input with show/hide toggle
 - **One-Tap Copy**: Copy generated passwords to clipboard instantly
 - **Export/Import**: Backup and restore your password metadata
@@ -98,58 +80,58 @@ Smart passwords created with older versions **cannot be regenerated** with v4.0.
 
 ### First Launch
 
-1. **Read the Legal Disclaimer** — you must accept to continue
-2. **Grant Storage Permission** — required for saving backups in Documents folder
-3. **Complete the Onboarding Guide** — 9 steps explaining everything you need to know
+1. **Read the Legal Disclaimer** - you must accept to continue
+2. **Grant Storage Permission** - required for saving backups in Documents folder
+3. **Complete the Onboarding Guide** - 9 steps explaining everything you need to know
 4. **Start adding your smart passwords!**
 
 ### Adding a Smart Password
 
-1. Tap the **menu button** (three dots ⋮) in the toolbar
+1. Tap the **menu button** (three dots) in the toolbar
 2. Tap the **green (+) button** to add a new entry
 3. Enter a **description** (e.g., "Gmail Account")
 4. Set **password length** (12-100 characters, default 16)
 5. Enter your **secret phrase** (minimum 12 characters)
-6. Tap **Save** — only the public key is stored!
+6. Tap **Save** - only the public key is stored!
 
 ### Getting Your Smart Password
 
-1. Tap the **👁️ eye icon** on any entry
+1. Tap the **eye icon** on any entry
 2. Enter your **secret phrase** (minimum 12 characters)
 3. Your smart password is **generated instantly**
 4. Tap **Copy** to copy to clipboard
 
-### 🔍 Search Feature
+### Search Feature
 
-1. Tap the **search icon** (🔍) in the toolbar
-2. **Start typing** — results appear instantly as you type
+1. Tap the **search icon** in the toolbar
+2. **Start typing** - results appear instantly as you type
 3. Search matches are **case-insensitive** and search through descriptions
-4. Tap the **close (✕) button** to clear search and return to full list
-5. Search preserves your custom order — results maintain their relative positions
+4. Tap the **close (X) button** to clear search and return to full list
+5. Search preserves your custom order - results maintain their relative positions
 
-### ↕️ Drag & Drop Reordering
+### Drag & Drop Reordering
 
 1. **Long press** (0.5 seconds) on any password card
 2. The card will **highlight with a blue border** + **vibration** feedback
 3. **Drag the card up or down** to reorder
 4. Other cards will **automatically move out of the way**
-5. **Release your finger** — the new order is saved permanently
+5. **Release your finger** - the new order is saved permanently
 6. The order persists after app restart and device reboot
-7. Works even while searching — reorder your filtered results!
+7. Works even while searching - reorder your filtered results!
 
 **Order Storage:** Your custom order is saved in a separate `order.json` file, keeping `passwords.json` compatible with other platforms.
 
-### 📷 QR Code Import
+### QR Code Import
 
-**Import passwords securely via QR codes** — perfect for transferring entries between devices.
+**Import passwords securely via QR codes** - perfect for transferring entries between devices.
 
-1. Tap the **menu button** (three dots ⋮) in the toolbar
-2. Tap the **QR Scan button** (📷 icon)
+1. Tap the **menu button** (three dots) in the toolbar
+2. Tap the **QR Scan button**
 3. Grant **camera permission** when prompted
 4. **Scan QR code** containing password length and public key
 5. **Enter your secret phrase** to verify ownership
 6. **Add description** for the imported entry
-7. **Save** — password is ready to use!
+7. **Save** - password is ready to use!
 
 **QR Code Format:**
 ```json
@@ -172,14 +154,14 @@ Smart passwords created with older versions **cannot be regenerated** with v4.0.
 
 ### Editing & Deleting
 
-- **Edit** — Tap the ✏️ pencil icon to change description or length only
-- **Delete** — Tap the 🗑️ trash icon to remove an entry
-- **⚠️ Note**: Secret phrase cannot be changed — you must delete and recreate
+- **Edit** - Tap the pencil icon to change description or length only
+- **Delete** - Tap the trash icon to remove an entry
+- **Note**: Secret phrase cannot be changed - you must delete and recreate
 
 ### Export/Import
 
-- **Export** — Use the ⋮ menu to backup your metadata to Documents folder
-- **Import** — Restore from previously exported backup
+- **Export** - Use the menu to backup your metadata to Documents folder
+- **Import** - Restore from previously exported backup
 - **Format**: JSON file containing descriptions, public keys, and lengths
 
 ---
@@ -190,17 +172,17 @@ Smart passwords created with older versions **cannot be regenerated** with v4.0.
 
 | Step | Operation                          | Location     | Stored?  |
 |------|------------------------------------|--------------|----------|
-| 1    | Enter secret phrase                | Your mind    | ❌ Never  |
-| 2    | Generate private key (15-30 iter)  | RAM only     | ❌ Never  |
-| 3    | Generate public key (45-60 iter)   | Device       | ✅ Stored |
-| 4    | Generate password from private key | RAM only     | ❌ Never  |
+| 1    | Enter secret phrase                | Your mind    | Never    |
+| 2    | Generate private key (15-30 iter)  | RAM only     | Never    |
+| 3    | Generate public key (45-60 iter)   | Device       | Stored   |
+| 4    | Generate password from private key | RAM only     | Never    |
 
 ### Key Derivation (Same as all SmartPassLib implementations v4.0.0)
 
 | Key Type    | Iterations              | Purpose                                    | Stored? |
 |-------------|-------------------------|--------------------------------------------|---------|
-| Private Key | 15-30 (dynamic)         | Password generation                        | ❌ Never |
-| Public Key  | 45-60 (dynamic)         | Secret verification (proof of knowledge)   | ✅ Yes   |
+| Private Key | 15-30 (dynamic)         | Password generation                        | Never   |
+| Public Key  | 45-60 (dynamic)         | Secret verification (proof of knowledge)   | Yes     |
 
 ### Character Set (Google-compatible)
 ```
@@ -228,18 +210,18 @@ Smart passwords created with older versions **cannot be regenerated** with v4.0.
 
 ### Strong Secret Examples
 ```
-✅ "MyStrongSecretPhrase2026!" — mixed case + numbers + symbols
-✅ "P@ssw0rd!LongSecret" — special chars + numbers + length
-✅ "КотБегемот2026НаДиете" — Cyrillic + numbers
+"MyStrongSecretPhrase2026!" - mixed case + numbers + symbols
+"P@ssw0rd!LongSecret" - special chars + numbers + length
+"КотБегемот2026НаДиете" - Cyrillic + numbers
 ```
 
 ### Weak Secret Examples (AVOID)
 ```
-❌ "Gmail Account" — using description as secret
-❌ "password" — dictionary word, too short
-❌ "1234567890" — only digits, too short
-❌ "qwerty123" — keyboard pattern
-❌ Same as description — never use the same as description
+"Gmail Account" - using description as secret
+"password" - dictionary word, too short
+"1234567890" - only digits, too short
+"qwerty123" - keyboard pattern
+Same as description - never use the same as description
 ```
 
 ### Decentralized Nature
@@ -250,40 +232,26 @@ Smart passwords created with older versions **cannot be regenerated** with v4.0.
 - No support team can recover your access
 - Your secret phrase is the ONLY key
 
-**This is the price of true decentralization** — you are completely in control.
+**This is the price of true decentralization** - you are completely in control.
 
 ### Critical Warnings
-- **Secret phrases are NEVER stored** — if forgotten, passwords cannot be recovered
-- **Smart passwords are NEVER stored** — they only exist when generated
+- **Secret phrases are NEVER stored** - if forgotten, passwords cannot be recovered
+- **Smart passwords are NEVER stored** - they only exist when generated
 - **Same secret + same length = same password everywhere** (cross-platform!)
 - **Export your metadata regularly** as backup
 
 ---
 
-## Data File Compatibility
-
-**The old `passwords.json` file is NOT compatible with v4.0.0**
-
-Public keys stored in v1.x.x files cannot be used with v4.0.0 because:
-- Iteration counts changed from fixed 60 to dynamic 45-60
-- Salt "public" was added to key derivation
-
-**Result:** Old entries cannot be verified. Passwords cannot be regenerated.
-
-**No automatic migration is provided** — you need to recreate entries manually. See [MIGRATION.md](https://github.com/smartlegionlab/smart-password-manager-android/blob/master/MIGRATION.md) for detailed instructions.
-
----
-
 ## Research Paradigms & Publications
 
-- **[Pointer-Based Security Paradigm](https://github.com/smartlegionlab/pointer-based-security-paradigm)** — Architectural Shift from Data Protection to Data Non-Existence
-- **[Local Data Regeneration Paradigm](https://github.com/smartlegionlab/local-data-regeneration-paradigm)** — Ontological Shift from Data Transmission to Synchronous State Discovery
+- **[Pointer-Based Security Paradigm](https://github.com/smartlegionlab/pointer-based-security-paradigm)** - Architectural Shift from Data Protection to Data Non-Existence
+- **[Local Data Regeneration Paradigm](https://github.com/smartlegionlab/local-data-regeneration-paradigm)** - Ontological Shift from Data Transmission to Synchronous State Discovery
 
 ---
 
 ## Technical Foundation
 
-Powered by **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin) v4.0.0+** — Native Kotlin implementation of deterministic password generation.
+Powered by **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin) v4.0.0+** - Native Kotlin implementation of deterministic password generation.
 
 **Cryptographic Specifications (v4.0.0):**
 
@@ -301,7 +269,7 @@ Powered by **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpassli
 - No central authority required
 - Metadata can be synced via any channel
 - Your security depends only on your secret phrase
-- Works offline — no internet connection required
+- Works offline - no internet connection required
 
 ---
 
@@ -328,15 +296,6 @@ Powered by **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpassli
 
 ---
 
-## Version History
-
-| Version          | smartpasslib-kotlin | Status                   | Migration Required     |
-|------------------|---------------------|--------------------------|------------------------|
-| v1.x.x and below | v1.x.x              | ❌ Deprecated/Unsupported | Must migrate to v4.x.x |
-| **v4.0.0+**      | **v4.0.0+**         | ✅ Current                | N/A                    |
-
----
-
 ## Cross-Platform Compatibility
 
 Smart Password Manager Android produces **identical passwords** to:
@@ -351,6 +310,7 @@ Smart Password Manager Android produces **identical passwords** to:
 | Kotlin     | [smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin)                                              |
 | JavaScript | [smartpasslib-js](https://github.com/smartlegionlab/smartpasslib-js)                                                      |
 | C#         | [smartpasslib-csharp](https://github.com/smartlegionlab/smartpasslib-csharp)                                              |
+| Rust       | [smartpasslib-rs](https://github.com/smartlegionlab/smartpasslib-rs)                                                      |
 
 **Data transfer:** Use QR codes or Export/Import to sync metadata across all platforms.
 
@@ -361,21 +321,25 @@ Smart Password Manager Android produces **identical passwords** to:
 This Android application is part of a comprehensive suite:
 
 ### Core Libraries
-- **[smartpasslib](https://github.com/smartlegionlab/smartpasslib)** — Python
-- **[smartpasslib-js](https://github.com/smartlegionlab/smartpasslib-js)** — JavaScript
-- **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin)** — Kotlin (used in this app)
-- **[smartpasslib-go](https://github.com/smartlegionlab/smartpasslib-go)** — Go
-- **[smartpasslib-csharp](https://github.com/smartlegionlab/smartpasslib-csharp)** — C#
+- **[smartpasslib](https://github.com/smartlegionlab/smartpasslib)** - Python
+- **[smartpasslib-js](https://github.com/smartlegionlab/smartpasslib-js)** - JavaScript
+- **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin)** - Kotlin (used in this app)
+- **[smartpasslib-go](https://github.com/smartlegionlab/smartpasslib-go)** - Go
+- **[smartpasslib-csharp](https://github.com/smartlegionlab/smartpasslib-csharp)** - C#
+- **[smartpasslib-rs](https://github.com/smartlegionlab/smartpasslib-rs)** - Rust
 
 **CLI Applications:**
 - **[CLI Smart Password Manager (Python)](https://github.com/smartlegionlab/clipassman)**
 - **[CLI Smart Password Generator (Python)](https://github.com/smartlegionlab/clipassgen)**
 - **[CLI Smart Password Manager (C#)](https://github.com/smartlegionlab/SmartPasswordManagerCsharpCli)**
 - **[CLI Smart Password Generator (C#)](https://github.com/smartlegionlab/SmartPasswordGeneratorCsharpCli)**
+- **[CLI Smart Password Manager (Rust)](https://github.com/smartlegionlab/smart-password-manager-cli-rs)**
 
 **Desktop Applications:**
 - **[Desktop Smart Password Manager (Python)](https://github.com/smartlegionlab/smart-password-manager-desktop)**
 - **[Desktop Smart Password Manager (C#)](https://github.com/smartlegionlab/SmartPasswordManagerCsharpDesktop)**
+- **[Desktop Smart Password Manager (Rust, GUI)](https://github.com/smartlegionlab/smart-password-manager-gui-rs)**
+- **[Desktop Smart Password Manager (Rust, TUI)](https://github.com/smartlegionlab/smart-password-manager-tui-rs)**
 
 **Other:**
 - **[Web Smart Password Manager](https://github.com/smartlegionlab/smart-password-manager-web)**
@@ -386,28 +350,28 @@ This Android application is part of a comprehensive suite:
 ## User Interface Guide
 
 ### Main Screen
-- **Password Cards** — List of all your smart password entries
-- **Description** — Your custom label for each entry (expandable if >20 chars)
-- **Length** — Shows password length in symbols
-- **Public Key Preview** — First 12 chars of verification key
+- **Password Cards** - List of all your smart password entries
+- **Description** - Your custom label for each entry (expandable if >20 chars)
+- **Length** - Shows password length in symbols
+- **Public Key Preview** - First 12 chars of verification key
 
 ### Toolbar Buttons
 | Button    | Action                                                   |
 |-----------|----------------------------------------------------------|
-| 🔍 Search | Open search bar to filter passwords                      |
-| ⋮ (Menu)  | Open menu with Add, QR Scan, Export, Import, Help, About |
-| ← (Back)  | Navigate back (when applicable)                          |
+| Search    | Open search bar to filter passwords                      |
+| Menu      | Open menu with Add, QR Scan, Export, Import, Help, About |
+| Back      | Navigate back (when applicable)                          |
 
 ### Search Bar
 | Button        | Action                                      |
 |---------------|---------------------------------------------|
-| ✕ (Close)     | Clear search and return to full list        |
+| Close (X)     | Clear search and return to full list        |
 | Typing        | Instant filtering by description            |
 
 ### Menu Options
 | Option       | Action                            |
 |--------------|-----------------------------------|
-| + Add        | Create new smart password entry   |
+| Add          | Create new smart password entry   |
 | QR Scan      | Import password via QR code       |
 | Export       | Backup all metadata to JSON file  |
 | Import       | Restore metadata from backup      |
@@ -417,10 +381,10 @@ This Android application is part of a comprehensive suite:
 ### Entry Card Buttons
 | Button     | Action                                                |
 |------------|-------------------------------------------------------|
-| 👁️ Eye    | Generate and display smart password (requires secret) |
-| ✏️ Edit    | Change description or length (secret cannot change)   |
-| 🗑️ Delete | Remove entry permanently                              |
-| ▼/▲ Arrow  | Expand/collapse long description (>20 chars)          |
+| Eye        | Generate and display smart password (requires secret) |
+| Edit       | Change description or length (secret cannot change)   |
+| Delete     | Remove entry permanently                              |
+| Arrow      | Expand/collapse long description (>20 chars)          |
 
 ### Drag & Drop
 | Action                                | Result                                    |
@@ -454,24 +418,23 @@ git clone https://github.com/smartlegionlab/smart-password-manager-android.git
 ---
 
 ## License
+
 BSD 3-Clause [License](LICENSE)
 
 ```
-Copyright (©) 2026, Alexander Suvorov. All right reserved.
+Copyright (©) 2026, Alexander Suvorov. All rights reserved.
 ```
 
 ## Author
 
-Alexander Suvorov — [GitHub](https://github.com/smartlegionlab)
+Alexander Suvorov - [GitHub](https://github.com/smartlegionlab)
 
 ## Support
 
 - **Issues**: [GitHub Issues](https://github.com/smartlegionlab/smart-password-manager-android/issues/)
 - **Core Library Issues**: [smartpasslib Issues](https://github.com/smartlegionlab/smartpasslib/issues)
-- **Migration Questions**: See [MIGRATION.md](https://github.com/smartlegionlab/smart-password-manager-android/blob/master/MIGRATION.md)
-
-Ecosystem: See links on About screen
+- **Ecosystem**: [Smart Passwords Ecosystem](https://smartlegionlab.github.io/ecosystems/smart-passwords-ecosystem.html)
 
 ---
 
-Made with ❤️ for privacy and security
+Made with care for privacy and security
