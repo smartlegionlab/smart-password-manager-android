@@ -2,8 +2,8 @@
 <!-- Copyright (c) 2026, Alexander Suvorov. All rights reserved. !-->
 <resources>
     <style name="CustomAlertDialogTheme" parent="Theme.MaterialComponents.Dialog.Alert">
-        <item name="android:background">@android:color/transparent</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">@color/dark_surface</item>
+        <item name="android:windowBackground">@color/dark_surface</item>
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowEnterAnimation">@anim/dialog_enter</item>
@@ -11,6 +11,9 @@
         <item name="colorPrimary">@color/primary_blue</item>
         <item name="colorPrimaryDark">@color/dark_background</item>
         <item name="colorAccent">@color/primary_blue_light</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white_70</item>
+        <item name="colorOnSurface">@color/white</item>
         <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
     </style>
