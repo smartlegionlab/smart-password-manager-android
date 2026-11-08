@@ -1,4 +1,4 @@
-# Smart Password Manager Android v4.0.0
+# Smart Password Manager Android v4.1.0
 
 ---
 
@@ -61,9 +61,9 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 
 ## Screenshots
 
-| Main Screen                                                                                                             | Splash Screen                                                                                                        | Onboarding Guide                                                                                                      |
-|-------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
-| ![Main Screen](https://github.com/smartlegionlab/smart-password-manager-android/raw/master/data/images/main_screen.png) | ![Splash Screen](https://github.com/smartlegionlab/smart-password-manager-android/raw/master/data/images/splash.png) | ![Onboarding](https://github.com/smartlegionlab/smart-password-manager-android/raw/master/data/images/onboarding.png) |
+| Main Screen                                                                                                                                            | Splash Screen                                                                                                                                       | Drawer Menu                                                                                                                                           |
+|--------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ![Main Screen](https://github.com/smartlegionlab/smart-password-manager-android/raw/master/data/images/smart-password-manager-android-main-screen.jpg) | ![Splash Screen](https://github.com/smartlegionlab/smart-password-manager-android/raw/master/data/images/smart-password-manager-android-splash.png) | ![Onboarding](https://github.com/smartlegionlab/smart-password-manager-android/raw/master/data/images/smart-password-manager-android-drawer-menu.jpg) |
 
 ---
 
@@ -178,7 +178,7 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 | 3    | Generate public key (45-60 iter)   | Device       | Stored   |
 | 4    | Generate password from private key | RAM only     | Never    |
 
-### Key Derivation (Same as all SmartPassLib implementations v4.0.0)
+### Key Derivation (Same as all SmartPassLib implementations v4.1.0)
 
 | Key Type    | Iterations              | Purpose                                    | Stored? |
 |-------------|-------------------------|--------------------------------------------|---------|
@@ -252,9 +252,9 @@ Same as description - never use the same as description
 
 ## Technical Foundation
 
-Powered by **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin) v4.0.0+** - Native Kotlin implementation of deterministic password generation.
+Powered by **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpasslib-kotlin) v4.1.0+** - Native Kotlin implementation of deterministic password generation.
 
-**Cryptographic Specifications (v4.0.0):**
+**Cryptographic Specifications (v4.1.0):**
 
 | Component              | Specification                      |
 |------------------------|------------------------------------|
