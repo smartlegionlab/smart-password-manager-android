@@ -46,6 +46,8 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 - **Cross-Platform Compatible**: Same passwords as all other SmartPassLib implementations
 - **Public Key Verification**: Verify secret knowledge without exposing the secret
 - **Material Design UI**: Clean, intuitive interface with dark theme support
+- **Navigation Drawer Menu**: Slide-out menu from the left with all actions
+- **Sound Toggle**: Mute or unmute all app sounds from the menu (enabled by default)
 - **Instant Search**: Quickly find passwords by description as you type
 - **Drag & Drop Reordering**: Customize password order with long press and drag
 - **QR Code Import**: Scan QR codes to import passwords from other devices
@@ -83,16 +85,15 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 1. **Read the Legal Disclaimer** - you must accept to continue
 2. **Grant Storage Permission** - required for saving backups in Documents folder
 3. **Complete the Onboarding Guide** - 9 steps explaining everything you need to know
-4. **Start adding your smart passwords!**
+4. **Start adding your smart passwords!** (use the green + button in the bottom-right corner)
 
 ### Adding a Smart Password
 
-1. Tap the **menu button** (three dots) in the toolbar
-2. Tap the **green (+) button** to add a new entry
-3. Enter a **description** (e.g., "Gmail Account")
-4. Set **password length** (12-100 characters, default 16)
-5. Enter your **secret phrase** (minimum 12 characters)
-6. Tap **Save** - only the public key is stored!
+1. Tap the **green (+) button** in the bottom-right corner
+2. Enter a **description** (e.g., "Gmail Account")
+3. Set **password length** (12-100 characters, default 16)
+4. Enter your **secret phrase** (minimum 12 characters)
+5. Tap **Save** - only the public key is stored!
 
 ### Getting Your Smart Password
 
@@ -125,8 +126,8 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 
 **Import passwords securely via QR codes** - perfect for transferring entries between devices.
 
-1. Tap the **menu button** (three dots) in the toolbar
-2. Tap the **QR Scan button**
+1. Open the **navigation menu (☰)** in the top-left corner
+2. Tap **Scan QR Code**
 3. Grant **camera permission** when prompted
 4. **Scan QR code** containing password length and public key
 5. **Enter your secret phrase** to verify ownership
@@ -160,8 +161,8 @@ Smart Password Manager stores nothing. Your secrets never leave your device. Pas
 
 ### Export/Import
 
-- **Export** - Use the menu to backup your metadata to Documents folder
-- **Import** - Restore from previously exported backup
+- **Export** - Open the navigation menu (☰) and tap **Export Passwords**
+- **Import** - Open the navigation menu (☰) and tap **Import Passwords**
 - **Format**: JSON file containing descriptions, public keys, and lengths
 
 ---
@@ -291,6 +292,7 @@ Powered by **[smartpasslib-kotlin](https://github.com/smartlegionlab/smartpassli
 |---------------|---------------------------------------------------------------|
 | Metadata file | `Documents/smart_password_manager_android/passwords.json`     |
 | Order file    | `Documents/smart_password_manager_android/order.json`         |
+| Sound setting | `SharedPreferences` (`app_prefs` → `sound_enabled`)           |
 
 **Export files** are saved to the same directory with timestamp: `passwords_export_YYYYMMDD_HHMMSS.json`
 
@@ -356,27 +358,32 @@ This Android application is part of a comprehensive suite:
 - **Public Key Preview** - First 12 chars of verification key
 
 ### Toolbar Buttons
-| Button    | Action                                                   |
-|-----------|----------------------------------------------------------|
-| Search    | Open search bar to filter passwords                      |
-| Menu      | Open menu with Add, QR Scan, Export, Import, Help, About |
-| Back      | Navigate back (when applicable)                          |
+| Button      | Action                                                   |
+|-------------|----------------------------------------------------------|
+| Menu (☰)    | Open navigation drawer from the left                     |
+| Search (🔍) | Open search bar to filter passwords                      |
+
+### Navigation Drawer Menu
+| Option         | Action                                       |
+|----------------|----------------------------------------------|
+| Scan QR Code   | Import password via QR code                  |
+| Import Passwords | Restore metadata from backup               |
+| Export Passwords | Backup all metadata to JSON file           |
+| Help           | Open help documentation                      |
+| Guide          | Open onboarding guide                        |
+| Sound Toggle   | Mute / Unmute all app sounds                 |
+| About          | Show app info and ecosystem links            |
+
+### Floating Action Button
+| Button   | Action                          |
+|----------|---------------------------------|
+| + (green) | Create new smart password entry |
 
 ### Search Bar
 | Button        | Action                                      |
 |---------------|---------------------------------------------|
-| Close (X)     | Clear search and return to full list        |
+| Close (✕)     | Clear search and return to full list        |
 | Typing        | Instant filtering by description            |
-
-### Menu Options
-| Option       | Action                            |
-|--------------|-----------------------------------|
-| Add          | Create new smart password entry   |
-| QR Scan      | Import password via QR code       |
-| Export       | Backup all metadata to JSON file  |
-| Import       | Restore metadata from backup      |
-| Help         | Open help documentation           |
-| About        | Show app info and ecosystem links |
 
 ### Entry Card Buttons
 | Button     | Action                                                |
@@ -392,6 +399,14 @@ This Android application is part of a comprehensive suite:
 | Long press (0.5 sec) on any card      | Card highlights blue + vibration          |
 | Drag up/down                          | Cards reorder automatically               |
 | Release finger                        | New order saved permanently               |
+
+### Sound Settings
+| Action                                | Result                                    |
+|---------------------------------------|-------------------------------------------|
+| Menu → "Mute Sound"                   | Disables all app sounds                   |
+| Menu → "Unmute Sound"                 | Re-enables all app sounds                 |
+| Default state                         | Sound is enabled                          |
+| Persistence                           | Saved in SharedPreferences                |
 
 ---
 
