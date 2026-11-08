@@ -12,7 +12,6 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
 import com.google.android.material.button.MaterialButton
 
 class AboutActivity : AppCompatActivity() {
@@ -50,6 +49,7 @@ class AboutActivity : AppCompatActivity() {
         val btnRepository = findViewById<MaterialButton>(R.id.btnRepository)
         val btnAuthor = findViewById<MaterialButton>(R.id.btnAuthor)
         val btnDisclaimer = findViewById<MaterialButton>(R.id.btnDisclaimer)
+        val btnLatestRelease = findViewById<MaterialButton>(R.id.btnLatestRelease)
 
         btnRepository.setOnClickListener {
             openUrl("https://github.com/smartlegionlab/smart-password-manager-android")
@@ -61,6 +61,10 @@ class AboutActivity : AppCompatActivity() {
 
         btnDisclaimer.setOnClickListener {
             openUrl("https://github.com/smartlegionlab/smart-password-manager-android/blob/master/DISCLAIMER.md")
+        }
+
+        btnLatestRelease.setOnClickListener {
+            openUrl("https://github.com/smartlegionlab/smart-password-manager-android/releases/latest")
         }
 
         setupExpandableCards()
@@ -131,6 +135,17 @@ class AboutActivity : AppCompatActivity() {
         )
 
         setupExpandableCard(
+            R.id.cardRustLib, R.id.btnRustLib, R.id.expandableContentRustLib,
+            "SmartPassLib - Rust implementation",
+            "Native Rust implementation for deterministic password generation.\n\n" +
+                    "• SHA-256 based key derivation\n" +
+                    "• Dynamic iterations: 15-30 (private) / 45-60 (public)\n" +
+                    "• Compatible with Python, JavaScript, Kotlin, Go, and C#\n" +
+                    "• Used by the Rust CLI, GUI, and TUI applications",
+            "https://github.com/smartlegionlab/smartpasslib-rs"
+        )
+
+        setupExpandableCard(
             R.id.cardCLI, R.id.btnCLI, R.id.expandableContentCLI,
             "CLI PassMan - Password Manager (Python)",
             "Command-line password manager for power users.\n\n" +
@@ -160,6 +175,36 @@ class AboutActivity : AppCompatActivity() {
             "Command-line password generator written in C#.\n\n" +
                     "• Fast and cross-platform password generation tool\n• No storage, just generation\n• Perfect for automation scripts\n• .NET based",
             "https://github.com/smartlegionlab/SmartPasswordGeneratorCsharpCli"
+        )
+
+        setupExpandableCard(
+            R.id.cardCLIRust, R.id.btnCLIRust, R.id.expandableContentCLIRust,
+            "Smart Password Manager - CLI (Rust)",
+            "Command-line interface for smart password management built on smartpasslib.\n\n" +
+                    "• Deterministic password generation from secret phrases\n• QR code output directly in terminal (ANSI colors)\n• Clipboard support with OSC 52 fallback\n• JSON output for scripting and automation\n• Same passwords.json format as all other implementations",
+            "https://github.com/smartlegionlab/smart-password-manager-cli-rs"
+        )
+
+        setupExpandableCard(
+            R.id.cardGUIRust, R.id.btnGUIRust, R.id.expandableContentGUIRust,
+            "Smart Password Manager - GUI (Rust)",
+            "Cross-platform desktop GUI built with Rust and egui.\n\n" +
+                    "• Full graphical password management interface\n" +
+                    "• Search and verification support\n" +
+                    "• Native performance with minimal dependencies\n" +
+                    "• Compatible with all SmartPassLib implementations",
+            "https://github.com/smartlegionlab/smart-password-manager-gui-rs"
+        )
+
+        setupExpandableCard(
+            R.id.cardTUIRust, R.id.btnTUIRust, R.id.expandableContentTUIRust,
+            "Smart Password Manager - TUI (Rust)",
+            "Terminal user interface for smart password management.\n\n" +
+                    "• Keyboard-driven workflow (vim-like bindings: j/k, a, e, d, v)\n" +
+                    "• Works in bare Linux console without graphics\n" +
+                    "• Add, edit, delete, verify entries\n" +
+                    "• Lightweight and fast",
+            "https://github.com/smartlegionlab/smart-password-manager-tui-rs"
         )
 
         setupExpandableCard(
@@ -277,10 +322,14 @@ class AboutActivity : AppCompatActivity() {
             R.id.cardKotlin -> R.id.titleKotlin
             R.id.cardGo -> R.id.titleGo
             R.id.cardCSharp -> R.id.titleCSharp
+            R.id.cardRustLib -> R.id.titleRustLib
             R.id.cardCLI -> R.id.titleCLI
             R.id.cardCLIPassGen -> R.id.titleCLIPassGen
             R.id.cardCLICSharp -> R.id.titleCLICSharp
             R.id.cardCLIPassGenCSharp -> R.id.titleCLIPassGenCSharp
+            R.id.cardCLIRust -> R.id.titleCLIRust
+            R.id.cardGUIRust -> R.id.titleGUIRust
+            R.id.cardTUIRust -> R.id.titleTUIRust
             R.id.cardDesktop -> R.id.titleDesktop
             R.id.cardDesktopCSharp -> R.id.titleDesktopCSharp
             R.id.cardWeb -> R.id.titleWeb
@@ -298,10 +347,14 @@ class AboutActivity : AppCompatActivity() {
             R.id.cardKotlin -> R.id.descKotlin
             R.id.cardGo -> R.id.descGo
             R.id.cardCSharp -> R.id.descCSharp
+            R.id.cardRustLib -> R.id.descRustLib
             R.id.cardCLI -> R.id.descCLI
             R.id.cardCLIPassGen -> R.id.descCLIPassGen
             R.id.cardCLICSharp -> R.id.descCLICSharp
             R.id.cardCLIPassGenCSharp -> R.id.descCLIPassGenCSharp
+            R.id.cardCLIRust -> R.id.descCLIRust
+            R.id.cardGUIRust -> R.id.descGUIRust
+            R.id.cardTUIRust -> R.id.descTUIRust
             R.id.cardDesktop -> R.id.descDesktop
             R.id.cardDesktopCSharp -> R.id.descDesktopCSharp
             R.id.cardWeb -> R.id.descWeb
@@ -319,10 +372,14 @@ class AboutActivity : AppCompatActivity() {
             R.id.cardKotlin -> R.id.linkKotlin
             R.id.cardGo -> R.id.linkGo
             R.id.cardCSharp -> R.id.linkCSharp
+            R.id.cardRustLib -> R.id.linkRustLib
             R.id.cardCLI -> R.id.linkCLI
             R.id.cardCLIPassGen -> R.id.linkCLIPassGen
             R.id.cardCLICSharp -> R.id.linkCLICSharp
             R.id.cardCLIPassGenCSharp -> R.id.linkCLIPassGenCSharp
+            R.id.cardCLIRust -> R.id.linkCLIRust
+            R.id.cardGUIRust -> R.id.linkGUIRust
+            R.id.cardTUIRust -> R.id.linkTUIRust
             R.id.cardDesktop -> R.id.linkDesktop
             R.id.cardDesktopCSharp -> R.id.linkDesktopCSharp
             R.id.cardWeb -> R.id.linkWeb

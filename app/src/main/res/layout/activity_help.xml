@@ -43,6 +43,78 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:text="Navigation Menu"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_blue_light"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="• Tap the menu button (☰) in the top-left corner\n• The drawer opens from the left side\n• Contains: Scan QR, Import, Export, Help, Guide, Sound toggle, About\n• Tap any item to perform the action\n• Tap outside the drawer or press back to close it"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:alpha="0.8"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Sound Toggle"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/primary_blue_light"
+                        android:layout_marginBottom="12dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="• Sound is enabled by default\n• Open the navigation menu (☰) and tap \&quot;Mute Sound\&quot; to disable all app sounds\n• Tap \&quot;Unmute Sound\&quot; to re-enable them\n• This affects notification sounds, error sounds, and background music in Help/About/Guide screens\n• The setting is saved and persists after app restart"
+                        android:textSize="14sp"
+                        android:textColor="@color/white"
+                        android:alpha="0.8"
+                        android:lineSpacingExtra="4dp" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:text="Search Feature"
                         android:textSize="20sp"
                         android:textStyle="bold"
@@ -52,7 +124,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• Tap the search icon in the toolbar\n• Type any part of the service description\n• Results appear instantly as you type\n• Tap the close (x) button to clear search\n• Search works while preserving your custom order"
+                        android:text="• Tap the search icon (🔍) in the toolbar\n• Type any part of the service description\n• Results appear instantly as you type\n• Tap the close (✕) button to clear search\n• Search works while preserving your custom order"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.8"
@@ -124,7 +196,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• Tap menu - QR Scan button\n• Grant camera permission when prompted\n• Point camera at QR code containing:\n  - Password length (12-100)\n  - Public key (64 chars hex)\n• Enter your secret phrase to verify ownership\n• If verification passes, add service description\n• Password is saved automatically\n\nQR Code Format Example:\n{'l\':16,\'k\':\'a3f5c8e2...\'}\n\nAudio feedback: Success / Error \n\nInvalid QR codes are rejected automatically\n\nQR scanner validates secret phrase before saving"
+                        android:text="• Open navigation menu (☰) → tap \&quot;Scan QR Code\&quot;\n• Grant camera permission when prompted\n• Point camera at QR code containing:\n  - Password length (12-100)\n  - Public key (64 chars hex)\n• Enter your secret phrase to verify ownership\n• If verification passes, add service description\n• Password is saved automatically\n\nQR Code Format Example:\n{'l':16,'k':'a3f5c8e2...'}\n\nAudio feedback: Success / Error \n\nInvalid QR codes are rejected automatically\n\nQR scanner validates secret phrase before saving"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.8"
@@ -160,7 +232,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1. Tap the menu button (three dots)\n2. Tap the green [+] button\n3. Enter description (e.g., 'Gmail')\n4. Set smart password length (12-100)\n5. Enter your secret phrase (min 12 chars)\n6. Save - only public key is stored!"
+                        android:text="1. Tap the green [+] button (bottom-right corner)\n2. Enter description (e.g., 'Gmail')\n3. Set smart password length (12-100)\n4. Enter your secret phrase (min 12 chars)\n5. Save - only public key is stored!"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.8"
@@ -232,7 +304,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Edit: Tap pencil icon to change description or length only\n(Secret phrase cannot be changed!)\n\nDelete: Tap trash icon to remove entry\n\nExport/Import: Use the menu to backup or restore your smart passwords"
+                        android:text="Edit: Tap pencil icon to change description or length only\n(Secret phrase cannot be changed!)\n\nDelete: Tap trash icon to remove entry\n\nExport/Import: Open navigation menu (☰) to backup or restore your smart passwords"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.8"
@@ -304,7 +376,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• Use strong secret phrases (12+ chars)\n• Each service should have a UNIQUE secret phrase\n• Export your smart passwords regularly as backup\n• Keep your secret phrases safe - they cannot be recovered!\n• Same secret phrase + same length = same smart password everywhere\n• Long press and drag to reorder your password list\n• Use search to quickly find passwords in large lists\n• Use QR codes to share public keys securely"
+                        android:text="• Use strong secret phrases (12+ chars)\n• Each service should have a UNIQUE secret phrase\n• Export your smart passwords regularly as backup\n• Keep your secret phrases safe - they cannot be recovered!\n• Same secret phrase + same length = same smart password everywhere\n• Long press and drag to reorder your password list\n• Use search to quickly find passwords in large lists\n• Use QR codes to share public keys securely\n• Disable sound from the navigation menu if you prefer silent operation"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.8"

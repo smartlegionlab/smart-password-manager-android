@@ -153,7 +153,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Passwords generated on any platform (Python, JavaScript, Kotlin, Go, C#, Web, Desktop, CLI and others) will be IDENTICAL when using the same secret phrase and length!\n\nSame algorithm across all implementations\nFully deterministic generation\nNo cloud dependency\nComplete platform independence"
+                        android:text="Passwords generated on any platform (Python, JavaScript, Kotlin, Go, C#, Rust, Web, Desktop, CLI and others) will be IDENTICAL when using the same secret phrase and length!\n\nSame algorithm across all implementations\nFully deterministic generation\nNo cloud dependency\nComplete platform independence"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.9"
@@ -224,7 +224,7 @@
                             android:id="@+id/descPython"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Python implementation of SmartPassLib. Generate deterministic passwords using the same algorithm as other platforms."
+                            android:text="Python implementation of SmartPassLib."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -296,7 +296,7 @@
                             android:id="@+id/descJavaScript"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="JavaScript/Node.js implementation of SmartPassLib. Perfect for web applications and Node.js backends."
+                            android:text="JavaScript/Node.js implementation."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -368,7 +368,7 @@
                             android:id="@+id/descKotlin"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Kotlin implementation of SmartPassLib. Used in this Android app. Compatible with Kotlin Multiplatform."
+                            android:text="Kotlin implementation. Used in this Android app."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -440,7 +440,7 @@
                             android:id="@+id/descGo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Go implementation of SmartPassLib. High-performance library for Go applications."
+                            android:text="Go implementation of SmartPassLib."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -512,7 +512,7 @@
                             android:id="@+id/descCSharp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="C#/.NET implementation of SmartPassLib. Compatible with .NET Framework, .NET Core, and .NET 5+."
+                            android:text="C#/.NET implementation of SmartPassLib."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -520,6 +520,78 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/linkCSharp"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="View Repository"
+                            app:icon="@drawable/ic_github"
+                            app:iconGravity="textStart"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardRustLib"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/titleRustLib"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="SmartPassLib - Rust"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/btnRustLib"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_arrow_down"
+                            android:contentDescription="Expand" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/expandableContentRustLib"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/descRustLib"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Rust implementation of SmartPassLib."
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.8"
+                            android:layout_marginBottom="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/linkRustLib"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:text="View Repository"
@@ -594,7 +666,7 @@
                             android:id="@+id/descCLI"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Command-line interface password manager written in Python. Manage your smart passwords directly from the terminal."
+                            android:text="Command-line password manager written in Python."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -666,7 +738,7 @@
                             android:id="@+id/descCLIPassGen"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Command-line password generator written in Python. Generate smart passwords instantly from your terminal."
+                            android:text="Command-line password generator written in Python."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -738,7 +810,7 @@
                             android:id="@+id/descCLICSharp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Command-line interface password manager written in C#. Cross-platform CLI tool for .NET."
+                            android:text="Command-line password manager written in C#."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -810,7 +882,7 @@
                             android:id="@+id/descCLIPassGenCSharp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Command-line password generator written in C#. Fast and cross-platform password generation tool."
+                            android:text="Command-line password generator written in C#."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -818,6 +890,78 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/linkCLIPassGenCSharp"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="View Repository"
+                            app:icon="@drawable/ic_github"
+                            app:iconGravity="textStart"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCLIRust"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/titleCLIRust"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Smart Password Manager - CLI (Rust)"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/btnCLIRust"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_arrow_down"
+                            android:contentDescription="Expand" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/expandableContentCLIRust"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/descCLIRust"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Command-line interface built on smartpasslib."
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.8"
+                            android:layout_marginBottom="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/linkCLIRust"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:text="View Repository"
@@ -892,7 +1036,7 @@
                             android:id="@+id/descDesktop"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Desktop application written in Python with Tkinter. Full-featured GUI password manager for Windows, Linux, and macOS."
+                            android:text="Desktop application written in Python with Tkinter."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -964,7 +1108,7 @@
                             android:id="@+id/descDesktopCSharp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Desktop application written in C# with Windows Forms. Native Windows application with full GUI support."
+                            android:text="Desktop application written in C# with Windows Forms."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -972,6 +1116,150 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/linkDesktopCSharp"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="View Repository"
+                            app:icon="@drawable/ic_github"
+                            app:iconGravity="textStart"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardGUIRust"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/titleGUIRust"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Smart Password Manager - GUI (Rust)"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/btnGUIRust"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_arrow_down"
+                            android:contentDescription="Expand" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/expandableContentGUIRust"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/descGUIRust"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Cross-platform desktop GUI built with Rust and egui."
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.8"
+                            android:layout_marginBottom="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/linkGUIRust"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:text="View Repository"
+                            app:icon="@drawable/ic_github"
+                            app:iconGravity="textStart"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardTUIRust"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="12dp"
+                app:cardBackgroundColor="@color/dark_card">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/titleTUIRust"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Smart Password Manager - TUI (Rust)"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/white" />
+
+                        <ImageView
+                            android:id="@+id/btnTUIRust"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_arrow_down"
+                            android:contentDescription="Expand" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/expandableContentTUIRust"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/descTUIRust"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Terminal user interface with keyboard-driven workflow."
+                            android:textSize="14sp"
+                            android:textColor="@color/white"
+                            android:alpha="0.8"
+                            android:layout_marginBottom="12dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/linkTUIRust"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:text="View Repository"
@@ -1046,7 +1334,7 @@
                             android:id="@+id/descWeb"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Web-based password manager. Access your smart passwords from any browser with full client-side encryption."
+                            android:text="Web-based password manager."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -1128,7 +1416,7 @@
                             android:id="@+id/descAndroid"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="This app! Native Android implementation with QR scanning, drag &amp; drop, and offline storage."
+                            android:text="This app! Native Android implementation."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -1210,7 +1498,7 @@
                             android:id="@+id/descPaper1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Research paper introducing the Pointer-Based Security Paradigm for deterministic password generation."
+                            android:text="Research paper introducing the Pointer-Based Security Paradigm."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -1282,7 +1570,7 @@
                             android:id="@+id/descPaper2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Research paper on regenerating sensitive data locally without cloud storage dependencies."
+                            android:text="Research paper on regenerating sensitive data locally."
                             android:textSize="14sp"
                             android:textColor="@color/white"
                             android:alpha="0.8"
@@ -1342,6 +1630,16 @@
                         android:layout_height="56dp"
                         android:layout_marginBottom="8dp"
                         android:text="Author's GitHub"
+                        app:icon="@drawable/ic_github"
+                        app:iconGravity="textStart"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnLatestRelease"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Latest Release"
                         app:icon="@drawable/ic_github"
                         app:iconGravity="textStart"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
