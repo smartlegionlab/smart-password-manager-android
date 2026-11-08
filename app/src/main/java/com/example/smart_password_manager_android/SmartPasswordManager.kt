@@ -1,4 +1,3 @@
-// Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 package com.example.smart_password_manager_android
 
 import android.Manifest
@@ -16,34 +15,34 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
 import android.text.TextWatcher
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresPermission
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.navigation.NavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.smartlegionlab.smartpasslib.SmartPassLib
 import java.io.File
-import androidx.core.view.isVisible
 
 class SmartPasswordManager : AppCompatActivity() {
 
@@ -54,14 +53,9 @@ class SmartPasswordManager : AppCompatActivity() {
     private lateinit var storageManager: StorageManager
     private lateinit var adapter: PasswordAdapter
     private lateinit var toolbar: Toolbar
-    private lateinit var fabMenu: FloatingActionButton
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navigationView: NavigationView
     private lateinit var fabAdd: FloatingActionButton
-    private lateinit var fabScanQr: FloatingActionButton
-    private lateinit var fabImport: FloatingActionButton
-    private lateinit var fabExport: FloatingActionButton
-    private lateinit var fabHelp: FloatingActionButton
-    private lateinit var fabAbout: FloatingActionButton
-    private lateinit var fabMenuContainer: LinearLayout
     private lateinit var serviceCountText: TextView
     private lateinit var searchButton: ImageView
     private lateinit var searchBar: View
@@ -69,13 +63,10 @@ class SmartPasswordManager : AppCompatActivity() {
     private lateinit var closeSearchButton: ImageView
 
     private var mediaPlayer: MediaPlayer? = null
-    private var isMenuOpen = false
     private var allEntries: List<SmartPassword> = emptyList()
     private var filteredEntries: List<SmartPassword> = emptyList()
     private var currentQuery = ""
 
-    private lateinit var slideUpAnim: android.view.animation.Animation
-    private lateinit var slideDownAnim: android.view.animation.Animation
     private lateinit var slideInDownAnim: android.view.animation.Animation
     private lateinit var slideOutUpAnim: android.view.animation.Animation
 
@@ -109,37 +100,45 @@ class SmartPasswordManager : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        slideUpAnim = AnimationUtils.loadAnimation(this, R.anim.slide_up)
-        slideDownAnim = AnimationUtils.loadAnimation(this, R.anim.slide_down)
         slideInDownAnim = AnimationUtils.loadAnimation(this, R.anim.slide_in_down)
         slideOutUpAnim = AnimationUtils.loadAnimation(this, R.anim.slide_out_up)
 
+        drawerLayout = findViewById(R.id.drawerLayout)
+        navigationView = findViewById(R.id.navigationView)
         toolbar = findViewById(R.id.toolbar)
+        fabAdd = findViewById(R.id.fabAdd)
+
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-        storageManager = StorageManager(this)
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayout, toolbar,
+            R.string.open, R.string.close
+        )
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        toolbar.setNavigationOnClickListener { drawerLayout.openDrawer(navigationView) }
 
+        navigationView.setNavigationItemSelectedListener { item ->
+            drawerLayout.closeDrawer(navigationView)
+            when (item.itemId) {
+                R.id.nav_scan_qr -> checkCameraPermissionAndLaunchScanner()
+                R.id.nav_import -> importPasswords()
+                R.id.nav_export -> exportPasswords()
+                R.id.nav_help -> startActivity(Intent(this, HelpActivity::class.java))
+                R.id.nav_guide -> startActivity(Intent(this, OnboardingActivity::class.java))
+                R.id.nav_about -> startActivity(Intent(this, AboutActivity::class.java))
+            }
+            true
+        }
+
+        fabAdd.setOnClickListener { showAddDialog() }
+
+        storageManager = StorageManager(this)
         setupSearch()
         setupRecyclerView()
         setupDragAndDrop()
-        setupFabs()
         loadEntries()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_help -> {
-                startActivity(Intent(this, OnboardingActivity::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     private fun setupSearch() {
@@ -149,13 +148,8 @@ class SmartPasswordManager : AppCompatActivity() {
         closeSearchButton = findViewById(R.id.closeSearchButton)
         serviceCountText = findViewById(R.id.serviceCountText)
 
-        searchButton.setOnClickListener {
-            showSearchBar()
-        }
-
-        closeSearchButton.setOnClickListener {
-            hideSearchBar()
-        }
+        searchButton.setOnClickListener { showSearchBar() }
+        closeSearchButton.setOnClickListener { hideSearchBar() }
 
         searchInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -186,7 +180,6 @@ class SmartPasswordManager : AppCompatActivity() {
         searchBar.startAnimation(slideOutUpAnim)
         searchBar.visibility = View.GONE
         searchButton.visibility = View.VISIBLE
-
         searchInput.text.clear()
         currentQuery = ""
         filterEntries("")
@@ -334,18 +327,13 @@ class SmartPasswordManager : AppCompatActivity() {
                 }
 
                 adapter.moveItem(fromPos, toPos)
-
                 val newOrder = adapter.getEntries().map { it.publicKey }
-
                 storageManager.updateOrder(newOrder)
-
                 updateAllEntriesOrder(newOrder)
-
                 return true
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            }
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
 
             @RequiresPermission(Manifest.permission.VIBRATE)
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
@@ -373,7 +361,6 @@ class SmartPasswordManager : AppCompatActivity() {
     private fun updateAllEntriesOrder(newOrder: List<String>) {
         val orderMap = newOrder.mapIndexed { index, key -> key to index }.toMap()
         allEntries = allEntries.sortedBy { orderMap[it.publicKey] ?: Int.MAX_VALUE }
-
         if (currentQuery.isNotEmpty()) {
             filterEntries(currentQuery)
         }
@@ -399,99 +386,6 @@ class SmartPasswordManager : AppCompatActivity() {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-    }
-
-    private fun setupFabs() {
-        fabMenu = findViewById(R.id.fabMenu)
-        fabAdd = findViewById(R.id.fabAdd)
-        fabScanQr = findViewById(R.id.fabScanQr)
-        fabImport = findViewById(R.id.fabImport)
-        fabExport = findViewById(R.id.fabExport)
-        fabHelp = findViewById(R.id.fabHelp)
-        fabAbout = findViewById(R.id.fabAbout)
-        fabMenuContainer = findViewById(R.id.fabMenuContainer)
-
-        fabMenu.setOnClickListener {
-            if (isMenuOpen) {
-                closeMenu()
-            } else {
-                openMenu()
-            }
-        }
-
-        fabAdd.setOnClickListener {
-            closeMenu()
-            showAddDialog()
-        }
-
-        fabScanQr.setOnClickListener {
-            closeMenu()
-            checkCameraPermissionAndLaunchScanner()
-        }
-
-        fabImport.setOnClickListener {
-            closeMenu()
-            importPasswords()
-        }
-
-        fabExport.setOnClickListener {
-            closeMenu()
-            exportPasswords()
-        }
-
-        fabHelp.setOnClickListener {
-            closeMenu()
-            startActivity(Intent(this, HelpActivity::class.java))
-        }
-
-        fabAbout.setOnClickListener {
-            closeMenu()
-            startActivity(Intent(this, AboutActivity::class.java))
-        }
-    }
-
-    private fun openMenu() {
-        isMenuOpen = true
-        fabMenuContainer.visibility = View.VISIBLE
-
-        fabAdd.visibility = View.VISIBLE
-        fabScanQr.visibility = View.VISIBLE
-        fabImport.visibility = View.VISIBLE
-        fabExport.visibility = View.VISIBLE
-        fabHelp.visibility = View.VISIBLE
-        fabAbout.visibility = View.VISIBLE
-
-        fabAdd.startAnimation(slideUpAnim)
-        fabScanQr.startAnimation(slideUpAnim)
-        fabImport.startAnimation(slideUpAnim)
-        fabExport.startAnimation(slideUpAnim)
-        fabHelp.startAnimation(slideUpAnim)
-        fabAbout.startAnimation(slideUpAnim)
-
-        fabMenu.setImageResource(android.R.drawable.ic_menu_close_clear_cancel)
-    }
-
-    private fun closeMenu() {
-        isMenuOpen = false
-
-        fabAdd.startAnimation(slideDownAnim)
-        fabScanQr.startAnimation(slideDownAnim)
-        fabImport.startAnimation(slideDownAnim)
-        fabExport.startAnimation(slideDownAnim)
-        fabHelp.startAnimation(slideDownAnim)
-        fabAbout.startAnimation(slideDownAnim)
-
-        fabAdd.postDelayed({
-            fabAdd.visibility = View.GONE
-            fabScanQr.visibility = View.GONE
-            fabImport.visibility = View.GONE
-            fabExport.visibility = View.GONE
-            fabHelp.visibility = View.GONE
-            fabAbout.visibility = View.GONE
-            fabMenuContainer.visibility = View.GONE
-        }, 300)
-
-        fabMenu.setImageResource(R.drawable.ic_more_vert_24)
     }
 
     private fun exportPasswords() {
@@ -572,7 +466,6 @@ class SmartPasswordManager : AppCompatActivity() {
             }
 
             val json = tempFile.readText()
-
             val entries = LinkedHashMap<String, ExportEntry>()
             var metadata: Metadata? = null
 
@@ -876,7 +769,6 @@ class SmartPasswordManager : AppCompatActivity() {
                 val existingEntries = storageManager.loadAllEntries()
 
                 val duplicateByKey = existingEntries.find { it.publicKey == publicKey }
-
                 val duplicateByName = existingEntries.find {
                     it.description.equals(description, ignoreCase = true)
                 }
@@ -1112,32 +1004,6 @@ class SmartPasswordManager : AppCompatActivity() {
             playErrorSound()
             Toast.makeText(this, "Password deleted", Toast.LENGTH_SHORT).show()
             loadEntries()
-            dialog.dismiss()
-        }
-    }
-
-    private fun showErrorDialog(title: String, message: String) {
-        val dialogView = layoutInflater.inflate(R.layout.dialog_error_custom, null)
-        val errorTitle = dialogView.findViewById<TextView>(R.id.errorTitle)
-        val errorMessage = dialogView.findViewById<TextView>(R.id.errorMessage)
-        val closeBtn = dialogView.findViewById<ImageView>(R.id.btnCloseError)
-        val okBtn = dialogView.findViewById<MaterialButton>(R.id.btnOk)
-
-        errorTitle.text = title
-        errorMessage.text = message
-
-        val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
-            .setView(dialogView)
-            .create()
-
-        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        dialog.show()
-
-        closeBtn.setOnClickListener {
-            dialog.dismiss()
-        }
-
-        okBtn.setOnClickListener {
             dialog.dismiss()
         }
     }

@@ -48,4 +48,6 @@
     <string name="permission_denied">Permission denied. Passwords will be stored temporarily</string>
     <string name="scan_qr_code">Scan QR Code</string>
     <string name="cancel">Cancel</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

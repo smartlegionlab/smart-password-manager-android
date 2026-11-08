@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_scan_qr"
+            android:title="Scan QR Code"
+            android:icon="@drawable/ic_qr_code_scanner" />
+        <item
+            android:id="@+id/nav_import"
+            android:title="Import Passwords"
+            android:icon="@drawable/ic_import_24" />
+        <item
+            android:id="@+id/nav_export"
+            android:title="Export Passwords"
+            android:icon="@drawable/ic_export_24" />
+        <item
+            android:id="@+id/nav_help"
+            android:title="Help"
+            android:icon="@drawable/ic_help" />
+        <item
+            android:id="@+id/nav_guide"
+            android:title="Guide"
+            android:icon="@drawable/ic_help" />
+        <item
+            android:id="@+id/nav_about"
+            android:title="About"
+            android:icon="@drawable/ic_info" />
+    </group>
+</menu>
