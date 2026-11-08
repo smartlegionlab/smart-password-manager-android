@@ -3,7 +3,7 @@
 <resources>
     <string name="app_name">Smart Password Manager</string>
 
-    <string name="empty_state">✨ No saved passwords\n\nTap + to add</string>
+    <string name="empty_state">No saved passwords\n\nTap + to add</string>
 
     <string name="dialog_add_title">Add New Password</string>
     <string name="dialog_edit_title">Edit Password</string>

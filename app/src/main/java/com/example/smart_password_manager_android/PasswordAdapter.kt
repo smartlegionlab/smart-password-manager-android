@@ -69,7 +69,7 @@ class PasswordAdapter(
                 @Suppress("DEPRECATION")
                 vibrator?.vibrate(100)
             }
-        } catch (e: Exception) { }
+        } catch (_: Exception) { }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -109,12 +109,12 @@ class PasswordAdapter(
                 toggleBtn.setImageResource(android.R.drawable.arrow_down_float)
             }
 
-            lengthText.text = "🔢 ${entry.length ?: 12} symbols"
+            lengthText.text = "${entry.length ?: 12} symbols"
 
             val shortKey = if (entry.publicKey.length > 16) {
-                "🔑 ${entry.publicKey.take(12)}..."
+                "${entry.publicKey.take(12)}..."
             } else {
-                "🔑 ${entry.publicKey}"
+                entry.publicKey
             }
             publicKeyPreview.text = shortKey
 

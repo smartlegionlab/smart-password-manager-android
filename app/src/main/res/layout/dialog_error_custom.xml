@@ -20,9 +20,9 @@
             android:layout_gravity="top|end"
             android:layout_margin="-8dp"
             android:src="@drawable/ic_close"
-            android:tint="@color/white_70"
             android:padding="4dp"
-            android:background="?attr/selectableItemBackgroundBorderless" />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/white_70" />
 
     </FrameLayout>
 
@@ -30,8 +30,8 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@drawable/ic_warning"
-        android:tint="#FFC107"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        app:tint="#FFC107" />
 
     <TextView
         android:id="@+id/errorTitle"

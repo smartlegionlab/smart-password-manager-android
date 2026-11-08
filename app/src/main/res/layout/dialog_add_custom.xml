@@ -93,7 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="💡 Recommended: 16-32 characters"
+        android:text="Recommended: 16-32 characters"
         android:textSize="11sp"
         android:textColor="@color/primary_blue_light"
         android:alpha="0.7" />

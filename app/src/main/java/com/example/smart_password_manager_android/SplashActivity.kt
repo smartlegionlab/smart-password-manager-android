@@ -1,6 +1,7 @@
 // Copyright (c) 2026, Alexander Suvorov. All rights reserved.
 package com.example.smart_password_manager_android
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -14,11 +15,15 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
+import androidx.core.content.edit
 
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
 
     companion object {
@@ -64,6 +69,8 @@ class SplashActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.R)
+    @SuppressLint("SetTextI18n")
     private fun showStoragePermissionDialog() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_permission, null)
         val messageText = dialogView.findViewById<TextView>(R.id.permissionMessage)
@@ -82,7 +89,7 @@ class SplashActivity : AppCompatActivity() {
         grantBtn.setOnClickListener {
             dialog.dismiss()
             val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
-            intent.data = Uri.parse("package:$packageName")
+            intent.data = "package:$packageName".toUri()
             startActivityForResult(intent, PERMISSION_REQUEST_STORAGE)
         }
 
@@ -139,7 +146,7 @@ class SplashActivity : AppCompatActivity() {
             val isFirstLaunch = prefs.getBoolean("is_first_launch", true)
 
             val intent = if (isFirstLaunch) {
-                prefs.edit().putBoolean("is_first_launch", false).apply()
+                prefs.edit { putBoolean("is_first_launch", false) }
                 Intent(this, OnboardingActivity::class.java)
             } else {
                 Intent(this, SmartPasswordManager::class.java)

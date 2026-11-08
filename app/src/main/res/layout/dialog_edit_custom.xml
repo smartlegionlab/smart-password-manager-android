@@ -92,7 +92,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="⚠️ Secret phrase cannot be changed"
+        android:text="Secret phrase cannot be changed"
         android:textSize="11sp"
         android:textColor="#FFC107"
         android:alpha="0.8" />

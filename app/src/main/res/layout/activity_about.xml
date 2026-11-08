@@ -144,7 +144,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="🌍 Cross-Platform Compatibility"
+                        android:text="Cross-Platform Compatibility"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/primary_blue_light"
@@ -153,7 +153,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Passwords generated on any platform (Python, JavaScript, Kotlin, Go, C#, Web, Desktop, CLI and others) will be IDENTICAL when using the same secret phrase and length!\n\n✓ Same algorithm across all implementations\n✓ Fully deterministic generation\n✓ No cloud dependency\n✓ Complete platform independence"
+                        android:text="Passwords generated on any platform (Python, JavaScript, Kotlin, Go, C#, Web, Desktop, CLI and others) will be IDENTICAL when using the same secret phrase and length!\n\nSame algorithm across all implementations\nFully deterministic generation\nNo cloud dependency\nComplete platform independence"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.9"

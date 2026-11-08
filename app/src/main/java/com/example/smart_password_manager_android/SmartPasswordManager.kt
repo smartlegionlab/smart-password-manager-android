@@ -96,7 +96,7 @@ class SmartPasswordManager : AppCompatActivity() {
     private val qrScannerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             loadEntries()
-            Toast.makeText(this, "✓ Password list updated", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Password list updated", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -508,7 +508,7 @@ class SmartPasswordManager : AppCompatActivity() {
                     "• Service descriptions\n" +
                     "• Public keys\n" +
                     "• Password lengths\n\n" +
-                    "⚠️ Your secret phrases and actual passwords are NEVER exported.")
+                    "Your secret phrases and actual passwords are NEVER exported.")
             .setPositiveButton("Yes, Export") { _, _ ->
                 val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                     addCategory(Intent.CATEGORY_OPENABLE)
@@ -528,7 +528,7 @@ class SmartPasswordManager : AppCompatActivity() {
                 if (storageManager.exportToJsonFile(tempFile)) {
                     outputStream.write(tempFile.readBytes())
                     tempFile.delete()
-                    Toast.makeText(this, "✓ Exported successfully", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Exported successfully", Toast.LENGTH_SHORT).show()
                 } else {
                     Toast.makeText(this, "Export failed", Toast.LENGTH_SHORT).show()
                 }
@@ -542,7 +542,7 @@ class SmartPasswordManager : AppCompatActivity() {
     private fun importPasswords() {
         AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
             .setTitle("Import Passwords")
-            .setMessage("⚠️ WARNING: Import will ADD passwords to your existing list.\n\n" +
+            .setMessage("WARNING: Import will ADD passwords to your existing list.\n\n" +
                     "• Duplicate descriptions may be created\n" +
                     "• You can delete duplicates manually after import\n\n" +
                     "Do you want to continue?")
@@ -642,12 +642,12 @@ class SmartPasswordManager : AppCompatActivity() {
                         "Created: ${importData._metadata.exported_at}\n" +
                         "App version: ${importData._metadata.app_version}\n" +
                         "Library: ${importData._metadata.lib_name} v${importData._metadata.lib_version}\n\n" +
-                        "⚠️ This will ADD these passwords to your current list.\n" +
+                        "This will ADD these passwords to your current list.\n" +
                         "Duplicate descriptions may appear.")
                 .setPositiveButton("Yes, Import") { _, _ ->
                     val success = storageManager.importFromEntries(importData.entries)
                     if (success) {
-                        Toast.makeText(this, "✓ Imported ${importData.entries.size} passwords", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Imported ${importData.entries.size} passwords", Toast.LENGTH_SHORT).show()
                         loadEntries()
                     } else {
                         Toast.makeText(this, "Import failed", Toast.LENGTH_SHORT).show()
@@ -801,17 +801,17 @@ class SmartPasswordManager : AppCompatActivity() {
             val len = password.length
             when {
                 len < 6 -> {
-                    strengthText.text = "⚠️ Too short - minimum 12 characters required"
+                    strengthText.text = "Too short - minimum 12 characters required"
                     strengthText.setTextColor(0xFFDC3545.toInt())
                     btnSave.isEnabled = false
                 }
                 len < 12 -> {
-                    strengthText.text = "⚡ ${12 - len} more characters to go"
+                    strengthText.text = "${12 - len} more characters to go"
                     strengthText.setTextColor(0xFFFFC107.toInt())
                     btnSave.isEnabled = false
                 }
                 else -> {
-                    strengthText.text = "✅ Strong secret phrase!"
+                    strengthText.text = "Strong secret phrase!"
                     strengthText.setTextColor(0xFF198754.toInt())
                     btnSave.isEnabled = true
                 }
@@ -843,7 +843,7 @@ class SmartPasswordManager : AppCompatActivity() {
 
             if (secret.equals(description, ignoreCase = true)) {
                 playErrorSound()
-                secretLayout.error = "❌ Secret phrase cannot be the same as service name!"
+                secretLayout.error = "Error: Secret phrase cannot be the same as service name!"
                 secretLayout.isErrorEnabled = true
                 secretInput.text?.clear()
                 confirmInput.text?.clear()
@@ -883,7 +883,7 @@ class SmartPasswordManager : AppCompatActivity() {
 
                 if (duplicateByKey != null) {
                     playErrorSound()
-                    secretLayout.error = "❌ This secret phrase is already used for: ${duplicateByKey.description}"
+                    secretLayout.error = "Error: This secret phrase is already used for: ${duplicateByKey.description}"
                     secretLayout.isErrorEnabled = true
                     secretInput.text?.clear()
                     confirmInput.text?.clear()
@@ -895,13 +895,13 @@ class SmartPasswordManager : AppCompatActivity() {
 
                 if (duplicateByName != null) {
                     playErrorSound()
-                    secretLayout.error = "❌ Service name \"$description\" already exists!"
+                    secretLayout.error = "Error: Service name \"$description\" already exists!"
                     secretLayout.isErrorEnabled = true
                     secretInput.text?.clear()
                     confirmInput.text?.clear()
                     updateStrength("")
                     btnSave.isEnabled = false
-                    Toast.makeText(this@SmartPasswordManager, "Service name \"$description\" already exists!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@SmartPasswordManager, "Error: Service name \"$description\" already exists!", Toast.LENGTH_LONG).show()
                     return@setOnClickListener
                 }
 
@@ -912,7 +912,7 @@ class SmartPasswordManager : AppCompatActivity() {
                     length = length
                 )
                 storageManager.saveEntry(entry)
-                Toast.makeText(this@SmartPasswordManager, "✓ Password saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@SmartPasswordManager, "Password saved", Toast.LENGTH_SHORT).show()
                 loadEntries()
                 dialog.dismiss()
             } else {
@@ -952,7 +952,7 @@ class SmartPasswordManager : AppCompatActivity() {
             val clip = android.content.ClipData.newPlainText("public_key", entry.publicKey)
             clipboard.setPrimaryClip(clip)
             playSuccessSound()
-            Toast.makeText(this, "✓ Full public key copied to clipboard", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Full public key copied to clipboard", Toast.LENGTH_SHORT).show()
         }
 
         val dialog = AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
@@ -973,7 +973,7 @@ class SmartPasswordManager : AppCompatActivity() {
             val secret = secretInput.text.toString().trim()
             if (secret.length < 12) {
                 playErrorSound()
-                secretLayout.error = "Secret phrase must be at least 12 characters"
+                secretLayout.error = "Error: Secret phrase must be at least 12 characters"
                 passwordResult.visibility = TextView.GONE
                 passwordResultLabel.visibility = TextView.GONE
                 copyBtn.visibility = Button.GONE
@@ -994,26 +994,26 @@ class SmartPasswordManager : AppCompatActivity() {
                 val password = SmartPassLib.generatePassword(secret, entry.length ?: 12)
                 passwordResult.text = password
                 copyBtn.isEnabled = true
-                Toast.makeText(this, "✓ Password generated", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Password generated", Toast.LENGTH_SHORT).show()
             } else {
                 playErrorSound()
-                secretLayout.error = "Wrong secret phrase!"
+                secretLayout.error = "Error: Wrong secret phrase!"
                 passwordResultLabel.visibility = TextView.VISIBLE
                 passwordResult.visibility = TextView.VISIBLE
                 copyBtn.visibility = Button.VISIBLE
-                passwordResult.text = "❌ Invalid secret phrase"
+                passwordResult.text = "Error: Invalid secret phrase"
                 copyBtn.isEnabled = false
             }
         }
 
         copyBtn.setOnClickListener {
             val password = passwordResult.text.toString()
-            if (password.isNotBlank() && !password.startsWith("❌")) {
+            if (password.isNotBlank() && !password.startsWith("Error: ")) {
                 val clipboard = getSystemService(CLIPBOARD_SERVICE) as android.content.ClipboardManager
                 val clip = android.content.ClipData.newPlainText("password", password)
                 clipboard.setPrimaryClip(clip)
                 playSuccessSound()
-                Toast.makeText(this, "✓ Password copied to clipboard", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Password copied to clipboard", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -1081,7 +1081,7 @@ class SmartPasswordManager : AppCompatActivity() {
                     length = length
                 )
                 storageManager.updateEntry(updatedEntry)
-                Toast.makeText(this, "✓ Password updated", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Password updated", Toast.LENGTH_SHORT).show()
                 loadEntries()
                 dialog.dismiss()
             }
@@ -1110,7 +1110,7 @@ class SmartPasswordManager : AppCompatActivity() {
         btnDelete.setOnClickListener {
             storageManager.deleteEntry(entry.publicKey)
             playErrorSound()
-            Toast.makeText(this, "✓ Password deleted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Password deleted", Toast.LENGTH_SHORT).show()
             loadEntries()
             dialog.dismiss()
         }

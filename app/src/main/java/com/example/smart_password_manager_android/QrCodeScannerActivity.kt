@@ -99,7 +99,7 @@ class QrCodeScannerActivity : AppCompatActivity() {
             val qrData = QrCodeData.fromJson(qrText)
             if (qrData == null) {
                 playErrorSound()
-                statusText.text = "❌ Invalid QR code format"
+                statusText.text = "Invalid QR code format"
                 statusText.visibility = View.VISIBLE
                 Toast.makeText(this, "Invalid QR code format", Toast.LENGTH_SHORT).show()
 
@@ -162,8 +162,8 @@ class QrCodeScannerActivity : AppCompatActivity() {
             val btnVerify = dialogView.findViewById<Button>(R.id.btnVerify)
             val btnCancel = dialogView.findViewById<Button>(R.id.btnCancel)
 
-            lengthInfo.text = "🔢 Password length: ${qrData.l} symbols"
-            keyPreview.text = "🔑 Public key: ${qrData.k.take(16)}..."
+            lengthInfo.text = "Password length: ${qrData.l} symbols"
+            keyPreview.text = "Public key: ${qrData.k.take(16)}..."
 
             val dialog = androidx.appcompat.app.AlertDialog.Builder(this, R.style.CustomAlertDialogTheme)
                 .setView(dialogView)
@@ -199,7 +199,7 @@ class QrCodeScannerActivity : AppCompatActivity() {
                         showDescriptionDialog(qrData.l, secret)
                     } else {
                         playErrorSound()
-                        secretLayout.error = "❌ Secret phrase doesn't match this QR code"
+                        secretLayout.error = "Secret phrase doesn't match this QR code"
                     }
                 } catch (e: Exception) {
                     playErrorSound()
@@ -255,7 +255,7 @@ class QrCodeScannerActivity : AppCompatActivity() {
 
                 if (description.equals(secret, ignoreCase = true)) {
                     playErrorSound()
-                    descriptionInput.error = "❌ Service name cannot be the same as secret phrase!"
+                    descriptionInput.error = "Service name cannot be the same as secret phrase!"
                     descriptionInput.requestFocus()
                     Toast.makeText(this@QrCodeScannerActivity, "Service name cannot be the same as secret phrase!", Toast.LENGTH_LONG).show()
                     return@setOnClickListener
@@ -276,7 +276,7 @@ class QrCodeScannerActivity : AppCompatActivity() {
 
                 if (duplicateByKey != null) {
                     playErrorSound()
-                    descriptionInput.error = "❌ This secret phrase is already used for: ${duplicateByKey.description}"
+                    descriptionInput.error = "This secret phrase is already used for: ${duplicateByKey.description}"
                     descriptionInput.requestFocus()
                     Toast.makeText(this@QrCodeScannerActivity, "This secret phrase is already used for: ${duplicateByKey.description}", Toast.LENGTH_LONG).show()
                     return@setOnClickListener
@@ -284,7 +284,7 @@ class QrCodeScannerActivity : AppCompatActivity() {
 
                 if (duplicateByName != null) {
                     playErrorSound()
-                    descriptionInput.error = "❌ Service name \"$description\" already exists!"
+                    descriptionInput.error = "Service name \"$description\" already exists!"
                     descriptionInput.requestFocus()
                     Toast.makeText(this@QrCodeScannerActivity, "Service name \"$description\" already exists!", Toast.LENGTH_LONG).show()
                     return@setOnClickListener
@@ -298,7 +298,7 @@ class QrCodeScannerActivity : AppCompatActivity() {
 
                 if (storageManager.saveEntry(newEntry)) {
                     playSuccessSound()
-                    Toast.makeText(this@QrCodeScannerActivity, "✓ Password added successfully!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@QrCodeScannerActivity, "Password added successfully!", Toast.LENGTH_LONG).show()
                     dialog.dismiss()
                     setResult(Activity.RESULT_OK)
                     finish()

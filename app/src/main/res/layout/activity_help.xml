@@ -43,7 +43,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="🔍 Search Feature"
+                        android:text="Search Feature"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="@color/primary_blue_light"
@@ -52,7 +52,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• Tap the search icon (🔍) in the toolbar\n• Type any part of the service description\n• Results appear instantly as you type\n• Tap the close (✕) button to clear search\n• Search works while preserving your custom order"
+                        android:text="• Tap the search icon in the toolbar\n• Type any part of the service description\n• Results appear instantly as you type\n• Tap the close (x) button to clear search\n• Search works while preserving your custom order"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.8"
@@ -79,7 +79,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="↕️ Drag &amp; Drop Reordering"
+                        android:text="Drag &amp; Drop Reordering"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="@color/primary_blue_light"
@@ -115,7 +115,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="📷 QR Code Scanner"
+                        android:text="QR Code Scanner"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="@color/primary_blue_light"
@@ -124,7 +124,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="• Tap [⋮] menu → QR Scan button (📷)\n• Grant camera permission when prompted\n• Point camera at QR code containing:\n  - Password length (12-100)\n  - Public key (64 chars hex)\n• Enter your secret phrase to verify ownership\n• If verification passes, add service description\n• Password is saved automatically\n\n📱 QR Code Format Example:\n{'l\':16,\'k\':\'a3f5c8e2...\'}\n\n🔊 Audio feedback: Success / Error \n\n⚠️ Invalid QR codes are rejected automatically\n\n✓ QR scanner validates secret phrase before saving"
+                        android:text="• Tap menu - QR Scan button\n• Grant camera permission when prompted\n• Point camera at QR code containing:\n  - Password length (12-100)\n  - Public key (64 chars hex)\n• Enter your secret phrase to verify ownership\n• If verification passes, add service description\n• Password is saved automatically\n\nQR Code Format Example:\n{'l\':16,\'k\':\'a3f5c8e2...\'}\n\nAudio feedback: Success / Error \n\nInvalid QR codes are rejected automatically\n\nQR scanner validates secret phrase before saving"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.8"
@@ -151,7 +151,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="📝 How to Create a Smart Password"
+                        android:text="How to Create a Smart Password"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="@color/primary_blue_light"
@@ -160,7 +160,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1. Tap the [⋮] button (three dots)\n2. Tap the green [+] button\n3. Enter description (e.g., 'Gmail')\n4. Set smart password length (12-100)\n5. Enter your secret phrase (min 12 chars)\n6. Save - only public key is stored!"
+                        android:text="1. Tap the menu button (three dots)\n2. Tap the green [+] button\n3. Enter description (e.g., 'Gmail')\n4. Set smart password length (12-100)\n5. Enter your secret phrase (min 12 chars)\n6. Save - only public key is stored!"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.8"
@@ -187,7 +187,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="👁️ How to Get Your Smart Password"
+                        android:text="How to Get Your Smart Password"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="@color/primary_blue_light"
@@ -196,7 +196,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="1. Tap the [👁️] eye icon on any entry\n2. Enter your secret phrase (min 12 chars)\n3. Smart Password is generated instantly\n4. Copy to clipboard\n\nNo storage, no tracking!"
+                        android:text="1. Tap the eye icon on any entry\n2. Enter your secret phrase (min 12 chars)\n3. Smart Password is generated instantly\n4. Copy to clipboard\n\nNo storage, no tracking!"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.8"
@@ -223,7 +223,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="✏️ Edit, Delete &amp; Export/Import"
+                        android:text="Edit, Delete &amp; Export/Import"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="@color/primary_blue_light"
@@ -232,7 +232,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="✏️ Edit: Tap pencil icon to change description or length only\n   (Secret phrase cannot be changed!)\n\n🗑️ Delete: Tap trash icon to remove entry\n\n📤 Export/Import: Use the [⋮] menu to backup or restore your smart passwords"
+                        android:text="Edit: Tap pencil icon to change description or length only\n(Secret phrase cannot be changed!)\n\nDelete: Tap trash icon to remove entry\n\nExport/Import: Use the menu to backup or restore your smart passwords"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.8"
@@ -259,7 +259,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="🔐 Important Security Info"
+                        android:text="Important Security Info"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="@color/primary_blue_light"
@@ -268,7 +268,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="✓ Secret phrases are NEVER stored\n✓ Smart Passwords are NEVER stored\n✓ Only public keys are saved\n✓ Smart Passwords are generated on the fly\n✓ You must remember your secret phrases!\n✓ Secret phrases must be at least 12 characters"
+                        android:text="Secret phrases are NEVER stored\nSmart Passwords are NEVER stored\nOnly public keys are saved\nSmart Passwords are generated on the fly\nYou must remember your secret phrases!\nSecret phrases must be at least 12 characters"
                         android:textSize="14sp"
                         android:textColor="@color/white"
                         android:alpha="0.8"
@@ -295,7 +295,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="💡 Pro Tips"
+                        android:text="Pro Tips"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="@color/primary_blue_light"
